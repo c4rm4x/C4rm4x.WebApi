@@ -9,7 +9,7 @@ namespace C4rm4x.WebApi.Framework
     /// <summary>
     /// Base exception for C4rm4x.WebApi.Framework
     /// </summary>
-    public abstract class C4rm4xException : Exception
+    public abstract class ApiException : Exception
     {
         /// <summary>
         /// Gets the code of this exception
@@ -21,7 +21,7 @@ namespace C4rm4x.WebApi.Framework
         /// </summary>
         /// <param name="code">The code of this exception</param>
         /// <param name="message">The error message that explains the reason for this exception</param>
-        public C4rm4xException(string code, string message)
+        public ApiException(string code, string message)
             : this(code, message, null)
         { }
 
@@ -31,7 +31,7 @@ namespace C4rm4x.WebApi.Framework
         /// <param name="code">The code of this exception</param>
         /// <param name="message">The error message that explains the reason for this exception</param>
         /// <param name="innerException">The exception that is the cause of the current exception, or a null reference if no inner exception is specified</param>
-        public C4rm4xException(string code, string message, Exception innerException)
+        public ApiException(string code, string message, Exception innerException)
             : base(message, innerException)
         {
             Code = code;

@@ -9,7 +9,7 @@ namespace C4rm4x.WebApi.Framework.Validation
     /// <summary>
     /// Validation exceptions
     /// </summary>
-    public class ValidationException : C4rm4xException
+    public class ValidationException : ApiException
     {
         private new const string Code = "SYS_001";
 

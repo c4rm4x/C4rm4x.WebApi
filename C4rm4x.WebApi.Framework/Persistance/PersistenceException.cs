@@ -9,7 +9,7 @@ namespace C4rm4x.WebApi.Framework.Persistance
     /// <summary>
     /// Persistance exception
     /// </summary>
-    public class PersistenceException : C4rm4xException
+    public class PersistenceException : ApiException
     {
         private new const string Code = "SYS_002";
 

@@ -1,4 +1,4 @@
-﻿namespace C4rm4x.WebApi.Framework.RequestHandling
+﻿namespace C4rm4x.WebApi.Framework
 {
     /// <summary>
     /// Base class for all API requests
