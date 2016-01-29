@@ -47,6 +47,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.Security.CORS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.Security.CORS.Test", "C4rm4x.WebApi.Security.CORS.Test\C4rm4x.WebApi.Security.CORS.Test.csproj", "{B1846B11-CBE2-4079-91AE-75CC9D1F152A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ExceptionShielding", "ExceptionShielding", "{290A0DF1-D06A-4C8B-8EC4-570C96ECF117}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.ExceptionShielding", "C4rm4x.WebApi.ExceptionShielding\C4rm4x.WebApi.ExceptionShielding.csproj", "{6815AFB1-4B2E-49A5-9033-E33BD723C49D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.ExceptionShielding.Test", "C4rm4x.WebApi.ExceptionShielding.Test\C4rm4x.WebApi.ExceptionShielding.Test.csproj", "{DF57F45C-CF4C-4A21-92C9-CCDE8D8A23DD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -113,6 +119,14 @@ Global
 		{B1846B11-CBE2-4079-91AE-75CC9D1F152A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1846B11-CBE2-4079-91AE-75CC9D1F152A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1846B11-CBE2-4079-91AE-75CC9D1F152A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6815AFB1-4B2E-49A5-9033-E33BD723C49D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6815AFB1-4B2E-49A5-9033-E33BD723C49D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6815AFB1-4B2E-49A5-9033-E33BD723C49D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6815AFB1-4B2E-49A5-9033-E33BD723C49D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF57F45C-CF4C-4A21-92C9-CCDE8D8A23DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF57F45C-CF4C-4A21-92C9-CCDE8D8A23DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF57F45C-CF4C-4A21-92C9-CCDE8D8A23DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF57F45C-CF4C-4A21-92C9-CCDE8D8A23DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -133,5 +147,7 @@ Global
 		{21627A47-026A-49C2-A610-A157CD3C3AA3} = {27D66FA5-7564-41D5-95C1-92DE510BB7FD}
 		{314DF325-2DD8-4702-867A-3BC78FB63D9A} = {27D66FA5-7564-41D5-95C1-92DE510BB7FD}
 		{B1846B11-CBE2-4079-91AE-75CC9D1F152A} = {27D66FA5-7564-41D5-95C1-92DE510BB7FD}
+		{6815AFB1-4B2E-49A5-9033-E33BD723C49D} = {290A0DF1-D06A-4C8B-8EC4-570C96ECF117}
+		{DF57F45C-CF4C-4A21-92C9-CCDE8D8A23DD} = {290A0DF1-D06A-4C8B-8EC4-570C96ECF117}
 	EndGlobalSection
 EndGlobal
