@@ -93,7 +93,7 @@ namespace C4rm4x.WebApi.Framework.Test.RequestHandling
             }
 
             [TestMethod, UnitTest]
-            public void Process_Returns_InternalServerError_When_An_Exception_Different_To_VeValidationException_Is_Thrown()
+            public void Process_Returns_InternalServerError_When_An_Exception_Different_To_ValidationException_Is_Thrown()
             {
                 var result = _sut.Process<TestRequest, TestResponse>(new TestRequest(), request =>
                 {

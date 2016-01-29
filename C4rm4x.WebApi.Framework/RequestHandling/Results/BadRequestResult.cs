@@ -18,7 +18,7 @@ namespace C4rm4x.WebApi.Framework.RequestHandling.Results
     public class BadRequestResult : IHttpActionResult
     {
         /// <summary>
-        /// Gets the VeValidationException instance that makes the request fail
+        /// Gets the ValidationException instance that makes the request fail
         /// </summary>
         public ValidationException Exception { get; private set; }
 

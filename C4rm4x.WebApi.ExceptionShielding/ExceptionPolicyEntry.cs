@@ -98,7 +98,7 @@ namespace C4rm4x.WebApi.ExceptionShielding
             if (exceptionToThrow != null)
                 throw exceptionToThrow;
 
-            return new ArgumentNullException("exceptionToThrow");
+            return new ArgumentNullException(nameof(exceptionToThrow));
         }
 
         private Exception ExecuteHandlerChain(

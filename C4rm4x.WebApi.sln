@@ -53,6 +53,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.ExceptionShie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.ExceptionShielding.Test", "C4rm4x.WebApi.ExceptionShielding.Test\C4rm4x.WebApi.ExceptionShielding.Test.csproj", "{DF57F45C-CF4C-4A21-92C9-CCDE8D8A23DD}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Validation", "Validation", "{2ACD3F9F-D879-47EE-B403-5C812ACCBCBE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.Validation", "C4rm4x.WebApi.Validation\C4rm4x.WebApi.Validation.csproj", "{47B93BFE-8E50-4D6A-9011-F9136F5F40E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.Validation.Test", "C4rm4x.WebApi.Validation.Test\C4rm4x.WebApi.Validation.Test.csproj", "{F59E94D2-6345-4CA3-9A43-C0381E51CE4F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -127,6 +133,14 @@ Global
 		{DF57F45C-CF4C-4A21-92C9-CCDE8D8A23DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF57F45C-CF4C-4A21-92C9-CCDE8D8A23DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF57F45C-CF4C-4A21-92C9-CCDE8D8A23DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47B93BFE-8E50-4D6A-9011-F9136F5F40E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47B93BFE-8E50-4D6A-9011-F9136F5F40E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47B93BFE-8E50-4D6A-9011-F9136F5F40E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47B93BFE-8E50-4D6A-9011-F9136F5F40E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F59E94D2-6345-4CA3-9A43-C0381E51CE4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F59E94D2-6345-4CA3-9A43-C0381E51CE4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F59E94D2-6345-4CA3-9A43-C0381E51CE4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F59E94D2-6345-4CA3-9A43-C0381E51CE4F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -149,5 +163,7 @@ Global
 		{B1846B11-CBE2-4079-91AE-75CC9D1F152A} = {27D66FA5-7564-41D5-95C1-92DE510BB7FD}
 		{6815AFB1-4B2E-49A5-9033-E33BD723C49D} = {290A0DF1-D06A-4C8B-8EC4-570C96ECF117}
 		{DF57F45C-CF4C-4A21-92C9-CCDE8D8A23DD} = {290A0DF1-D06A-4C8B-8EC4-570C96ECF117}
+		{47B93BFE-8E50-4D6A-9011-F9136F5F40E7} = {2ACD3F9F-D879-47EE-B403-5C812ACCBCBE}
+		{F59E94D2-6345-4CA3-9A43-C0381E51CE4F} = {2ACD3F9F-D879-47EE-B403-5C812ACCBCBE}
 	EndGlobalSection
 EndGlobal
