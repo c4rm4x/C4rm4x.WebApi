@@ -63,6 +63,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.Validation.Au
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.Framework.Autofac.Extensions", "C4rm4x.WebApi.Framework.Autofac.Extensions\C4rm4x.WebApi.Framework.Autofac.Extensions.csproj", "{BD925854-B0CF-483D-9B53-85AC106CB14A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.Framework.Autofac.Extensions.Test", "C4rm4x.WebApi.Framework.Autofac.Extensions.Test\C4rm4x.WebApi.Framework.Autofac.Extensions.Test.csproj", "{DC9828D1-4747-41B0-B3CA-2B340C690F46}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -153,6 +155,10 @@ Global
 		{BD925854-B0CF-483D-9B53-85AC106CB14A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD925854-B0CF-483D-9B53-85AC106CB14A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD925854-B0CF-483D-9B53-85AC106CB14A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC9828D1-4747-41B0-B3CA-2B340C690F46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC9828D1-4747-41B0-B3CA-2B340C690F46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC9828D1-4747-41B0-B3CA-2B340C690F46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC9828D1-4747-41B0-B3CA-2B340C690F46}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -179,5 +185,6 @@ Global
 		{4C31156C-53FF-43C1-8718-E14F9170FB4B} = {290A0DF1-D06A-4C8B-8EC4-570C96ECF117}
 		{5F912F2B-370C-440E-A351-448F422A9AEF} = {2ACD3F9F-D879-47EE-B403-5C812ACCBCBE}
 		{BD925854-B0CF-483D-9B53-85AC106CB14A} = {C94F7C55-8121-46CF-AA4C-591CD3FC38BB}
+		{DC9828D1-4747-41B0-B3CA-2B340C690F46} = {C94F7C55-8121-46CF-AA4C-591CD3FC38BB}
 	EndGlobalSection
 EndGlobal
