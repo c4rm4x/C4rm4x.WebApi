@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("C4rm4x.WebApi.Security.CORS")]
+[assembly: AssemblyTitle("C4rm4x.WebApi.Framework.Autofac.Extensions")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("]C4rM4X[")]
-[assembly: AssemblyProduct("C4rm4x.WebApi.Security.CORS")]
+[assembly: AssemblyProduct("C4rm4x.WebApi.Framework.Autofac.Extensions")]
 [assembly: AssemblyCopyright("Copyright © ]C4rM4X[ 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("314df325-2dd8-4702-867a-3bc78fb63d9a")]
+[assembly: Guid("bd925854-b0cf-483d-9b53-85ac106cb14a")]
 
 // Version information for an assembly consists of the following four values:
 //

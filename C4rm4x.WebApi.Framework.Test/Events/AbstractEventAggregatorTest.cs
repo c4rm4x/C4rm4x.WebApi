@@ -31,7 +31,9 @@ namespace C4rm4x.WebApi.Framework.Test.Events
 
             protected override IEnumerable<IEventHandler<TEvent>> GetHandlers<TEvent>()
             {
-                return GetHandlers(typeof(TEvent)).OfType<IEventHandler<TEvent>>();
+                return _handlers.ContainsKey(typeof(TEvent))
+                    ? _handlers[typeof(TEvent)].OfType<IEventHandler<TEvent>>()
+                    : new IEventHandler<TEvent>[] { };
             }
 
             /// <summary>
@@ -43,13 +45,6 @@ namespace C4rm4x.WebApi.Framework.Test.Events
                 where TEvent : ApiEventData
             {
                 _handlers.Add(typeof(TEvent), handlers);
-            }
-
-            protected override IEnumerable GetHandlers(Type type)
-            {
-                return _handlers.ContainsKey(type)
-                    ? _handlers[type]
-                    : new ArrayList();
             }
         }
 

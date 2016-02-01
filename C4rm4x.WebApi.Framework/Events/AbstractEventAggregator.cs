@@ -100,13 +100,5 @@ namespace C4rm4x.WebApi.Framework.Events
         {
             throw new NotImplementedException();
         }
-
-        /// <summary>
-        /// Retrieves the list of all the event handlers that implement the interface
-        /// IEventHandler for a given type
-        /// </summary>
-        /// <param name="type">Type of the event to retrieve</param>
-        /// <returns>The list of all (if any) the event handlers for the given type of event</returns>
-        protected abstract IEnumerable GetHandlers(Type type);
     }
 }

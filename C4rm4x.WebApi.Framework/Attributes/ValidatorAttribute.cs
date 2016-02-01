@@ -4,7 +4,7 @@ using System;
 
 #endregion
 
-namespace C4rm4x.WebApi.Framework.Attributes
+namespace C4rm4x.WebApi.Framework
 {
     /// <summary>
     /// Flags the underlying class as Validator
