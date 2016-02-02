@@ -4,7 +4,7 @@ using Autofac.Extras.Multitenant;
 using C4rm4x.Tools.HttpUtilities;
 using C4rm4x.Tools.TestUtilities;
 using C4rm4x.Tools.Utilities;
-using C4rm4x.WebApi.Framework.Autofac.Extensions.TenantIdentificationStrategies;
+using C4rm4x.WebApi.Framework.Autofac.TenantIdentificationStrategies;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;

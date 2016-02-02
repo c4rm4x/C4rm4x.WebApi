@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 #endregion
 
-namespace C4rm4x.WebApi.Framework.Autofac.Extensions.Runtime
+namespace C4rm4x.WebApi.Framework.Autofac.Runtime
 {
     /// <summary>
     /// Implementation of IExecutionContextInitialiser using the Autofac 

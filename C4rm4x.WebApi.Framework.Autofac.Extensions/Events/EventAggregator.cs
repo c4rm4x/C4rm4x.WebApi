@@ -8,7 +8,7 @@ using System.Linq;
 
 #endregion
 
-namespace C4rm4x.WebApi.Framework.Autofac.Extensions.Events
+namespace C4rm4x.WebApi.Framework.Autofac.Events
 {
     /// <summary>
     /// Implementation of the Event Aggregator Design Pattern using an Autofac Container to retrieve all the event handlers

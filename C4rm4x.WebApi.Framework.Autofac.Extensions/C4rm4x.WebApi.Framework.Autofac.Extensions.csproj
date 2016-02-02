@@ -7,8 +7,8 @@
     <ProjectGuid>{BD925854-B0CF-483D-9B53-85AC106CB14A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>C4rm4x.WebApi.Framework.Autofac.Extensions</RootNamespace>
-    <AssemblyName>C4rm4x.WebApi.Framework.Autofac.Extensions</AssemblyName>
+    <RootNamespace>C4rm4x.WebApi.Framework.Autofac</RootNamespace>
+    <AssemblyName>C4rm4x.WebApi.Framework.Autofac</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -27,8 +27,8 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\C4rm4x.WebApi.Framework.Autofac.Extensions.xml</DocumentationFile>
+    <WarningLevel>3</WarningLevel>
+    <DocumentationFile>bin\Release\C4rm4x.WebApi.Framework.Autofac.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Autofac, Version=3.5.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
@@ -87,13 +87,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Events\EventAggregator.cs" />
-    <Compile Include="MultitenantModule.cs" />
+    <Compile Include="MultitenantApiModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegistrationExtensions.cs" />
     <Compile Include="RequestHandling\HandlerFactory.cs" />
     <Compile Include="ResolutionExtensions.cs" />
     <Compile Include="Runtime\ExecutionContextInitialiser.cs" />
-    <Compile Include="Module.cs" />
+    <Compile Include="ApiModule.cs" />
     <Compile Include="TenantIdentificationStrategies\HeaderRequestTenantIdentificationStrategy.cs" />
     <Compile Include="TenantIdentificationStrategies\UrlRequestTenantIdentificationStrategy.cs" />
   </ItemGroup>

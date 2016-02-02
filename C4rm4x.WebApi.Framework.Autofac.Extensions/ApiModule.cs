@@ -7,12 +7,12 @@ using AutofacModule = Autofac.Module;
 
 #endregion
 
-namespace C4rm4x.WebApi.Framework.Autofac.Extensions
+namespace C4rm4x.WebApi.Framework.Autofac
 {
     /// <summary>
     /// Provides a user-friendly way to implement Autofac.Core.IModule via Autofac.ContainerBuilder
     /// </summary>
-    public abstract class Module : AutofacModule
+    public abstract class ApiModule : AutofacModule
     {
         /// <summary>
         /// Adds registration to the Autofac Container Builder

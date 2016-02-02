@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 #endregion
 
-namespace C4rm4x.WebApi.Framework.Autofac.Extensions
+namespace C4rm4x.WebApi.Framework.Autofac
 {
     /// <summary>
     /// Extesions for resolution using Autofac container

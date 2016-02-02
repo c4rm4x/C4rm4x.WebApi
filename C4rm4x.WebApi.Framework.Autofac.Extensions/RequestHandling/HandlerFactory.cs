@@ -6,7 +6,7 @@ using C4rm4x.WebApi.Framework.RequestHandling;
 
 #endregion
 
-namespace C4rm4x.WebApi.Framework.Autofac.Extensions.RequestHandling
+namespace C4rm4x.WebApi.Framework.Autofac.RequestHandling
 {
     /// <summary>
     /// Implementation of IHandlerFactory using Autofac container

@@ -9,14 +9,14 @@ using AutofacModule = Autofac.Module;
 
 #endregion
 
-namespace C4rm4x.WebApi.Framework.Autofac.Extensions
+namespace C4rm4x.WebApi.Framework.Autofac
 {
     #region Interface
 
     /// <summary>
     /// Provides a user-friendly way to implement Autofac.Core.IModule via Autofac.MultitenantContainer.
     /// </summary>
-    interface IMultitenantModule
+    interface IMultitenantApiModule
     {
         /// <summary>
         /// Adds tenant-specific registrations to the container 
@@ -30,8 +30,8 @@ namespace C4rm4x.WebApi.Framework.Autofac.Extensions
     /// <summary>
     /// Base class that implements both, IModule and IMultitenantVeModule
     /// </summary>
-    public abstract class MultitenantModule :
-        AutofacModule, IMultitenantModule
+    public abstract class MultitenantApiModule :
+        AutofacModule, IMultitenantApiModule
     {
         /// <summary>
         /// Adds registration to the Autofact container builder

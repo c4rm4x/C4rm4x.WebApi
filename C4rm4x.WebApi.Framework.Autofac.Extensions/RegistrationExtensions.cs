@@ -9,7 +9,7 @@ using System.Reflection;
 
 #endregion
 
-namespace C4rm4x.WebApi.Framework.Autofac.Extensions
+namespace C4rm4x.WebApi.Framework.Autofac
 {
     /// <summary>
     /// Utilities methods to auto-register all the API objects for both,
@@ -374,7 +374,7 @@ namespace C4rm4x.WebApi.Framework.Autofac.Extensions
             container.NotNull(nameof(container));
             assemblies.NotNullOrEmpty(nameof(assemblies));
 
-            container.RegisterAssemblyModules<Module>(assemblies);
+            container.RegisterAssemblyModules<ApiModule>(assemblies);
         }
 
         /// <summary>
@@ -393,12 +393,12 @@ namespace C4rm4x.WebApi.Framework.Autofac.Extensions
             var moduleFinder = new ContainerBuilder();
 
             moduleFinder.RegisterAssemblyTypes(assemblies)
-                .Where(t => typeof(MultitenantModule).IsAssignableFrom(t))
-                .As<IMultitenantModule>();
+                .Where(t => typeof(MultitenantApiModule).IsAssignableFrom(t))
+                .As<IMultitenantApiModule>();
 
             using (var moduleContainer = moduleFinder.Build())
             {
-                foreach (var module in moduleContainer.ResolveAll<IMultitenantModule>())
+                foreach (var module in moduleContainer.ResolveAll<IMultitenantApiModule>())
                     module.Load(container);
             }
         }
@@ -415,7 +415,7 @@ namespace C4rm4x.WebApi.Framework.Autofac.Extensions
             container.NotNull(nameof(container));
             assemblies.NotNullOrEmpty(nameof(assemblies));
 
-            container.RegisterAssemblyModules<MultitenantModule>(assemblies);
+            container.RegisterAssemblyModules<MultitenantApiModule>(assemblies);
         }
     }
 }

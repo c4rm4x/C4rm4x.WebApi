@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 
 #endregion
 
-namespace C4rm4x.WebApi.Framework.Autofac.Extensions.TenantIdentificationStrategies
+namespace C4rm4x.WebApi.Framework.Autofac.TenantIdentificationStrategies
 {
     /// <summary>
     /// Implementation of the ITenantIdentificationStrategy based on the 

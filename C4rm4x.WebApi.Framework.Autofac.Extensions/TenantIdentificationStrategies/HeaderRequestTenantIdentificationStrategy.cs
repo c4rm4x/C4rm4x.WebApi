@@ -7,7 +7,7 @@ using System;
 
 #endregion
 
-namespace C4rm4x.WebApi.Framework.Autofac.Extensions.TenantIdentificationStrategies
+namespace C4rm4x.WebApi.Framework.Autofac.TenantIdentificationStrategies
 {
     /// <summary>
     /// Base implementation of ITenantIdentificationStrategy where the tenantId gets identified
