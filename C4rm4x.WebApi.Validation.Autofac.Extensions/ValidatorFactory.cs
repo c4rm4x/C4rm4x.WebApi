@@ -7,7 +7,7 @@ using System;
 
 #endregion
 
-namespace C4rm4x.WebApi.Validation.Autofac.Extensions
+namespace C4rm4x.WebApi.Validation.Autofac
 {
     /// <summary>
     /// Implementation of IValidatorFactory using Autofac container
