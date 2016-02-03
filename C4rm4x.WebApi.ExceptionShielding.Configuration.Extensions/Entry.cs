@@ -7,7 +7,7 @@ using System.Linq;
 
 #endregion
 
-namespace C4rm4x.WebApi.ExceptionShielding.Configuration.Extensions
+namespace C4rm4x.WebApi.ExceptionShielding.Configuration
 {
     /// <summary>
     /// Abstraction of ExceptionPolicyEntry

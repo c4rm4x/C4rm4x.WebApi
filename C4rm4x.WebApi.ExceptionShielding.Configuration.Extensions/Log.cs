@@ -6,7 +6,7 @@ using C4rm4x.WebApi.Framework.Log;
 
 #endregion
 
-namespace C4rm4x.WebApi.ExceptionShielding.Configuration.Extensions
+namespace C4rm4x.WebApi.ExceptionShielding.Configuration
 {
     /// <summary>
     /// Abstraction of LogHandler

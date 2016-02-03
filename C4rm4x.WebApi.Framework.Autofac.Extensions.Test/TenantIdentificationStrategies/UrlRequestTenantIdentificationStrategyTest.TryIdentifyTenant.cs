@@ -13,7 +13,7 @@ using RegularExpressionsMatch = System.Text.RegularExpressions.Match;
 
 #endregion
 
-namespace C4rm4x.WebApi.Framework.Autofac.Extensions.Test.TenantIdentificationStrategies
+namespace C4rm4x.WebApi.Framework.Autofac.Test.TenantIdentificationStrategies
 {
     public partial class UrlRequestTenantIdentificationStrategyTest
     {

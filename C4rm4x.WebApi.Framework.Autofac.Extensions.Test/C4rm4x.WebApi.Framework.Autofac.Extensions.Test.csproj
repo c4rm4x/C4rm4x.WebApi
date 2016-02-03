@@ -6,7 +6,7 @@
     <ProjectGuid>{DC9828D1-4747-41B0-B3CA-2B340C690F46}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>C4rm4x.WebApi.Framework.Autofac.Extensions.Test</RootNamespace>
+    <RootNamespace>C4rm4x.WebApi.Framework.Autofac.Test</RootNamespace>
     <AssemblyName>C4rm4x.WebApi.Framework.Autofac.Extensions.Test</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

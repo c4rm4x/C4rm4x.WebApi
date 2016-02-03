@@ -5,7 +5,7 @@ using System;
 
 #endregion
 
-namespace C4rm4x.WebApi.ExceptionShielding.Configuration.Extensions.Test
+namespace C4rm4x.WebApi.ExceptionShielding.Configuration.Test
 {
     public partial class ExceptionManagerBuilderTest
     {
