@@ -1,6 +1,7 @@
 ﻿#region Using
 
 using C4rm4x.Tools.Utilities;
+using Newtonsoft.Json.Serialization;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Formatting;
@@ -15,7 +16,8 @@ namespace C4rm4x.WebApi.Framework.RequestHandling.Results
             HttpStatusCode statusCode,
             TContent content,
             MediaTypeFormatter formatter = null,
-            string mediaType = "application/json")
+            string mediaType = "application/json",
+            bool goingCamelCase = true)
             where TContent : class
         {
             content.NotNull(nameof(content));
@@ -26,7 +28,7 @@ namespace C4rm4x.WebApi.Framework.RequestHandling.Results
             {
                 response.StatusCode = statusCode;
                 response.Content = new ObjectContent<TContent>(
-                    content, formatter ?? new JsonMediaTypeFormatter(), mediaType);
+                    content, formatter ?? GetJsonMediaTypeFormatter(goingCamelCase), mediaType);
             }
             catch
             {
@@ -35,6 +37,17 @@ namespace C4rm4x.WebApi.Framework.RequestHandling.Results
             }
 
             return response;
+        }
+
+        private static MediaTypeFormatter GetJsonMediaTypeFormatter(
+            bool goingCamelCase)
+        {
+            var formatter = new JsonMediaTypeFormatter();
+
+            formatter.SerializerSettings.ContractResolver = 
+                new CamelCasePropertyNamesContractResolver();
+
+            return formatter;
         }
     }
 }
