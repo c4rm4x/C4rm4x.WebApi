@@ -120,9 +120,14 @@ namespace C4rm4x.WebApi.ExceptionShielding.Handlers
         {
             var message = new StringBuilder();
 
-            message.AppendLine(
-                FormatUtilities
-                    .FormatException(ErrorMessageFormat, handlingInstanceId));
+            message.AppendLine(FormatUtilities
+                .FormatException(ErrorMessageFormat, handlingInstanceId));
+            message.AppendLine("----------------------------");
+
+            message.AppendLine(exception.Message);
+            message.AppendLine("----------------------------");
+
+            message.AppendLine(exception.StackTrace);
             message.AppendLine("----------------------------");
 
             foreach (DictionaryEntry dataEntry in exception.Data)
