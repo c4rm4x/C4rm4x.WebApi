@@ -153,6 +153,21 @@ namespace C4rm4x.WebApi.Framework.Autofac
         }
 
         /// <summary>
+        /// Registers all public classes decorated with attribute Specification within all specified assemblies
+        /// </summary>
+        /// <param name="container">Autofac container builder</param>
+        /// <param name="assemblies">List of assemblies</param>
+        public static void RegisterAllSpecifications(
+            this ContainerBuilder container,
+            params Assembly[] assemblies)
+        {
+            container.NotNull(nameof(container));
+            assemblies.NotNullOrEmpty(nameof(assemblies));
+
+            container.RegisterTypeByAttribute<SpecificationAttribute>(assemblies);
+        }
+
+        /// <summary>
         /// Registers all public classes decorated with attributes DomainService, Transformer, Validator,
         /// Repository, RequestHandler, EventHandler, DataProvider and ExecutionContextInitialiser
         /// within all specified assemblies
@@ -174,6 +189,7 @@ namespace C4rm4x.WebApi.Framework.Autofac
             container.RegisterAllEventHandlers(assemblies);
             container.RegisterAllDataProviders(assemblies);
             container.RegisterAllExecutionContextInitialisers(assemblies);
+            container.RegisterAllSpecifications(assemblies);
         }
 
         private static void RegisterTypeByAttribute<TAttr>(
@@ -336,6 +352,24 @@ namespace C4rm4x.WebApi.Framework.Autofac
         }
 
         /// <summary>
+        /// Registers tenant-specific all public classes decorated with attribute Specification within all specified assemblies
+        /// </summary>
+        /// <param name="container">Autofac multitenant container</param>
+        /// <param name="tenantId">Tenant Id</param>
+        /// <param name="assemblies">List of assemblies</param>
+        public static void RegisterAllSpecifications(
+            this MultitenantContainer container,
+            object tenantId,
+            params Assembly[] assemblies)
+        {
+            container.NotNull(nameof(container));
+            tenantId.NotNull(nameof(tenantId));
+            assemblies.NotNullOrEmpty(nameof(assemblies));
+
+            container.RegisterTypeByAttribute<SpecificationAttribute>(tenantId, assemblies);
+        }
+
+        /// <summary>
         /// Registers tenant-specific all public classes decorated with attributes DomainService, Transformer, Validator,
         /// Repository, RequestHandler, EventHandler, DataProvider and ExecutionContextInitialiser
         /// within all specified assemblies
@@ -360,6 +394,7 @@ namespace C4rm4x.WebApi.Framework.Autofac
             container.RegisterAllEventHandlers(tenantId, assemblies);
             container.RegisterAllDataProviders(tenantId, assemblies);
             container.RegisterAllExecutionContextInitialisers(tenantId, assemblies);
+            container.RegisterAllSpecifications(tenantId, assemblies);
         }
 
         /// <summary>

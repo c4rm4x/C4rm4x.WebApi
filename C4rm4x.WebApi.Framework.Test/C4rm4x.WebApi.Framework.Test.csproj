@@ -98,6 +98,18 @@
     <Compile Include="Settings\SettingsManagerExtensionsTest.GetSettingAsInt32.cs" />
     <Compile Include="Settings\SettingsManagerExtensionsTest.GetSettingAsString.cs" />
     <Compile Include="Settings\SettingsManagerExtensionTest.GetAllSettingsAsString.cs" />
+    <Compile Include="Specification\AbstractSpecificationTest.cs" />
+    <Compile Include="Specification\OrSpecificationTest.cs" />
+    <Compile Include="Specification\AndSpecificationTest.cs" />
+    <Compile Include="Specification\OrSpecificationTest.EnforceRule.cs" />
+    <Compile Include="Specification\OrSpecificationTest.IsSatisfiedBy.cs" />
+    <Compile Include="Specification\AndSpecificationTest.IsSatisfiedBy.cs" />
+    <Compile Include="Specification\AndSpecificationTest.EnforceRule.cs" />
+    <Compile Include="Specification\ExpressionSpecificationTest.EnforceRule.cs" />
+    <Compile Include="Specification\AbstractSpecificationTest.EnforceRule.cs" />
+    <Compile Include="Specification\AbstractSpecificationTest.IsSatisfiedBy.cs" />
+    <Compile Include="Specification\ExpressionSpecificationTest.cs" />
+    <Compile Include="Specification\ExpressionSpecificationTest.IsSatisfiedBy.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\C4rm4x.WebApi.Framework\C4rm4x.WebApi.Framework.csproj">
