@@ -58,7 +58,15 @@ namespace C4rm4x.WebApi.Security
         private Task<HttpResponseMessage> ForbiddenResponse()
         {
             return Task.FromResult(
-                new HttpResponseMessage(HttpStatusCode.Forbidden));
+                new HttpResponseMessage(ForbiddenErrorCode));
+        }
+
+        /// <summary>
+        /// Gets the actual HttpStatusCode
+        /// </summary>
+        protected virtual HttpStatusCode ForbiddenErrorCode
+        {
+            get { return HttpStatusCode.Forbidden; }
         }
 
         /// <summary>
