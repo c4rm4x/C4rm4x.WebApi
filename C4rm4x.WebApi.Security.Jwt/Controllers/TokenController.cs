@@ -8,7 +8,7 @@ using System.Web.Http;
 
 #endregion
 
-namespace C4rm4x.WebApi.Security.Jwt.Controller
+namespace C4rm4x.WebApi.Security.Jwt.Controllers
 {
     /// <summary>
     /// Basic implementation of an ApiController responsible for generating Json Web Tokens

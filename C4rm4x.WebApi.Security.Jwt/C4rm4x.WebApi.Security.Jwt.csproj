@@ -80,13 +80,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controller\Contracts\GenerateTokenRequest.cs" />
-    <Compile Include="Controller\Contracts\GenerateTokenResponse.cs" />
-    <Compile Include="Controller\Services\IClaimsIdentityRetriever.cs" />
-    <Compile Include="Controller\Services\IJwtGenerationOptionsFactory.cs" />
-    <Compile Include="Controller\Extensions\RoutingExtensions.cs" />
-    <Compile Include="Controller\TokenController.cs" />
-    <Compile Include="Controller\UserCredentialsException.cs" />
+    <Compile Include="Controllers\Contracts\GenerateTokenRequest.cs" />
+    <Compile Include="Controllers\Contracts\GenerateTokenResponse.cs" />
+    <Compile Include="Controllers\Services\IClaimsIdentityRetriever.cs" />
+    <Compile Include="Controllers\Services\IJwtGenerationOptionsFactory.cs" />
+    <Compile Include="Controllers\Extensions\RoutingExtensions.cs" />
+    <Compile Include="Controllers\TokenController.cs" />
+    <Compile Include="Controllers\UserCredentialsException.cs" />
     <Compile Include="Internal\HmacSigningCredentials.cs" />
     <Compile Include="JwtBasedSecurityMessageHandler.cs" />
     <Compile Include="JwtSecurityTokenGenerator.cs" />

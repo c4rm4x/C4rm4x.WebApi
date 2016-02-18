@@ -4,7 +4,7 @@ using System.Web.Http;
 
 #endregion
 
-namespace C4rm4x.WebApi.Security.Jwt.Controller
+namespace C4rm4x.WebApi.Security.Jwt.Controllers
 {
     /// <summary>
     /// Routing extensions
@@ -18,7 +18,7 @@ namespace C4rm4x.WebApi.Security.Jwt.Controller
         /// <param name="routeTemplate">Route template</param>
         public static void RegisterTokenController(
             this HttpConfiguration config,
-            string routeTemplate = "/api/token")
+            string routeTemplate = "api/token")
         {
             config
                 .Routes

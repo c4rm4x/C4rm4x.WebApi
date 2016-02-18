@@ -1,4 +1,4 @@
-﻿namespace C4rm4x.WebApi.Security.Jwt.Controller
+﻿namespace C4rm4x.WebApi.Security.Jwt.Controllers
 {
     /// <summary>
     /// Interface responsible for creating instances of JwtGenerationOptions

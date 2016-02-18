@@ -1,7 +1,7 @@
 ﻿#region Using
 
 using C4rm4x.Tools.TestUtilities;
-using C4rm4x.WebApi.Security.Jwt.Controller;
+using C4rm4x.WebApi.Security.Jwt.Controllers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Net;
@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 #endregion
 
-namespace C4rm4x.WebApi.Security.Jwt.Test.Controller
+namespace C4rm4x.WebApi.Security.Jwt.Test.Controllers
 {
     public partial class TokenControllerTest
     {

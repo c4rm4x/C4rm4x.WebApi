@@ -4,7 +4,7 @@ using System.Security.Claims;
 
 #endregion
 
-namespace C4rm4x.WebApi.Security.Jwt.Controller
+namespace C4rm4x.WebApi.Security.Jwt.Controllers
 {
     /// <summary>
     /// Interface to retrieve an instance of ClaimIdentity to generate a JWT

@@ -4,7 +4,7 @@ using C4rm4x.WebApi.Framework;
 
 #endregion
 
-namespace C4rm4x.WebApi.Security.Jwt.Controller
+namespace C4rm4x.WebApi.Security.Jwt.Controllers
 {
     /// <summary>
     /// Exception to be thrown when claims identity cannot be found

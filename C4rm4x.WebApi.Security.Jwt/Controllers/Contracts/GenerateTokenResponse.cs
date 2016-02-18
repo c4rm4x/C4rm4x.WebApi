@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 
 #endregion
 
-namespace C4rm4x.WebApi.Security.Jwt.Controller
+namespace C4rm4x.WebApi.Security.Jwt.Controllers
 {
     /// <summary>
     /// Generate token response
