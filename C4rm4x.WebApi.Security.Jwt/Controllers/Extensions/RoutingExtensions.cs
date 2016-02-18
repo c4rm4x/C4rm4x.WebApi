@@ -25,7 +25,7 @@ namespace C4rm4x.WebApi.Security.Jwt.Controllers
                 .MapHttpRoute("Token", routeTemplate,
                 new
                 {
-                    controller = "TokenController",
+                    controller = "Token",
                     action = "GenerateToken"
                 });
         }
