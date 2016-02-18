@@ -39,26 +39,13 @@ namespace C4rm4x.WebApi.Security
         /// Gets the claim type getter
         /// </summary>
         /// <remarks>When not specified, the claim type will be read from property Type</remarks>
-        public Func<dynamic, string> ClaimTypeGetter { get; private set; }
+        public Func<dynamic, string> ClaimTypeGetter { get; set; } = DefaultClaimTypeGetter;
 
         /// <summary>
         /// Gets the claim value getter
         /// </summary>
         /// <remarks>When not specified, the claim value will be read from property Value</remarks>
-        public Func<dynamic, string> ClaimValueGetter { get; private set; }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="claimTypeGetter">Claim type getter (null to use default one)</param>
-        /// <param name="claimValueGetter">Claim value getter (null to use default one)</param>
-        public SecuredAttribute(
-            Func<dynamic, string> claimTypeGetter = null,
-            Func<dynamic, string> claimValueGetter = null)
-        {
-            ClaimTypeGetter = claimTypeGetter ?? DefaultClaimTypeGetter;
-            ClaimValueGetter = claimValueGetter ?? DefaultClaimValueGetter;
-        }
+        public Func<dynamic, string> ClaimValueGetter { get; set; } = DefaultClaimValueGetter;
 
         private static string DefaultClaimTypeGetter(dynamic claim)
         {
