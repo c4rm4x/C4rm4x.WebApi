@@ -76,7 +76,7 @@ namespace C4rm4x.WebApi.Security
         /// - the request is not associated with any user
         /// - the user is not authenticated,
         /// - the user is authenticated but it is not in the authorized role (if defined)
-        ///   or if the user does not have the authorized claim (if defined)
+        ///   or the user does not have the authorized claim (if defined)
         /// </summary>
         /// <param name="actionContext">The context</param>
         public override void OnAuthorization(HttpActionContext actionContext)
@@ -86,7 +86,9 @@ namespace C4rm4x.WebApi.Security
             if (SkipAuthorization(actionContext))
                 return;
 
-            if (!IsAuthorized(actionContext))
+            if (!IsAuthenticated(actionContext))
+                HandleUnauthenticatedRequest(actionContext);
+            else if (!IsAuthorized(actionContext))
                 HandleUnauthorizedRequest(actionContext);
         }
 
@@ -99,10 +101,37 @@ namespace C4rm4x.WebApi.Security
         }
 
         /// <summary>
+        /// Determines whether access for this particular request is authenticated. 
+        /// </summary>
+        /// <param name="actionContext">The context</param>
+        /// <returns>true if access is authorized; otherwise false</returns>
+        protected virtual bool IsAuthenticated(HttpActionContext actionContext)
+        {
+            actionContext.NotNull(nameof(actionContext));
+
+            var user = actionContext.ControllerContext.RequestContext.Principal;
+
+            return user.IsNotNull() &&
+                user.Identity.IsNotNull() &&
+                user.Identity.IsAuthenticated;
+        }
+
+        /// <summary>
+        /// Processes requests that fail authentication. 
+        /// This default implementation creates a new response with the Unauthorized status code. 
+        /// </summary>
+        /// <param name="actionContext">The context</param>
+        protected virtual void HandleUnauthenticatedRequest(HttpActionContext actionContext)
+        {
+            actionContext.NotNull(nameof(actionContext));
+
+            actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized);
+        }
+
+        /// <summary>
         /// Determines whether access for this particular request is authorized. 
-        /// Authorization is denied if the user is not authenticated,
-        /// the user is not in the authorized role (if defined)
-        /// or if the user does not have the authorized claim (if defined)
+        /// Authorization is denied when the user is not in the authorized role (if defined)
+        /// or does not have the authorized claim (if defined)
         /// </summary>
         /// <param name="actionContext">The context</param>
         /// <returns>true if access is authorized; otherwise false</returns>
@@ -112,41 +141,34 @@ namespace C4rm4x.WebApi.Security
 
             var user = actionContext.ControllerContext.RequestContext.Principal;
 
-            if (NotAuthenticated(user) ||
-                NotAuthorizedRoles(user) ||
-                NotAuthorizedClaims(user as ClaimsPrincipal))
+            if (NotAuthorizedRole(user) || NotAuthorizedClaim(user as ClaimsPrincipal))
                 return false;
 
             return true;
         }
 
-        private bool NotAuthenticated(IPrincipal user)
-        {
-            return user.IsNull() ||
-                user.Identity.IsNull() ||
-                !user.Identity.IsAuthenticated;
-        }
-
-        private bool NotAuthorizedRoles(IPrincipal user)
+        private bool NotAuthorizedRole(IPrincipal user)
         {
             return !Role.IsNullOrEmpty() && !user.IsInRole(Role);
         }
 
-        private bool NotAuthorizedClaims(ClaimsPrincipal user)
+        private bool NotAuthorizedClaim(ClaimsPrincipal user)
         {
-            return user.IsNotNull() && Claim != null && !user.HasClaim(ClaimTypeGetter(Claim), ClaimValueGetter(Claim));
+            return user.IsNotNull() && 
+                Claim != null && 
+                !user.HasClaim(ClaimTypeGetter(Claim), ClaimValueGetter(Claim));
         }
 
         /// <summary>
         /// Processes requests that fail authorization. 
-        /// This default implementation creates a new response with the Unauthorized status code. 
+        /// This default implementation creates a new response with the Forbidden status code. 
         /// </summary>
         /// <param name="actionContext">The context</param>
         protected virtual void HandleUnauthorizedRequest(HttpActionContext actionContext)
         {
             actionContext.NotNull(nameof(actionContext));
 
-            actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized);
+            actionContext.Response = new HttpResponseMessage(HttpStatusCode.Forbidden);
         }
     }
 }

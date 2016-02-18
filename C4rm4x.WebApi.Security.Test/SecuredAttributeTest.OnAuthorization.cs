@@ -58,14 +58,14 @@ namespace C4rm4x.WebApi.Security.Test
             }
 
             [TestMethod, UnitTest]
-            public void OnAuthorization_Returns_HttpStatusCode_Unauthorized_When_Principal_Is_Not_In_Specified_Role()
+            public void OnAuthorization_Returns_HttpStatusCode_Forbidden_When_Principal_Is_Not_In_Specified_Role()
             {
                 var actionContext = GetActionContext(role: "Role");
 
                 CreateSubjectUnderTest(role: "OtherRole")
                     .OnAuthorization(actionContext);
 
-                Assert.AreEqual(HttpStatusCode.Unauthorized, actionContext.Response.StatusCode);
+                Assert.AreEqual(HttpStatusCode.Forbidden, actionContext.Response.StatusCode);
             }
 
             [TestMethod, UnitTest]
@@ -80,14 +80,14 @@ namespace C4rm4x.WebApi.Security.Test
             }
 
             [TestMethod, UnitTest]
-            public void OnAuthorization_Returns_HttpStatusCode_Unauthorized_When_Principal_Does_Not_Have_Specified_Claim()
+            public void OnAuthorization_Returns_HttpStatusCode_Forbidden_When_Principal_Does_Not_Have_Specified_Claim()
             {
                 var actionContext = GetActionContext(claim: new Claim("ClaimType", "ClaimValue"));
 
                 CreateSubjectUnderTest(claim: new Claim("OtherClaimType", "OtherClaimValue"))
                     .OnAuthorization(actionContext);
 
-                Assert.AreEqual(HttpStatusCode.Unauthorized, actionContext.Response.StatusCode);
+                Assert.AreEqual(HttpStatusCode.Forbidden, actionContext.Response.StatusCode);
             }
 
             [TestMethod, UnitTest]
