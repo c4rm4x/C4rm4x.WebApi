@@ -97,6 +97,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Controller\Builders\GenerateTokenRequestBuilder.cs" />
+    <Compile Include="Controller\TokenControllerTest.GenerateToken.cs" />
     <Compile Include="JwtBasedSecurityMessageHandlerTest.SendAsync.cs" />
     <Compile Include="JwtSecurityTokenGeneratorTest.Generate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
