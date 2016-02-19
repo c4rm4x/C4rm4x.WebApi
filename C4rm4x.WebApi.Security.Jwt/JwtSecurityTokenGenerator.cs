@@ -57,6 +57,7 @@ namespace C4rm4x.WebApi.Security.Jwt
 
             var securityToken = tokenHandler
                 .CreateToken(
+                    issuer: "default",
                     subject: subject,
                     notBefore: now,
                     expires: GetExpiresAt(now, options),

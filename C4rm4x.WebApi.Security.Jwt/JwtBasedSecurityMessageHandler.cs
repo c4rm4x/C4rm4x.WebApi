@@ -83,45 +83,23 @@ namespace C4rm4x.WebApi.Security.Jwt
 
         private bool ValidateToken(string securityToken)
         {
-            var validationParameters = GetValidationParameters();
+            var handler = _securityTokenHandlerFactory();
 
             try
             {
-                Thread.CurrentPrincipal = RetrievePrincipal(securityToken, validationParameters);
-                HttpContextFactory.Current.User = RetrievePrincipal(securityToken, validationParameters);
+                IPrincipal principal;
+                var result = handler.TryValidateToken(securityToken, Options, out principal);
+
+                Thread.CurrentPrincipal = 
+                    HttpContextFactory.Current.User = principal;
+
+                return result;
             }
-            catch (SecurityTokenValidationException)
+            catch (Exception)  // Swallow all the exceptions
             {
                 return false;
             }
-
-            return true;
-        }
-
-        private TokenValidationParameters GetValidationParameters()
-        {
-            var parameters = new TokenValidationParameters
-            {
-                RequireExpirationTime = Options.RequireExpirationTime,
-                RequireSignedTokens = !Options.SigningKey.IsNullOrEmpty(),
-                ValidateLifetime = Options.RequireExpirationTime,
-            };
-
-            if (!Options.SigningKey.IsNullOrEmpty())
-                parameters.IssuerSigningKey = new InMemorySymmetricSecurityKey(
-                    Convert.FromBase64String(Options.SigningKey));
-
-            return parameters;
-        }
-
-        private IPrincipal RetrievePrincipal(
-            string securityToken,
-            TokenValidationParameters validationParameters)
-        {
-            SecurityToken validatedToken;
-            return _securityTokenHandlerFactory()
-                    .ValidateToken(securityToken, validationParameters, out validatedToken);
-        }
+        }        
 
         /// <summary>
         /// Gets the actual HttpStatusCode. 

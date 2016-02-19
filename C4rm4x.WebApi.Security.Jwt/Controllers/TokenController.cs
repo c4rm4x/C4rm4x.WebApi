@@ -1,6 +1,7 @@
 ﻿#region Using
 
 using C4rm4x.Tools.Utilities;
+using C4rm4x.WebApi.Framework.Log;
 using C4rm4x.WebApi.Framework.RequestHandling.Results;
 using C4rm4x.WebApi.Framework.Validation;
 using System;
@@ -15,6 +16,7 @@ namespace C4rm4x.WebApi.Security.Jwt.Controllers
     /// </summary>
     public class TokenController : ApiController
     {
+        private readonly ILog _logger;
         private readonly IClaimsIdentityRetriever _claimsIdentityRetriever;
         private readonly IJwtSecurityTokenGenerator _jwtSecurityTokenGenerator;
         private readonly IJwtGenerationOptionsFactory _jwtGenerationOptionsFactory;
@@ -22,18 +24,22 @@ namespace C4rm4x.WebApi.Security.Jwt.Controllers
         /// <summary>
         /// Constructor
         /// </summary>
+        /// <param name="logger">The logger</param>
         /// <param name="claimsIdentityRetriever">The implementation to retrieve ClaimsIdentity</param>
         /// <param name="jwtSecurityTokenGenerator">The JWT token generator</param>
         /// <param name="jwtGenerationOptionsFactory">The Jwt generation options factory</param>
         public TokenController(
+            ILog logger,
             IClaimsIdentityRetriever claimsIdentityRetriever,
             IJwtSecurityTokenGenerator jwtSecurityTokenGenerator,
             IJwtGenerationOptionsFactory jwtGenerationOptionsFactory)
         {
+            logger.NotNull(nameof(logger));
             claimsIdentityRetriever.NotNull(nameof(claimsIdentityRetriever));
             jwtSecurityTokenGenerator.NotNull(nameof(jwtSecurityTokenGenerator));
             jwtGenerationOptionsFactory.NotNull(nameof(jwtGenerationOptionsFactory));
 
+            _logger = logger;
             _claimsIdentityRetriever = claimsIdentityRetriever;
             _jwtSecurityTokenGenerator = jwtSecurityTokenGenerator;
             _jwtGenerationOptionsFactory = jwtGenerationOptionsFactory;
@@ -104,6 +110,13 @@ namespace C4rm4x.WebApi.Security.Jwt.Controllers
 
             if (exception is UserCredentialsException)
                 return InternalServerError(exception);
+
+            return HandleUnexpectedException(exception);
+        }
+
+        private IHttpActionResult HandleUnexpectedException(Exception exception)
+        {
+            _logger.Error("Unexpected exception", exception);
 
             return InternalServerError(
                 new Exception("Unexpected server error. Please try again."));

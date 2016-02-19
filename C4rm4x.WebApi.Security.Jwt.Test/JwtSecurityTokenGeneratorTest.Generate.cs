@@ -17,6 +17,8 @@ namespace C4rm4x.WebApi.Security.Jwt.Test
         [TestClass]
         public class JwtSecurityTokenGeneratorGenerateTest
         {
+            private const string Issuer = "default";
+
             [TestMethod, UnitTest]
             public void Generate_Uses_JwtSecurityTokenHandler_Generate_Subject_As_Subject_Argument()
             {
@@ -28,7 +30,7 @@ namespace C4rm4x.WebApi.Security.Jwt.Test
 
                 Mock.Get(tokenHandler)
                     .Verify(t => t.CreateToken(
-                        null, null, Subject, It.IsAny<DateTime?>(), It.IsAny<DateTime?>(), It.IsAny<SigningCredentials>(), null),
+                        Issuer, null, Subject, It.IsAny<DateTime?>(), It.IsAny<DateTime?>(), It.IsAny<SigningCredentials>(), null),
                         Times.Once());
             }
 
@@ -43,7 +45,7 @@ namespace C4rm4x.WebApi.Security.Jwt.Test
 
                 Mock.Get(tokenHandler)
                     .Verify(t => t.CreateToken(
-                        null, null, It.IsAny<ClaimsIdentity>(), Now, It.IsAny<DateTime?>(), It.IsAny<SigningCredentials>(), null),
+                        Issuer, null, It.IsAny<ClaimsIdentity>(), Now, It.IsAny<DateTime?>(), It.IsAny<SigningCredentials>(), null),
                         Times.Once());
             }
 
@@ -59,7 +61,7 @@ namespace C4rm4x.WebApi.Security.Jwt.Test
 
                 Mock.Get(tokenHandler)
                     .Verify(t => t.CreateToken(
-                        null, null, It.IsAny<ClaimsIdentity>(), It.IsAny<DateTime?>(), It.Is<DateTime?>(d => d == Now.AddMinutes(TokenLifetimeInMinutes)), It.IsAny<SigningCredentials>(), null),
+                        Issuer, null, It.IsAny<ClaimsIdentity>(), It.IsAny<DateTime?>(), It.Is<DateTime?>(d => d == Now.AddMinutes(TokenLifetimeInMinutes)), It.IsAny<SigningCredentials>(), null),
                         Times.Once());
             }
 
@@ -73,7 +75,7 @@ namespace C4rm4x.WebApi.Security.Jwt.Test
 
                 Mock.Get(tokenHandler)
                     .Verify(t => t.CreateToken(
-                        null, null, It.IsAny<ClaimsIdentity>(), It.IsAny<DateTime?>(), It.IsAny<DateTime?>(), null, null),
+                        Issuer, null, It.IsAny<ClaimsIdentity>(), It.IsAny<DateTime?>(), It.IsAny<DateTime?>(), null, null),
                         Times.Once());
             }
 
@@ -88,7 +90,7 @@ namespace C4rm4x.WebApi.Security.Jwt.Test
 
                 Mock.Get(tokenHandler)
                     .Verify(t => t.CreateToken(
-                        null, null, It.IsAny<ClaimsIdentity>(), It.IsAny<DateTime?>(), It.IsAny<DateTime?>(), null, null),
+                        Issuer, null, It.IsAny<ClaimsIdentity>(), It.IsAny<DateTime?>(), It.IsAny<DateTime?>(), null, null),
                         Times.Once());
             }
 
@@ -105,7 +107,7 @@ namespace C4rm4x.WebApi.Security.Jwt.Test
 
                 Mock.Get(tokenHandler)
                     .Verify(t => t.CreateToken(
-                        null, null, It.IsAny<ClaimsIdentity>(), It.IsAny<DateTime?>(), It.IsAny<DateTime?>(), It.Is<SigningCredentials>(s => s is HmacSigningCredentials), null),
+                        Issuer, null, It.IsAny<ClaimsIdentity>(), It.IsAny<DateTime?>(), It.IsAny<DateTime?>(), It.Is<SigningCredentials>(s => s is HmacSigningCredentials), null),
                         Times.Once());
             }
 
@@ -153,7 +155,7 @@ namespace C4rm4x.WebApi.Security.Jwt.Test
 
                 Mock.Get(tokenHandler)
                     .Setup(h => h.CreateToken(
-                        null,
+                        Issuer,
                         null,
                         It.IsAny<ClaimsIdentity>(),
                         It.IsAny<DateTime?>(),

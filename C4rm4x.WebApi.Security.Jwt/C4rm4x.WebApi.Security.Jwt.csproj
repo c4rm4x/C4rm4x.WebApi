@@ -88,6 +88,7 @@
     <Compile Include="Controllers\TokenController.cs" />
     <Compile Include="Controllers\UserCredentialsException.cs" />
     <Compile Include="Internal\HmacSigningCredentials.cs" />
+    <Compile Include="Internal\JwtSecurityTokenHandlerExtensions.cs" />
     <Compile Include="JwtBasedSecurityMessageHandler.cs" />
     <Compile Include="JwtSecurityTokenGenerator.cs" />
     <Compile Include="Options\JwtGenerationOptions.cs" />

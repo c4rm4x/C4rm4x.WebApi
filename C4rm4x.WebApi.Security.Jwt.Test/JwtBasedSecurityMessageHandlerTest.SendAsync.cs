@@ -76,7 +76,39 @@ namespace C4rm4x.WebApi.Security.Jwt.Test
 
                 Mock.Get(tokenHandler)
                     .Verify(h => h.ValidateToken(It.IsAny<string>(), It.IsAny<TokenValidationParameters>(), out validatedToken),
-                    Times.Exactly(2));
+                    Times.Once());
+            }
+
+            [TestMethod, UnitTest]
+            public void SendAsync_Uses_JwtSecurityTokenHandler_Validate_With_ValidateAudience_As_False()
+            {
+                var tokenHandler = Mock.Of<JwtSecurityTokenHandler>();
+                var validatedToken = It.IsAny<SecurityToken>();
+
+                SendAsync(tokenHandler, new JwtValidationOptions());
+
+                Mock.Get(tokenHandler)
+                    .Verify(h => h.ValidateToken(
+                        It.IsAny<string>(),
+                        It.Is<TokenValidationParameters>(p => !p.ValidateAudience),
+                        out validatedToken),
+                    Times.Once());
+            }
+
+            [TestMethod, UnitTest]
+            public void SendAsync_Uses_JwtSecurityTokenHandler_Validate_With_ValidateIssuer_As_False()
+            {
+                var tokenHandler = Mock.Of<JwtSecurityTokenHandler>();
+                var validatedToken = It.IsAny<SecurityToken>();
+
+                SendAsync(tokenHandler, new JwtValidationOptions());
+
+                Mock.Get(tokenHandler)
+                    .Verify(h => h.ValidateToken(
+                        It.IsAny<string>(),
+                        It.Is<TokenValidationParameters>(p => !p.ValidateIssuer),
+                        out validatedToken),
+                    Times.Once());
             }
 
             [TestMethod, UnitTest]
@@ -92,7 +124,7 @@ namespace C4rm4x.WebApi.Security.Jwt.Test
                         It.IsAny<string>(), 
                         It.Is<TokenValidationParameters>(p => p.RequireExpirationTime), 
                         out validatedToken),
-                    Times.Exactly(2));
+                    Times.Once());
             }
 
             [TestMethod, UnitTest]
@@ -108,7 +140,7 @@ namespace C4rm4x.WebApi.Security.Jwt.Test
                         It.IsAny<string>(),
                         It.Is<TokenValidationParameters>(p => p.ValidateLifetime),
                         out validatedToken),
-                    Times.Exactly(2));
+                    Times.Once());
             }
 
             [TestMethod, UnitTest]
@@ -124,7 +156,7 @@ namespace C4rm4x.WebApi.Security.Jwt.Test
                         It.IsAny<string>(),
                         It.Is<TokenValidationParameters>(p => !p.RequireExpirationTime),
                         out validatedToken),
-                    Times.Exactly(2));
+                    Times.Once());
             }
 
             [TestMethod, UnitTest]
@@ -140,7 +172,7 @@ namespace C4rm4x.WebApi.Security.Jwt.Test
                         It.IsAny<string>(),
                         It.Is<TokenValidationParameters>(p => !p.ValidateLifetime),
                         out validatedToken),
-                    Times.Exactly(2));
+                    Times.Once());
             }
 
             [TestMethod, UnitTest]
@@ -156,7 +188,7 @@ namespace C4rm4x.WebApi.Security.Jwt.Test
                         It.IsAny<string>(),
                         It.Is<TokenValidationParameters>(p => !p.RequireSignedTokens),
                         out validatedToken),
-                    Times.Exactly(2));
+                    Times.Once());
             }
 
             [TestMethod, UnitTest]
@@ -172,7 +204,7 @@ namespace C4rm4x.WebApi.Security.Jwt.Test
                         It.IsAny<string>(),
                         It.Is<TokenValidationParameters>(p => p.IssuerSigningKey.IsNull()),
                         out validatedToken),
-                    Times.Exactly(2));
+                    Times.Once());
             }
 
             [TestMethod, UnitTest]
@@ -188,7 +220,7 @@ namespace C4rm4x.WebApi.Security.Jwt.Test
                         It.IsAny<string>(),
                         It.Is<TokenValidationParameters>(p => !p.RequireSignedTokens),
                         out validatedToken),
-                    Times.Exactly(2));
+                    Times.Once());
             }
 
             [TestMethod, UnitTest]
@@ -204,7 +236,7 @@ namespace C4rm4x.WebApi.Security.Jwt.Test
                         It.IsAny<string>(),
                         It.Is<TokenValidationParameters>(p => p.IssuerSigningKey.IsNull()),
                         out validatedToken),
-                    Times.Exactly(2));
+                    Times.Once());
             }
 
             [TestMethod, UnitTest]
@@ -222,7 +254,7 @@ namespace C4rm4x.WebApi.Security.Jwt.Test
                         It.IsAny<string>(),
                         It.Is<TokenValidationParameters>(p => p.RequireSignedTokens),
                         out validatedToken),
-                    Times.Exactly(2));
+                    Times.Once());
             }
 
             [TestMethod, UnitTest]
@@ -240,7 +272,7 @@ namespace C4rm4x.WebApi.Security.Jwt.Test
                         It.IsAny<string>(),
                         It.Is<TokenValidationParameters>(p => p.IssuerSigningKey is InMemorySymmetricSecurityKey),
                         out validatedToken),
-                    Times.Exactly(2));
+                    Times.Once());
             }
 
             [TestMethod, UnitTest]
@@ -344,6 +376,10 @@ namespace C4rm4x.WebApi.Security.Jwt.Test
                     Mock.Get(tokenHandler)
                         .Setup(h => h.ValidateToken(It.IsAny<string>(), It.IsAny<TokenValidationParameters>(), out validatedToken))
                         .Throws<SecurityTokenValidationException>();
+                else
+                    Mock.Get(tokenHandler)
+                        .Setup(h => h.ValidateToken(It.IsAny<string>(), It.IsAny<TokenValidationParameters>(), out validatedToken))
+                        .Returns(new ClaimsPrincipal());
 
                 return tokenHandler;
             }

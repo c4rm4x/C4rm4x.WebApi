@@ -101,6 +101,7 @@
     <Compile Include="Controllers\TokenControllerTest.GenerateToken.cs" />
     <Compile Include="JwtBasedSecurityMessageHandlerTest.SendAsync.cs" />
     <Compile Include="JwtSecurityTokenGeneratorTest.Generate.cs" />
+    <Compile Include="JwtSecurityTokenGeneratorTest.Integration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
