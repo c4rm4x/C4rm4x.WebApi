@@ -69,6 +69,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.Security.Jwt"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.Security.Jwt.Test", "C4rm4x.WebApi.Security.Jwt.Test\C4rm4x.WebApi.Security.Jwt.Test.csproj", "{D2CAD34B-A6DB-4215-9AA4-A902EA0E58B1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.Security.Cors", "C4rm4x.WebApi.Security.Cors\C4rm4x.WebApi.Security.Cors.csproj", "{C50F6500-A206-4A61-AD1A-7C9C8D99C548}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.Security.Cors.Test", "C4rm4x.WebApi.Security.Cors.Test\C4rm4x.WebApi.Security.Cors.Test.csproj", "{E97E4326-442E-48D5-973C-C8E2DFE51EB3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -171,6 +175,14 @@ Global
 		{D2CAD34B-A6DB-4215-9AA4-A902EA0E58B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2CAD34B-A6DB-4215-9AA4-A902EA0E58B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D2CAD34B-A6DB-4215-9AA4-A902EA0E58B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C50F6500-A206-4A61-AD1A-7C9C8D99C548}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C50F6500-A206-4A61-AD1A-7C9C8D99C548}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C50F6500-A206-4A61-AD1A-7C9C8D99C548}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C50F6500-A206-4A61-AD1A-7C9C8D99C548}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E97E4326-442E-48D5-973C-C8E2DFE51EB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E97E4326-442E-48D5-973C-C8E2DFE51EB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E97E4326-442E-48D5-973C-C8E2DFE51EB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E97E4326-442E-48D5-973C-C8E2DFE51EB3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -200,5 +212,7 @@ Global
 		{DC9828D1-4747-41B0-B3CA-2B340C690F46} = {C94F7C55-8121-46CF-AA4C-591CD3FC38BB}
 		{25D6A058-643A-49B4-9EF1-35DC16168B5A} = {27D66FA5-7564-41D5-95C1-92DE510BB7FD}
 		{D2CAD34B-A6DB-4215-9AA4-A902EA0E58B1} = {27D66FA5-7564-41D5-95C1-92DE510BB7FD}
+		{C50F6500-A206-4A61-AD1A-7C9C8D99C548} = {27D66FA5-7564-41D5-95C1-92DE510BB7FD}
+		{E97E4326-442E-48D5-973C-C8E2DFE51EB3} = {27D66FA5-7564-41D5-95C1-92DE510BB7FD}
 	EndGlobalSection
 EndGlobal
