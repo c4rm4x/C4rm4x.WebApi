@@ -32,27 +32,19 @@ namespace C4rm4x.WebApi.Security
                 return ForbiddenResponse();
         }
 
-        private Task<HttpResponseMessage> Handle(
-            HttpRequestMessage request,
-            CancellationToken cancellationToken)
-        {
-            return base.SendAsync(request, cancellationToken)
-                .ContinueWith(t => OnActionExecuted(t.Result, request, cancellationToken));
-        }
-
         /// <summary>
-        /// Action to be executed once the inner handler has finished its work 
+        /// Handles a valid request
+        /// Default implementation sends an HTTP request to the inner handler
         /// </summary>
-        /// <param name="result">The HTTP response associated with the current HTTP request</param>
-        /// <param name="request">The current HTTP request</param>
-        /// <param name="cancellationToken">The cancellation token</param>
-        /// <returns>The response to return</returns>
-        protected virtual HttpResponseMessage OnActionExecuted(
-            HttpResponseMessage result,
+        /// <param name="request">The HTTP request message to send to the server</param>
+        /// <param name="cancellationToken">A cancellation token to cancel operation</param>
+        /// <returns>Returns a task to produce the HTTP response</returns>
+        /// <remarks>ALWAYS return base implementation to invoke inner handlers</remarks>
+        protected virtual Task<HttpResponseMessage> Handle(
             HttpRequestMessage request,
             CancellationToken cancellationToken)
         {
-            return result;
+            return base.SendAsync(request, cancellationToken);
         }
 
         private Task<HttpResponseMessage> ForbiddenResponse()
