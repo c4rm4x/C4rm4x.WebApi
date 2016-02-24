@@ -22,20 +22,20 @@ namespace C4rm4x.WebApi.Security.Cors
             () => new CorsEngine();
 
         /// <summary>
-        /// Gets the CORS policy to be applied
+        /// Gets the CORS options to be applied
         /// </summary>
-        public CorsPolicy Policy { get; private set; }
+        public CorsOptions Options { get; private set; }
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="policy">The CORS policy to be applied</param>
+        /// <param name="options">The CORS options to be applied</param>
         public CorsBasedSecurityMessageHandler(
-            CorsPolicy policy = null)
+            CorsOptions options = null)
         {
-            policy.NotNull(nameof(policy));
+            options.NotNull(nameof(options));
 
-            Policy = policy;
+            Options = options;
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace C4rm4x.WebApi.Security.Cors
                 return true;
 
             return _corsEngineFactory()
-                .EvaluateCorsPolicy(corsRequestContext, Policy);
+                .EvaluateCorsPolicy(corsRequestContext, Options);
         }
 
         private CorsRequestContext GetCorsRequestContext(
@@ -115,11 +115,7 @@ namespace C4rm4x.WebApi.Security.Cors
 
         private Task<HttpResponseMessage> HandleCorsPreflightRequest(
             CorsRequestContext corsRequestContext)
-        {
-            // Is it a prefligh request but it does not have Access-Control-Request-Headers? -> Bad request
-            if (corsRequestContext.AccessControlRequestMethod.IsNullOrEmpty())
-                return Task.FromResult(new HttpResponseMessage(HttpStatusCode.BadRequest));
-
+        {           
             var response = new HttpResponseMessage(HttpStatusCode.OK);
 
             WriteCorsHeaders(response, corsRequestContext);
@@ -132,7 +128,7 @@ namespace C4rm4x.WebApi.Security.Cors
             CorsRequestContext corsRequestContext)
         {
             var headers = _corsEngineFactory()
-                .GetCorsResponseHeaders(corsRequestContext, Policy);
+                .GetCorsResponseHeaders(corsRequestContext, Options);
 
             foreach (var header in headers)
                 response.Headers.Add(header.Key, header.Value);

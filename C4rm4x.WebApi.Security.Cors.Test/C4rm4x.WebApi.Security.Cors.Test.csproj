@@ -92,6 +92,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="CorsBasedSecurityMessageHandlerTest.SendAsync.cs" />
+    <Compile Include="CorsOptionsTest.GetCorsPolicy.cs" />
+    <Compile Include="CorsOptionsTest.Constructor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

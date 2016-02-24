@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\C4rm4x.WebApi.Security.Cors.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -75,9 +76,11 @@
   <ItemGroup>
     <Compile Include="CorsBasedSecurityMessageHandler.cs" />
     <Compile Include="Internal\CorsEngineExtensions.cs" />
+    <Compile Include="Internal\CorsOptionsExtensions.cs" />
     <Compile Include="Internal\CorsRequestContextExtensions.cs" />
     <Compile Include="Internal\HttpRequestHeadersExtensions.cs" />
     <Compile Include="MessageHandlerExtensions.cs" />
+    <Compile Include="Options\CorsOptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

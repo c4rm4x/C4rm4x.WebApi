@@ -17,7 +17,7 @@ namespace C4rm4x.WebApi.Security.Cors
             if (accessControlRequestHeaders.IsNullOrEmpty()) return;
 
             var allHeaders = accessControlRequestHeaders
-                .Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                .Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (var header in allHeaders)
                 context.AccessControlRequestHeaders.Add(header);

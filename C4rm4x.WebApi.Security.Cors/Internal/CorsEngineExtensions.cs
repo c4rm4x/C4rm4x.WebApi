@@ -13,9 +13,9 @@ namespace C4rm4x.WebApi.Security.Cors
         public static bool EvaluateCorsPolicy(
             this CorsEngine corsEngine,
             CorsRequestContext context,
-            CorsPolicy policy)
+            CorsOptions options)
         {
-            var result = corsEngine.EvaluatePolicy(context, policy);
+            var result = corsEngine.EvaluatePolicy(context, options.GetCorsPolicy());
 
             return result.IsNotNull() && result.IsValid;
         }
@@ -23,10 +23,10 @@ namespace C4rm4x.WebApi.Security.Cors
         public static IDictionary<string, string> GetCorsResponseHeaders(
             this CorsEngine corsEngine,
             CorsRequestContext context,
-            CorsPolicy policy)
+            CorsOptions options)
         {
             return corsEngine
-                .EvaluatePolicy(context, policy)
+                .EvaluatePolicy(context, options.GetCorsPolicy())
                 .ToResponseHeaders() ?? new Dictionary<string, string>();
         }
     }
