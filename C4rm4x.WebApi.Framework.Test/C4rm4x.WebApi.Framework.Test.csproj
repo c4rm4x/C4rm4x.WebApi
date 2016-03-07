@@ -83,6 +83,7 @@
     <Compile Include="Events\AbstractEventAggregatorTest.Enqueue.cs" />
     <Compile Include="Events\AbstractEventAggregatorTest.Publish.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequestHandling\AbstractApiControllerTest.Handle.cs" />
     <Compile Include="RequestHandling\HandlerShellTest.Process.cs" />
     <Compile Include="RequestHandling\HandlerTest.Handle.cs" />
     <Compile Include="RequestHandling\Results\BadRequestResultTest.ExecuteAsync.cs" />
