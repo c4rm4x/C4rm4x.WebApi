@@ -22,6 +22,8 @@ namespace C4rm4x.WebApi.Framework.RequestHandling
             IHandlerFactory handlerFactory)
         {
             handlerFactory.NotNull(nameof(handlerFactory));
+
+            _handlerFactory = handlerFactory;
         }
 
         /// <summary>
