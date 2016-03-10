@@ -5,9 +5,11 @@ using C4rm4x.WebApi.Framework.Log;
 using C4rm4x.WebApi.Framework.RequestHandling.Results;
 using C4rm4x.WebApi.Framework.Validation;
 using C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers.Contracts;
-using C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers.Services;
+using C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers.Internal;
+using C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers.Validators;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
 
 #endregion
@@ -15,13 +17,21 @@ using System.Web.Http;
 namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers
 {
     /// <summary>
-    /// Basic implementation of an ApiController responsible for checking the health of your system
+    /// Basic implementation of an ApiController responsible for checking 
+    /// the health of your system
     /// </summary>
     public class ServiceStatusController : ApiController
     {
         private readonly ILog _logger;
         private readonly IEnumerable<IServiceStatusRetriever> 
             _serviceStatusRetrievers;
+
+        private Func<IServiceStatusRequestHandler> _overallServiceStatusRequestHandlerFactory = 
+            () => OverallServiceStatusHandler.GetInstance();
+
+        private Func<IServiceStatusRequestHandler> _byComponentServiceStatusRequestHandlerFactory =
+            () => ByComponentsServiceStatusHandler.GetInstance();
+
 
         /// <summary>
         /// Constructor
@@ -49,12 +59,25 @@ namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers
         {
             try
             {
+                Validate(request);
+
                 return Handle(request);
             }
             catch (Exception e)
             {
                 return HandleException(e);
             }
+        }
+
+        private static void Validate(CheckHealthRequest request)
+        {
+            GetValidator()
+                .ThrowIf(request);
+        }
+
+        private static IValidator<CheckHealthRequest> GetValidator()
+        {
+            return new CheckHealthRequestValidator();
         }
 
         private IHttpActionResult Handle(CheckHealthRequest request)
@@ -65,14 +88,13 @@ namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers
 
         private IServiceStatusRequestHandler GetHandler(CheckHealthRequest request)
         {
-            // Fancy factory !! 
-            // The whole thing needs to be re-designed because it is a piece of sh*t !
-            if (request is CheckOverallHealthRequest)
-                return OverallServiceStatusHandler.GetInstance(_serviceStatusRetrievers);
-            else if (request is CheckComponentsHealthRequest)
-                return ByComponentsServiceStatusHandler.GetInstance(_serviceStatusRetrievers);
+            var handler = (request.Components.IsNullOrEmpty())
+                ? _overallServiceStatusRequestHandlerFactory()
+                : _byComponentServiceStatusRequestHandlerFactory();
 
-            throw new Exception("Request type not supported");
+            handler.SetServiceStatusRetrievers(_serviceStatusRetrievers.AsEnumerable());
+
+            return handler;
         }
 
         /// <summary>
@@ -104,6 +126,32 @@ namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers
         private new static IHttpActionResult InternalServerError(Exception exception)
         {
             return new InternalServerErrorResult<Exception>(exception);
+        }
+
+        /// <summary>
+        /// Sets the overall service status request handler factory
+        /// </summary>
+        /// <param name="handlerFactory">The factory</param>
+        /// <remarks>USE THIS ONLY FOR UNIT TESTING</remarks>
+        internal void SetOverallServiceStatusHandlerFactory(
+            Func<IServiceStatusRequestHandler> handlerFactory)
+        {
+            handlerFactory.NotNull(nameof(handlerFactory));
+
+            _overallServiceStatusRequestHandlerFactory = handlerFactory;
+        }
+
+        /// <summary>
+        /// Sets the by component service status request handler factory
+        /// </summary>
+        /// <param name="handlerFactory">The factory</param>
+        /// <remarks>USE THIS ONLY FOR UNIT TESTING</remarks>
+        internal void SetByComponentServiceStatusHandlerFactory(
+            Func<IServiceStatusRequestHandler> handlerFactory)
+        {
+            handlerFactory.NotNull(nameof(handlerFactory));
+
+            _byComponentServiceStatusRequestHandlerFactory = handlerFactory;
         }
     }
 }

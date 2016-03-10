@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\C4rm4x.WebApi.Monitoring.ServiceStatus.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -39,8 +40,8 @@
       <HintPath>..\packages\C4rm4x.WebApi.Framework.1.2.0.0\lib\net452\C4rm4x.WebApi.Framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="C4rm4x.WebApi.Validation, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\C4rm4x.WebApi.Validation.1.0.0.0\lib\net452\C4rm4x.WebApi.Validation.dll</HintPath>
+    <Reference Include="C4rm4x.WebApi.Validation, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\C4rm4x.WebApi.Validation.1.1.0.0\lib\net452\C4rm4x.WebApi.Validation.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -71,28 +72,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\Contracts\CheckComponentsHealthRequest.cs" />
+    <Compile Include="AbstractServiceStatusRetriever.cs" />
     <Compile Include="Controllers\Contracts\CheckHealthRequest.cs" />
     <Compile Include="Controllers\Contracts\CheckHealthResponse.cs" />
-    <Compile Include="Controllers\Contracts\CheckOverallHealthRequest.cs" />
     <Compile Include="Controllers\Contracts\Dtos\ComponentDto.cs" />
     <Compile Include="Controllers\Contracts\Dtos\ComponentStatusDto.cs" />
-    <Compile Include="Controllers\Services\RequestHandlers\AbstractServiceStatusHandler.cs" />
-    <Compile Include="Controllers\Services\RequestHandlers\ByComponentsServiceStatusHandler.cs" />
-    <Compile Include="Controllers\Services\RequestHandlers\ComponentHealthStatusExtensions.cs" />
-    <Compile Include="Controllers\Services\RequestHandlers\IServiceStatusRequestHandler.cs" />
-    <Compile Include="Controllers\Services\RequestHandlers\OverallServiceStatusHandler.cs" />
+    <Compile Include="Controllers\Internal\AbstractServiceStatusHandler.cs" />
+    <Compile Include="Controllers\Internal\ByComponentsServiceStatusHandler.cs" />
+    <Compile Include="Controllers\Internal\ComponentHealthStatusExtensions.cs" />
+    <Compile Include="Controllers\Internal\OverallServiceStatusHandler.cs" />
     <Compile Include="Controllers\Extensions\RoutingExtensions.cs" />
     <Compile Include="Controllers\ServiceStatusController.cs" />
-    <Compile Include="Controllers\Services\IServiceStatusRetriever.cs" />
-    <Compile Include="Controllers\Validators\CheckComponentsHealthRequestValidator.cs" />
-    <Compile Include="Controllers\Validators\CheckOverallHealthRequestValidator.cs" />
-    <Compile Include="Controllers\Validators\CollectionComponentDtoValidator.cs" />
+    <Compile Include="IServiceStatusRetriever.cs" />
+    <Compile Include="Controllers\Validators\CheckHealthRequestValidator.cs" />
+    <Compile Include="Controllers\Validators\ComponentDtoValidator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

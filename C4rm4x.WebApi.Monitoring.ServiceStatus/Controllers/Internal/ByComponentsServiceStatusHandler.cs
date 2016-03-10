@@ -1,42 +1,31 @@
 ﻿#region Using
 
 using C4rm4x.Tools.Utilities;
-using C4rm4x.WebApi.Framework.Validation;
 using C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers.Contracts;
 using C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers.Contracts.Dtos;
-using C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers.Validators;
 using System.Collections.Generic;
 using System.Linq;
 
 #endregion
 
-namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers.Services
+namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers.Internal
 {
     internal class ByComponentsServiceStatusHandler : 
         AbstractServiceStatusHandler
     {
-        private ByComponentsServiceStatusHandler(
-            IEnumerable<IServiceStatusRetriever> serviceStatusRetrievers)
-            : base(serviceStatusRetrievers)
+        private ByComponentsServiceStatusHandler()
+            : base()
         { }
 
-        public static IServiceStatusRequestHandler GetInstance(
-            IEnumerable<IServiceStatusRetriever> serviceStatusRetrievers)
+        public static IServiceStatusRequestHandler GetInstance()
         {
-            return new ByComponentsServiceStatusHandler(serviceStatusRetrievers);
-        }
-
-        protected override IValidator GetValidator()
-        {
-            return new CheckComponentsHealthRequestValidator();
+            return new ByComponentsServiceStatusHandler();
         }
 
         protected override IEnumerable<ComponentStatusDto> GetComponentStatuses(
             CheckHealthRequest request)
         {
-            var actualRequest = request as CheckComponentsHealthRequest;
-
-            foreach (var component in actualRequest.Components)
+            foreach (var component in request.Components)
                 yield return GetComponentStatus(component);
         }
 

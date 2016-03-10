@@ -1,4 +1,4 @@
-﻿namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers.Services
+﻿namespace C4rm4x.WebApi.Monitoring.ServiceStatus
 {
     /// <summary>
     /// Interface of a service status retriever responsible to check the health status 
@@ -19,7 +19,7 @@
         /// <summary>
         /// Is the component working as expected?
         /// </summary>
-        /// <returns></returns>
+        /// <returns>True when component is working as expected; false, otherwise</returns>
         bool IsComponentWorking();
     }
 }

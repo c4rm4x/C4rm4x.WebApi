@@ -5,7 +5,7 @@ using C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers.Contracts.Dtos;
 
 #endregion
 
-namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers.Services
+namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers.Internal
 {
     internal static class ComponentHealthStatusExtensions
     {
