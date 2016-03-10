@@ -26,14 +26,14 @@ namespace C4rm4x.WebApi.Validation.Test.Validators
         }
 
         protected abstract T CreateSubjectUnderTest();
-
-        #region Helper classes
-
-        class TestClass
-        {
-            public object TestProperty { get; set; }
-        }
-
-        #endregion
     }
+
+    #region Helper classes
+
+    public class TestClass
+    {
+        public object TestProperty { get; set; }
+    }
+
+    #endregion
 }

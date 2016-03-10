@@ -90,6 +90,7 @@
     <Compile Include="AbstractValidatorTest.Validate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validators\AbstractValidatorTest.cs" />
+    <Compile Include="Validators\CollectionValidatorTest.Validate.cs" />
     <Compile Include="Validators\EqualValidatorTest.Validate.cs" />
     <Compile Include="Validators\ExactLengthValidatorTest.Validate.cs" />
     <Compile Include="Validators\GreaterThanOrEqualValidatorTest.Validate.cs" />

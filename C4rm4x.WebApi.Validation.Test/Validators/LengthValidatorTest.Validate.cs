@@ -13,7 +13,7 @@ namespace C4rm4x.WebApi.Validation.Test.Validators
     public partial class LengthValidatorTest
     {
         [TestClass]
-        public class LengthValidatorVdalidateTest :
+        public class LengthValidatorValidateTest :
             AbstractValidatorTest<LengthValidator>
         {
             private const int MinimumLength = 5;
