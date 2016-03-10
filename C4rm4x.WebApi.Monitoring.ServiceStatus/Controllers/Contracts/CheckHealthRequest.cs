@@ -4,6 +4,7 @@ using C4rm4x.Tools.Utilities;
 using C4rm4x.WebApi.Framework;
 using C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers.Contracts.Dtos;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 
 #endregion
@@ -35,13 +36,13 @@ namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers.Contracts
         {
             components.NotNull(nameof(components));
 
-            Components = components;
+            Components = components.ToList();
         }
 
         /// <summary>
         /// Collection of components to check their health in your system (all when empty)
         /// </summary>
         [DataMember(IsRequired = true)]
-        public IEnumerable<ComponentDto> Components { get; set; }
+        public List<ComponentDto> Components { get; set; }
     }
 }
