@@ -6,6 +6,7 @@ using System;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Linq;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -42,6 +43,15 @@ namespace C4rm4x.WebApi.Persistance.EF
         public int Commit()
         {
             return _entities.SaveChanges();
+        }
+
+        /// <summary>
+        /// Saves all pending changes into persistance layer asynchronously
+        /// </summary>
+        /// <returns>Returns a task with the number of changes persisted</returns>
+        public Task<int> CommitAsync()
+        {
+            return _entities.SaveChangesAsync();
         }
 
         /// <summary>

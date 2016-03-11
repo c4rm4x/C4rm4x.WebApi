@@ -25,7 +25,7 @@ namespace C4rm4x.WebApi.Persistance.EF
         where C : DbContext
     {
         private readonly DbContext _entities;
-        private readonly DbSet<T> _set;
+        protected readonly DbSet<T> _set;
 
         /// <summary>
         /// Constructors
@@ -109,7 +109,7 @@ namespace C4rm4x.WebApi.Persistance.EF
         /// <summary>
         /// Retrieves all the entities of type T
         /// </summary>
-        /// <returns></returns>
+        /// <returns>All the entities of type T</returns>
         public List<T> GetAll()
         {
             return _set.ToList();
@@ -188,7 +188,7 @@ namespace C4rm4x.WebApi.Persistance.EF
                 ? "out"
                 : string.Empty;
         }
-    }
+    }    
 
     /// <summary>
     /// Base implementation of IRepository using EntityFramework where the Id is an int
@@ -206,5 +206,5 @@ namespace C4rm4x.WebApi.Persistance.EF
         public BaseRepository(C entities)
             : base(entities)
         { }
-    }
+    }    
 }
