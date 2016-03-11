@@ -23,15 +23,13 @@ namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers
     public class ServiceStatusController : ApiController
     {
         private readonly ILog _logger;
-        private readonly IEnumerable<IServiceStatusRetriever> 
-            _serviceStatusRetrievers;
+        private readonly IEnumerable<IServiceStatusRetriever> _serviceStatusRetrievers;
 
         private Func<IServiceStatusRequestHandler> _overallServiceStatusRequestHandlerFactory = 
             () => OverallServiceStatusHandler.GetInstance();
 
         private Func<IServiceStatusRequestHandler> _byComponentServiceStatusRequestHandlerFactory =
             () => ByComponentsServiceStatusHandler.GetInstance();
-
 
         /// <summary>
         /// Constructor
@@ -54,7 +52,6 @@ namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers
         /// </summary>
         /// <param name="request">The request</param>
         /// <returns>An instance of CheckHealthResponse with the health status of your system (or a collection of specific components within)</returns>
-        [HttpPost]
         public IHttpActionResult CheckHealth(CheckHealthRequest request)
         {
             try
