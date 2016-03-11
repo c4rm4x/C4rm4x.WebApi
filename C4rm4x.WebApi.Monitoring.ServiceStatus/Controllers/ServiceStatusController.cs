@@ -52,7 +52,8 @@ namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers
         /// </summary>
         /// <param name="request">The request</param>
         /// <returns>An instance of CheckHealthResponse with the health status of your system (or a collection of specific components within)</returns>
-        public IHttpActionResult CheckHealth(CheckHealthRequest request)
+        [HttpGet]
+        public IHttpActionResult CheckHealth([FromUri]CheckHealthRequest request)
         {
             try
             {
