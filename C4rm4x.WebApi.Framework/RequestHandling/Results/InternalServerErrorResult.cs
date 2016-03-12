@@ -68,9 +68,22 @@ namespace C4rm4x.WebApi.Framework.RequestHandling.Results
         /// <returns>Returns the HTTP code 500 including informaion about the error itself</returns>
         protected override HttpResponseMessage Execute()
         {
-            return HttpResponseMessageUtils.Create<HttpError>(
+            return HttpResponseMessageUtils.Create(
                 HttpStatusCode.InternalServerError,
-                new HttpError(Exception.Message));
+                GetErrorObject());         
+        }
+        
+        private static object GetErrorObject()
+        {
+            var apiException = Exception as ApiException;
+            
+            return (apiException.IsNotNull())
+                ? new 
+                {
+                    Code = apiException.Code,
+                    Description = Exception.Message,
+                }
+                : new HttpError(Exception.Message);                
         }
     }
 }
