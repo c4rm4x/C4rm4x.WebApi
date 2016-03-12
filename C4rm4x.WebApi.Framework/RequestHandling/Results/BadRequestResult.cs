@@ -46,9 +46,15 @@ namespace C4rm4x.WebApi.Framework.RequestHandling.Results
 
         private HttpResponseMessage Execute()
         {
-            return HttpResponseMessageUtils.Create<HttpError>(
+            return HttpResponseMessageUtils.Create(
                 HttpStatusCode.BadRequest,
-                new HttpError(Exception.Message));
+                Exception.ValidationErrors.Select(
+                    e => new 
+                    {
+                        PropertyName = e.PropertyName,
+                        ErrorDescription = e.ErrorDescription,
+                    }
+                ));
         }
     }
 }

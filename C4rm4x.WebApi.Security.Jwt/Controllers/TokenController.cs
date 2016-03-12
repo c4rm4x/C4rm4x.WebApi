@@ -73,7 +73,9 @@ namespace C4rm4x.WebApi.Security.Jwt.Controllers
         protected virtual void Validate(GenerateTokenRequest request)
         {
             if (request.UserIdentifier.IsNullOrEmpty())
-                throw new ValidationException("UserIdentifier: Cannot be null or empty");
+                throw new ValidationException(
+                    new ValidationError(
+                        "UserIdentifier", request.UserIdentifier, "Cannot be null or empty"));
         }
 
         private GenerateTokenResponse RetrieveToken(GenerateTokenRequest request)
