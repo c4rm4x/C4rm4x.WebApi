@@ -67,7 +67,8 @@ namespace C4rm4x.WebApi.Validation
             var validationErrors = Validate(objectToValidate);
 
             if (validationErrors.Any())
-                throw new ValidationException(validationErrors);
+                throw new ValidationException(
+                    BuildValidationExceptionMessage(validationErrors));
         }
 
         /// <summary>
@@ -83,7 +84,14 @@ namespace C4rm4x.WebApi.Validation
             var validationErrors = Validate(objectToValidate, ruleSetName);
 
             if (validationErrors.Any())
-                throw new ValidationException(validationErrors);
+                throw new ValidationException(
+                    BuildValidationExceptionMessage(validationErrors));
+        }
+
+        private static string BuildValidationExceptionMessage(List<ValidationError> validationErrors)
+        {
+            return string.Join(",", validationErrors.Select(v =>
+                string.Format("{0}: {1}", v.PropertyName, v.ErrorDescription)));
         }
 
         /// <summary>
@@ -91,13 +99,13 @@ namespace C4rm4x.WebApi.Validation
         /// </summary>
         /// <param name="objectToValidate">Object to validate</param>
         /// <returns>List with all validation error. Empty list if no validation error is found</returns>
-        /// <exception cref="ArgumentException">If validator cannot validate an instance of given type</exception>
+        /// <exception cref="ValidationException">If validator cannot validate an instance of given type</exception>
         public List<ValidationError> Validate(object objectToValidate)
         {
             objectToValidate.NotNull(nameof(objectToValidate));
 
             if (!this.CanBeValidated(objectToValidate))
-                throw new ArgumentException(
+                throw new ValidationException(
                     string.Format("And object of type {0} cannot be validated against this validator {1}",
                     objectToValidate.GetType().FullName, this.GetType().FullName));
 
@@ -110,7 +118,7 @@ namespace C4rm4x.WebApi.Validation
         /// <param name="objectToValidate">Object to validate</param>
         /// <param name="ruleSetName">The name of the ruleset</param>
         /// <returns>List with all validation error. Empty list if no validation error is found</returns>
-        /// <exception cref="ArgumentException">If validator cannot validate an instance of given type</exception>
+        /// <exception cref="ValidationException">If validator cannot validate an instance of given type</exception>
         public List<ValidationError> Validate(
             object objectToValidate,
             string ruleSetName)
@@ -119,7 +127,7 @@ namespace C4rm4x.WebApi.Validation
             ruleSetName.NotNullOrEmpty(nameof(ruleSetName));
 
             if (!this.CanBeValidated(objectToValidate))
-                throw new ArgumentException(
+                throw new ValidationException(
                     string.Format("And object of type {0} cannot be validated against this validator {1}",
                     objectToValidate.GetType().FullName, this.GetType().FullName));
 
@@ -131,13 +139,13 @@ namespace C4rm4x.WebApi.Validation
         /// </summary>
         /// <param name="objectToValidate">Object to validate</param>
         /// <exception cref="ValidationException">If validation fails</exception>
-        /// <exception cref="ArgumentException">If validator cannot validate an instance of given type</exception>
+        /// <exception cref="ValidationException">If validator cannot validate an instance of given type</exception>
         public void ThrowIf(object objectToValidate)
         {
             objectToValidate.NotNull(nameof(objectToValidate));
 
             if (!this.CanBeValidated(objectToValidate))
-                throw new ArgumentException(
+                throw new ValidationException(
                     string.Format("And object of type {0} cannot be validated against this validator {1}",
                     objectToValidate.GetType().FullName, this.GetType().FullName));
 
@@ -150,14 +158,14 @@ namespace C4rm4x.WebApi.Validation
         /// <param name="objectToValidate">Object to validate</param>
         /// <param name="ruleSetName">The name of the ruleset</param>
         /// <exception cref="ValidationException">If validation fails</exception>
-        /// <exception cref="ArgumentException">If validator cannot validate an instance of given type</exception>
+        /// <exception cref="ValidationException">If validator cannot validate an instance of given type</exception>
         public void ThrowIf(object objectToValidate, string ruleSetName)
         {
             objectToValidate.NotNull(nameof(objectToValidate));
             ruleSetName.NotNullOrEmpty(nameof(ruleSetName));
 
             if (!this.CanBeValidated(objectToValidate))
-                throw new ArgumentException(
+                throw new ValidationException(
                     string.Format("And object of type {0} cannot be validated against this validator {1}",
                     objectToValidate.GetType().FullName, this.GetType().FullName));
 
