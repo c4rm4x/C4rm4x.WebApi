@@ -20,8 +20,6 @@ namespace C4rm4x.WebApi.Framework.Test.RequestHandling.Results
         [TestClass]
         public class BadRequestResultExecuteAsyncTest
         {
-            private const string ErrorMessage = "errorMessage";
-
             [TestMethod, UnitTest]
             public void ExecuteAsync_Returns_BadRequest_Response()
             {
@@ -39,24 +37,43 @@ namespace C4rm4x.WebApi.Framework.Test.RequestHandling.Results
             }
 
             [TestMethod, UnitTest]
-            public void ExecuteAsync_Returns_Content_As_HttpError()
+            public void ExecuteAsync_Returns_Content_As_IEnumerable()
             {
                 Assert.IsInstanceOfType(
                     ExecuteAsync().Result.Content,
-                    typeof(ObjectContent<HttpError>));
+                    typeof(ObjectContent<IEnumerable>));
+            }
+            
+            [TestMethod, UnitTest]
+            public void ExecuteAsync_Maps_Each_ValidationErrors_With_Its_Equivalent_In_Content()
+            {
+                var PropertyName = ObjectMother.Create(10);
+                var ErrorDescription = ObjectMother.Create(20);
+                
+                var content = ExecuteAsync(
+                    new ValidationError(
+                        PropertyName, ObjectMother.Create(10), ErrorDescription)).Result.Content;
+                                        
+                var errors = (content as ObjectContent).Value as IEnumerable;
+                Assert.IsTrue(errors.Any());
+                
+                dynamic error = errors.FirstOrDefault();
+                Assert.IsNotNull(error);         
+                Assert.AreEqual(PropertyName, error.PropertyName);
+                Assert.AreEqual(ErrorDescription, error.ErrorDescription);                                                               
             }
 
             private static BadRequestResult CreateSubjectUnderTest(
-                string errorMessage = ErrorMessage)
+                params ValidationError[] validationErrors)
             {
                 return new BadRequestResult(
-                    new ValidationException(errorMessage));
+                    new ValidationException(validationErrors));
             }
 
             private static Task<HttpResponseMessage> ExecuteAsync(
-                string errorMessage = ErrorMessage)
+                params ValidationError[] validationErrors)
             {
-                return CreateSubjectUnderTest(errorMessage)
+                return CreateSubjectUnderTest(validationErrors)
                     .ExecuteAsync(It.IsAny<CancellationToken>());
             }
         }

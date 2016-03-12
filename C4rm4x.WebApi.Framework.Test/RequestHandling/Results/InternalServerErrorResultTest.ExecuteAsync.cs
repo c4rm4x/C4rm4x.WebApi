@@ -20,6 +20,19 @@ namespace C4rm4x.WebApi.Framework.Test.RequestHandling.Results
         [TestClass]
         public class InternalServerErrorResultExecuteAsyncTest
         {
+            private const string TestApiCode = "Code";
+            
+            #region Helper classes
+            
+            private class TestApiException : ApiException
+            {
+                public TestApiException(string message)
+                    : base(TestApiCode, message)
+                {}
+            }
+            
+            #endregion
+            
             [TestMethod, UnitTest]
             public void ExecuteAsync_Returns_InternalServerError_Response()
             {
@@ -37,11 +50,24 @@ namespace C4rm4x.WebApi.Framework.Test.RequestHandling.Results
             }
 
             [TestMethod, UnitTest]
-            public void ExecuteAsync_Returns_Content_As_HttpError()
+            public void ExecuteAsync_Returns_Content_As_HttpError_When_Exception_Does_Not_Inherit_From_ApiException()
             {
                 Assert.IsInstanceOfType(
                     ExecuteAsync<Exception>().Result.Content,
                     typeof(ObjectContent<HttpError>));
+            }
+            
+            [TestMethod, UnitTest]
+            public void ExecuteAsync_Returns_Content_As_Anonymous_Object_With_Code_And_Description_When_Exception_Inherits_From_ApiException()
+            {
+                var Message = ObjectMother.Create(100);
+                
+                var content = ExecuteAsync<TestApiException>(Message).Result.Content;
+                
+                dynamic error = (content as ObjectContent).Value;
+                Assert.IsNotNull(error);
+                Assert.AreEqual(TestApiCode, error.Code);
+                Assert.AreEqual(Message, error.Message);
             }
 
             private static InternalServerErrorResult CreateSubjectUnderTest<TException>(
