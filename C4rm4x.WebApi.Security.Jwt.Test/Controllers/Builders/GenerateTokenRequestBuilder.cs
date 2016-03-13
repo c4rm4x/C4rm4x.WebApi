@@ -10,6 +10,11 @@ namespace C4rm4x.WebApi.Security.Jwt.Test.Controllers
     internal class GenerateTokenRequestBuilder : 
         AbstractBuilder<GenerateTokenRequest>
     {
+        public GenerateTokenRequestBuilder WithoutUserIdentifier()
+        {
+            return WithUserIdentifier(null);            
+        }
+        
         public GenerateTokenRequestBuilder WithUserIdentifier(string userIdentifier)
         {
             _entity.UserIdentifier = userIdentifier;

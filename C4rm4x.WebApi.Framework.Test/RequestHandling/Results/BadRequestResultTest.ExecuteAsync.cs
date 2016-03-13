@@ -2,14 +2,17 @@
 
 using C4rm4x.Tools.TestUtilities;
 using C4rm4x.WebApi.Framework.RequestHandling.Results;
+using C4rm4x.WebApi.Framework.Test.Builders;
 using C4rm4x.WebApi.Framework.Validation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web.Http;
 
 #endregion
 
@@ -20,8 +23,6 @@ namespace C4rm4x.WebApi.Framework.Test.RequestHandling.Results
         [TestClass]
         public class BadRequestResultExecuteAsyncTest
         {
-            private const string ErrorMessage = "errorMessage";
-
             [TestMethod, UnitTest]
             public void ExecuteAsync_Returns_BadRequest_Response()
             {
@@ -39,25 +40,56 @@ namespace C4rm4x.WebApi.Framework.Test.RequestHandling.Results
             }
 
             [TestMethod, UnitTest]
-            public void ExecuteAsync_Returns_Content_As_HttpError()
+            public void ExecuteAsync_Returns_Content_As_BadRequest()
             {
                 Assert.IsInstanceOfType(
                     ExecuteAsync().Result.Content,
-                    typeof(ObjectContent<HttpError>));
+                    typeof(ObjectContent<BadRequest>));
+            }
+            
+            [TestMethod, UnitTest]
+            public void ExecuteAsync_Maps_Each_ValidationErrors_With_Its_Equivalent_SerializableValidationError_WIthin_Content()
+            {
+                var validationErrors = GetValidationErrors().ToArray();
+
+                var content = ExecuteAsync(validationErrors).Result.Content;
+                var objectContent = content as ObjectContent<BadRequest>;
+                var badRequest = objectContent.Value as BadRequest;
+
+                Assert.IsTrue(badRequest.ValidationErrors.Any());
+                Assert.AreEqual(validationErrors.Count(), badRequest.ValidationErrors.Count());
+
+                foreach (var validationError in validationErrors)
+                    Assert.IsNotNull(badRequest.ValidationErrors.FirstOrDefault(v =>
+                        v.PropertyName == validationError.PropertyName &&
+                        v.ErrorDescription == validationError.ErrorDescription));                                                                             
             }
 
             private static BadRequestResult CreateSubjectUnderTest(
-                string errorMessage = ErrorMessage)
+                params ValidationError[] validationErrors)
             {
                 return new BadRequestResult(
-                    new ValidationException(errorMessage));
+                    new ValidationException(validationErrors));
             }
 
             private static Task<HttpResponseMessage> ExecuteAsync(
-                string errorMessage = ErrorMessage)
+                params ValidationError[] validationErrors)
             {
-                return CreateSubjectUnderTest(errorMessage)
+                return CreateSubjectUnderTest(validationErrors)
                     .ExecuteAsync(It.IsAny<CancellationToken>());
+            }
+
+            private static IEnumerable<ValidationError> GetValidationErrors()
+            {
+                var numberOfValidationErrors = GetRand(10);
+
+                for (var i = 0; i < numberOfValidationErrors; i++)
+                    yield return new ValidationErrorBuilder().Build();
+            }
+
+            private static int GetRand(int max)
+            {
+                return new Random().Next(1, max);
             }
         }
     }

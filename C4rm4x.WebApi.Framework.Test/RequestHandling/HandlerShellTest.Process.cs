@@ -4,10 +4,13 @@ using C4rm4x.Tools.TestUtilities;
 using C4rm4x.WebApi.Framework.ExceptionShielding;
 using C4rm4x.WebApi.Framework.RequestHandling;
 using C4rm4x.WebApi.Framework.Runtime;
+using C4rm4x.WebApi.Framework.Test.Builders;
 using C4rm4x.WebApi.Framework.Validation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Web.Http;
@@ -23,7 +26,6 @@ namespace C4rm4x.WebApi.Framework.Test.RequestHandling
             AutoMockFixture<HandlerShell>
         {
             private const string GenericErrorMessage = "Error";
-            private const string ValidationErrorMessage = "Validation Error";
             private const string PolicyName = "default";
 
             #region Helper classes
@@ -86,7 +88,7 @@ namespace C4rm4x.WebApi.Framework.Test.RequestHandling
             {
                 var result = _sut.Process<TestRequest, TestResponse>(new TestRequest(), request =>
                 {
-                    throw new ValidationException(ValidationErrorMessage);
+                    throw new ValidationException(GetValidationErrors());
                 });
 
                 Assert.AreEqual(HttpStatusCode.BadRequest, GetStatusCode(result));
@@ -123,7 +125,7 @@ namespace C4rm4x.WebApi.Framework.Test.RequestHandling
                 Verify<IExecutionContextInitialiser>(e => e.PerRequest(request), Times.Once());
             }
 
-            private HttpStatusCode GetStatusCode(IHttpActionResult actionResult)
+            private static HttpStatusCode GetStatusCode(IHttpActionResult actionResult)
             {
                 return actionResult
                     .ExecuteAsync(It.IsAny<CancellationToken>())
@@ -131,9 +133,22 @@ namespace C4rm4x.WebApi.Framework.Test.RequestHandling
                     .StatusCode;
             }
 
-            private TestResponse Process(TestRequest request)
+            private static TestResponse Process(TestRequest request)
             {
                 return new TestResponse(ObjectMother.Create<string>());
+            }
+
+            private static IEnumerable<ValidationError> GetValidationErrors()
+            {
+                var numberOfValidationErrors = GetRand(10);
+
+                for (var i = 0; i < numberOfValidationErrors; i++)
+                    yield return new ValidationErrorBuilder().Build();
+            }
+
+            private static int GetRand(int max)
+            {
+                return new Random().Next(1, max);
             }
         }
     }

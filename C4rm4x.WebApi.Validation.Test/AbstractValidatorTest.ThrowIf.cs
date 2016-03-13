@@ -28,8 +28,8 @@ namespace C4rm4x.WebApi.Validation.Test
             }
 
             [TestMethod, UnitTest]
-            [ExpectedException(typeof(ValidationException))]
-            public void ThrowIf_Throws_ValidationException_When_Object_Is_Not_An_Instance_Of_TestClass_And_RuleSet_Is_Not_Specified()
+            [ExpectedException(typeof(ArgumentException))]
+            public void ThrowIf_Throws_ArgumentException_When_Object_Is_Not_An_Instance_Of_TestClass_And_RuleSet_Is_Not_Specified()
             {
                 ThrowIf(new Object());
             }
@@ -48,8 +48,8 @@ namespace C4rm4x.WebApi.Validation.Test
             }
 
             [TestMethod, UnitTest]
-            [ExpectedException(typeof(ValidationException))]
-            public void ThrowIf_Throws_ValidationException_When_Object_Is_Not_An_Instance_Of_TestClass_And_RuleSet_Is_Rule()
+            [ExpectedException(typeof(ArgumentException))]
+            public void ThrowIf_Throws_ArgumentException_When_Object_Is_Not_An_Instance_Of_TestClass_And_RuleSet_Is_Rule()
             {
                 ThrowIf(new Object(), "Rule");
             }

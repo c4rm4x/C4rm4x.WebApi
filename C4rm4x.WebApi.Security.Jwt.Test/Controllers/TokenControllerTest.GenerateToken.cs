@@ -39,7 +39,7 @@ namespace C4rm4x.WebApi.Security.Jwt.Test.Controllers
             {
                 Assert.AreEqual(
                     HttpStatusCode.BadRequest,
-                    GenerateToken(new GenerateTokenRequestBuilder().WithUserIdentifier(null).Build())
+                    GenerateToken(new GenerateTokenRequestBuilder().WithoutUserIdentifier().Build())
                         .Result.StatusCode);
             }
 
