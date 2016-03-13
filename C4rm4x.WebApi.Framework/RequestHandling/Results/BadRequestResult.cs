@@ -2,8 +2,11 @@
 
 using C4rm4x.Tools.Utilities;
 using C4rm4x.WebApi.Framework.Validation;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -48,13 +51,59 @@ namespace C4rm4x.WebApi.Framework.RequestHandling.Results
         {
             return HttpResponseMessageUtils.Create(
                 HttpStatusCode.BadRequest,
-                Exception.ValidationErrors.Select(
-                    e => new 
-                    {
-                        PropertyName = e.PropertyName,
-                        ErrorDescription = e.ErrorDescription,
-                    }
-                ));
+                GetBadRequest());
+        }
+
+        private BadRequest GetBadRequest()
+        {
+            return new BadRequest(
+                Exception.ValidationErrors
+                    .Select(e => new SerializableValidationError(
+                        e.PropertyName, e.ErrorDescription)));
+        }
+    }
+
+    [DataContract]
+    internal class BadRequest
+    {
+        [DataMember(IsRequired = true)]
+        public IEnumerable<SerializableValidationError> ValidationErrors { get; set; }
+
+        public BadRequest()
+            : this(new SerializableValidationError[] { })
+        {
+        }
+
+        public BadRequest(IEnumerable<SerializableValidationError> validationErrors)
+        {
+            validationErrors.NotNull(nameof(validationErrors));
+
+            ValidationErrors = validationErrors;
+        }
+    }
+
+    [DataContract]
+    internal class SerializableValidationError
+    {
+        [DataMember(IsRequired = true)]
+        public string PropertyName { get; set; }
+
+        [DataMember(IsRequired = true)]
+        public string ErrorDescription { get; set; }
+
+        public SerializableValidationError()
+        {
+        }
+
+        public SerializableValidationError(
+            string propertyName,
+            string errorDescription)
+        {
+            propertyName.NotNullOrEmpty(nameof(propertyName));
+            errorDescription.NotNullOrEmpty(nameof(errorDescription));
+
+            PropertyName = propertyName;
+            ErrorDescription = errorDescription;
         }
     }
 }

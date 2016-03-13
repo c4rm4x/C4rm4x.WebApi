@@ -4,6 +4,7 @@ using C4rm4x.Tools.Utilities;
 using System;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -34,7 +35,8 @@ namespace C4rm4x.WebApi.Framework.RequestHandling.Results
         /// <returns>Returns the HTTP code 500</returns>
         protected virtual HttpResponseMessage Execute()
         {
-            return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+            return new HttpResponseMessage(
+                HttpStatusCode.InternalServerError);
         }
     }
 
@@ -70,20 +72,43 @@ namespace C4rm4x.WebApi.Framework.RequestHandling.Results
         {
             return HttpResponseMessageUtils.Create(
                 HttpStatusCode.InternalServerError,
-                GetErrorObject());
+                GetInternalServerError());
         }
         
-        private static object GetErrorObject()
+        private InternalServerError GetInternalServerError()
         {
+            const string UnknonwErrorCode = "UNKNOWN";
+
             var exceptionAsApiException = Exception as ApiException;
             
             return (exceptionAsApiException.IsNotNull())
-                ? new 
-                {
-                    Code = exceptionAsApiException.Code,
-                    Message = Exception.Message,
-                }
-                : new HttpError(Exception.Message);
+                ? new InternalServerError(exceptionAsApiException.Code, Exception.Message)
+                : new InternalServerError(UnknonwErrorCode, Exception.Message);
+        }
+    }
+
+    [DataContract]
+    internal class InternalServerError
+    {
+        [DataMember(IsRequired = true)]
+        public string Code { get; set; }
+
+        [DataMember(IsRequired = true)]
+        public string Description { get; set; }
+
+        public InternalServerError()
+        {
+        }
+
+        public InternalServerError(
+            string code,
+            string description)
+        {
+            code.NotNullOrEmpty(nameof(code));
+            description.NotNullOrEmpty(nameof(description));
+
+            Code = code;
+            Description = description;
         }
     }
 }

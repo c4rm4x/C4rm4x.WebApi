@@ -1,6 +1,8 @@
 ﻿#region Using
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 #endregion
 
@@ -12,8 +14,19 @@ namespace C4rm4x.WebApi.Framework.Validation
     public class ValidationException : ApiException
     {
         private new const string Code = "SYS_001";
-        
+
+        /// <summary>
+        /// Gets the collection of all validation errors
+        /// </summary>
         public IEnumerable<ValidationError> ValidationErrors { get; private set; }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="validationError">A validation error</param>
+        public ValidationException(ValidationError validationError)
+            : this(new[] { validationError })
+        { }
 
         /// <summary>
         /// Constructor
@@ -29,13 +42,13 @@ namespace C4rm4x.WebApi.Framework.Validation
         /// <param name="validationErrors">The collection of all validation errors</param>
         /// <param name="innerException">Inner exception</param>
         public ValidationException(
-            IEnumerable<ValidationError> validationErrors, 
+            IEnumerable<ValidationError> validationErrors,
             Exception innerException)
             : base(Code, GetMessage(validationErrors), innerException)
-        { 
+        {
             ValidationErrors = validationErrors;
         }
-        
+
         private static string GetMessage(
             IEnumerable<ValidationError> validationErrors)
         {

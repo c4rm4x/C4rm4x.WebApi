@@ -2,14 +2,17 @@
 
 using C4rm4x.Tools.TestUtilities;
 using C4rm4x.WebApi.Framework.RequestHandling.Results;
+using C4rm4x.WebApi.Framework.Test.Builders;
 using C4rm4x.WebApi.Framework.Validation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web.Http;
 
 #endregion
 
@@ -37,30 +40,29 @@ namespace C4rm4x.WebApi.Framework.Test.RequestHandling.Results
             }
 
             [TestMethod, UnitTest]
-            public void ExecuteAsync_Returns_Content_As_IEnumerable()
+            public void ExecuteAsync_Returns_Content_As_BadRequest()
             {
                 Assert.IsInstanceOfType(
                     ExecuteAsync().Result.Content,
-                    typeof(ObjectContent<IEnumerable>));
+                    typeof(ObjectContent<BadRequest>));
             }
             
             [TestMethod, UnitTest]
-            public void ExecuteAsync_Maps_Each_ValidationErrors_With_Its_Equivalent_In_Content()
+            public void ExecuteAsync_Maps_Each_ValidationErrors_With_Its_Equivalent_SerializableValidationError_WIthin_Content()
             {
-                var PropertyName = ObjectMother.Create(10);
-                var ErrorDescription = ObjectMother.Create(20);
-                
-                var content = ExecuteAsync(
-                    new ValidationError(
-                        PropertyName, ObjectMother.Create(10), ErrorDescription)).Result.Content;
-                                        
-                var errors = (content as ObjectContent).Value as IEnumerable;
-                Assert.IsTrue(errors.Any());
-                
-                dynamic error = errors.FirstOrDefault();
-                Assert.IsNotNull(error);         
-                Assert.AreEqual(PropertyName, error.PropertyName);
-                Assert.AreEqual(ErrorDescription, error.ErrorDescription);                                                               
+                var validationErrors = GetValidationErrors().ToArray();
+
+                var content = ExecuteAsync(validationErrors).Result.Content;
+                var objectContent = content as ObjectContent<BadRequest>;
+                var badRequest = objectContent.Value as BadRequest;
+
+                Assert.IsTrue(badRequest.ValidationErrors.Any());
+                Assert.AreEqual(validationErrors.Count(), badRequest.ValidationErrors.Count());
+
+                foreach (var validationError in validationErrors)
+                    Assert.IsNotNull(badRequest.ValidationErrors.FirstOrDefault(v =>
+                        v.PropertyName == validationError.PropertyName &&
+                        v.ErrorDescription == validationError.ErrorDescription));                                                                             
             }
 
             private static BadRequestResult CreateSubjectUnderTest(
@@ -75,6 +77,19 @@ namespace C4rm4x.WebApi.Framework.Test.RequestHandling.Results
             {
                 return CreateSubjectUnderTest(validationErrors)
                     .ExecuteAsync(It.IsAny<CancellationToken>());
+            }
+
+            private static IEnumerable<ValidationError> GetValidationErrors()
+            {
+                var numberOfValidationErrors = GetRand(10);
+
+                for (var i = 0; i < numberOfValidationErrors; i++)
+                    yield return new ValidationErrorBuilder().Build();
+            }
+
+            private static int GetRand(int max)
+            {
+                return new Random().Next(1, max);
             }
         }
     }
