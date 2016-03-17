@@ -14,7 +14,7 @@ namespace C4rm4x.WebApi.Cache.HttpRuntime.Test
         [TestClass]
         public class CacheStoreTest : CacheTestFixture
         {
-            [TestMethod, UnitTest]
+            [TestMethod, IntegrationTest]
             public void Store_Caches_An_Entry_With_Specified_Key()
             {
                 var Key = ObjectMother.Create<string>();

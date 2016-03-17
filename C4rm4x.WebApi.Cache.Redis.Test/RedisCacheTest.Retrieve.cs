@@ -1,0 +1,79 @@
+﻿#region Using
+
+using C4rm4x.Tools.TestUtilities;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
+using System;
+
+#endregion
+
+namespace C4rm4x.WebApi.Cache.Redis.Test
+{
+    public partial class RedisCacheTest
+    {
+        [TestClass]
+        public class RedisCacheRetrieveTest : RedisCacheTestFixture
+        {
+            [TestMethod, IntegrationTest]
+            public void Retrieve_Returns_Null_When_No_Entry_Exists_With_Specified_Key()
+            {
+                Assert.IsNull(_sut.Retrieve(ObjectMother.Create<string>()));
+            }
+
+            [TestMethod, IntegrationTest]
+            public void Retrieve_Returns_Value_When_Entry_Exists_With_Specified_Key()
+            {
+                var Key = ObjectMother.Create<string>();
+                var Value = ObjectMother.Create<string>();
+
+                AddEntry(Key, Value);
+
+                var result = _sut.Retrieve(Key);
+
+                Assert.IsNotNull(result);
+                Assert.AreEqual(Value, result);
+            }
+
+            [TestMethod, IntegrationTest]
+            [ExpectedException(typeof(InvalidCastException))]
+            public void Retrieve_Throws_InvalidCastException_When_Value_Of_Entry_With_Specified_Key_Is_Not_Of_Specified_Type()
+            {
+                var Key = ObjectMother.Create<string>();
+                var Value = ObjectMother.Create<string>();
+
+                AddEntry(Key, Value);
+
+                _sut.Retrieve<int>(Key);
+            }
+
+            [TestMethod, IntegrationTest]
+            public void Retrieve_Returns_Value_As_Specified_Type_When_Entry_With_Specified_Key_Exists_And_Value_Is_Of_Specified_Type()
+            {
+                var Key = ObjectMother.Create<string>();
+                var Value = ObjectMother.Create<TestClass>();
+
+                AddEntry(Key, Value);
+
+                var result = _sut.Retrieve<TestClass>(Key);
+
+                Assert.IsNotNull(result);
+                Assert.AreEqual(Value, result);
+            }
+
+            private static void AddEntry(
+                string key,
+                string value)
+            {
+                Cache.StringSet(key, value);
+            }
+
+            private static void AddEntry<TValue>(
+                string key,
+                TValue value)
+                where TValue : class
+            {
+                Cache.StringSet(key, JsonConvert.SerializeObject(value));
+            }
+        }
+    }
+}
