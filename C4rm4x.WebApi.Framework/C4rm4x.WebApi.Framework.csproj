@@ -80,6 +80,7 @@
     <Compile Include="ExceptionShielding\ExceptionPolicy.cs" />
     <Compile Include="ExceptionShielding\IExceptionManager.cs" />
     <Compile Include="Exceptions\ApiException.cs" />
+    <Compile Include="Exceptions\BusinessRuleException.cs" />
     <Compile Include="Log\ILog.cs" />
     <Compile Include="Messaging\IMessageQueueHandler.cs" />
     <Compile Include="Messaging\IMessageTransactionFactory.cs" />
