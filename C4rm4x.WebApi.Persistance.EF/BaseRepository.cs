@@ -25,7 +25,7 @@ namespace C4rm4x.WebApi.Persistance.EF
         where C : DbContext
     {
         private readonly DbContext _entities;
-        protected readonly DbSet<T> _set;
+        private readonly DbSet<T> _set;
 
         /// <summary>
         /// Constructors

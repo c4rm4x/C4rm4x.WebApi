@@ -11,8 +11,8 @@ namespace C4rm4x.WebApi.Persistance.EF.Test.Infrastructure
 {
     [TestClass]
     public abstract class BasePersistanceFixture<T>
-            : IntegrationFixture<T>
-            where T : class
+        : IntegrationFixture<T>
+        where T : class
     {
         [TestInitialize]
         public override void Setup()
