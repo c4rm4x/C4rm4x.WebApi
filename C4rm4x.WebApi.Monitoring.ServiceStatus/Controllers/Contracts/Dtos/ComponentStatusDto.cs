@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 
 #endregion
 
-namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers.Contracts.Dtos
+namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers
 {
     /// <summary>
     /// Component with its health status

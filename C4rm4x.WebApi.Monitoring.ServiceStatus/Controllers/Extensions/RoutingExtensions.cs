@@ -4,7 +4,7 @@ using System.Web.Http;
 
 #endregion
 
-namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers.Extensions
+namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers
 {
     /// <summary>
     /// Routing extensions

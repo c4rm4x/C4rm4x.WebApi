@@ -3,10 +3,6 @@
 using C4rm4x.Tools.TestUtilities;
 using C4rm4x.WebApi.Framework.RequestHandling.Results;
 using C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers;
-using C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers.Contracts;
-using C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers.Contracts.Dtos;
-using C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers.Internal;
-using C4rm4x.WebApi.Monitoring.ServiceStatus.Test.Controllers.Builders;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;

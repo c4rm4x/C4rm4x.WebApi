@@ -1,14 +1,13 @@
 ﻿#region Using
 
 using C4rm4x.Tools.TestUtilities;
-using C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers.Contracts.Dtos;
-using C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers.Internal;
+using C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
 #endregion
 
-namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Test.Controllers.Internal
+namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Test.Controllers
 {
     public partial class ComponentHealthStatusExtensionsTest
     {

@@ -1,9 +1,7 @@
 ﻿#region Using
 
 using C4rm4x.Tools.TestUtilities;
-using C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers.Contracts;
-using C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers.Contracts.Dtos;
-using C4rm4x.WebApi.Monitoring.ServiceStatus.Test.Controllers.Builders;
+using C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -11,7 +9,7 @@ using System.Linq;
 
 #endregion
 
-namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Test.Controllers.Contracts
+namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Test.Controllers
 {
     public partial class CheckHealthResponseTest
     {

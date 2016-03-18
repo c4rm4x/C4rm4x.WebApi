@@ -1,14 +1,13 @@
 ﻿#region Using
 
 using C4rm4x.Tools.TestUtilities;
-using C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers.Validators;
-using C4rm4x.WebApi.Monitoring.ServiceStatus.Test.Controllers.Builders;
+using C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 
 #endregion
 
-namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Test.Controllers.Validators
+namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Test.Controllers
 {
     public partial class ComponentDtoValidatorTest
     {

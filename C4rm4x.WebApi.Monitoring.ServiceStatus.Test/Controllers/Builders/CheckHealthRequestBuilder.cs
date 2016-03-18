@@ -1,14 +1,13 @@
 ﻿#region Using
 
 using C4rm4x.Tools.TestUtilities.Builders;
-using C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers.Contracts;
-using C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers.Contracts.Dtos;
+using C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers;
 using System.Collections.Generic;
 using System.Linq;
 
 #endregion
 
-namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Test.Controllers.Builders
+namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Test.Controllers
 {
     public class CheckHealthRequestBuilder :
         AbstractBuilder<CheckHealthRequest>

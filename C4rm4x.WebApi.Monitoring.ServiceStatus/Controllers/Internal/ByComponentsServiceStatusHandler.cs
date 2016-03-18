@@ -1,14 +1,12 @@
 ﻿#region Using
 
 using C4rm4x.Tools.Utilities;
-using C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers.Contracts;
-using C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers.Contracts.Dtos;
 using System.Collections.Generic;
 using System.Linq;
 
 #endregion
 
-namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers.Internal
+namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers
 {
     internal class ByComponentsServiceStatusHandler : 
         AbstractServiceStatusHandler
