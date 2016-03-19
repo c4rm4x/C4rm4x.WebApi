@@ -120,6 +120,25 @@ namespace C4rm4x.WebApi.Persistance.Mongo
                 entityToUpdate);
         }
 
+        /// <summary>
+        /// Returns the total number of entities of type T
+        /// </summary>
+        /// <returns>The number of entities</returns>
+        public long Count()
+        {
+            return _collection.AsQueryable().LongCount();
+        }
+
+        /// <summary>
+        /// Returns the number of all entities of type T based on predicate
+        /// </summary>
+        /// <param name="predicate">Predicate</param>
+        /// <returns>The number of all entities that fulfill a given predicate</returns>
+        public long Count(Expression<Func<T, bool>> predicate)
+        {
+            return _collection.Count(predicate);
+        }
+
         private static Expression<Func<T, bool>> GetFilter(string entityId)
         {
             return e => e.Id == entityId;

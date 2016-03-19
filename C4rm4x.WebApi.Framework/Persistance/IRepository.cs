@@ -68,6 +68,19 @@ namespace C4rm4x.WebApi.Framework.Persistance
         /// <param name="predicate">Predicate</param>
         /// <returns>The list of all entities that fulfill a given predicate. Empty list if none of them does</returns>
         List<T> GetAll(Expression<Func<T, bool>> predicate);
+
+        /// <summary>
+        /// Returns the number of all entities of type T
+        /// </summary>
+        /// <returns>The number of entities</returns>
+        long Count();
+
+        /// <summary>
+        /// Returns the number of all entities of type T based on predicate 
+        /// </summary>
+        /// <param name="predicate">Predicate</param>
+        /// <returns>The number of all entities that fulfill a given predicate</returns>
+        long Count(Expression<Func<T, bool>> predicate);
     }
 
     /// <summary>
