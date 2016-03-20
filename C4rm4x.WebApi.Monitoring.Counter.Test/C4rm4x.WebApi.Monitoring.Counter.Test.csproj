@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{357E39C9-05AC-4236-BB93-C01BE1FA540E}</ProjectGuid>
+    <ProjectGuid>{A2AA9264-268A-4E04-83F7-9F7857EBC924}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>C4rm4x.WebApi.Monitoring.ServiceStatus.Test</RootNamespace>
-    <AssemblyName>C4rm4x.WebApi.Monitoring.ServiceStatus.Test</AssemblyName>
+    <RootNamespace>C4rm4x.WebApi.Monitoring.Counter.Test</RootNamespace>
+    <AssemblyName>C4rm4x.WebApi.Monitoring.Counter.Test</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -91,10 +91,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="AbstractServiceStatusRetrieverTest.Monitor.cs" />
-    <Compile Include="Controllers\Builders\ComponentStatusDtoBuilder.cs" />
+    <Compile Include="Controllers\Builders\CounterResultDtoBuilder.cs" />
     <Compile Include="Controllers\Builders\MonitorResponseBuilder.cs" />
-    <Compile Include="Controllers\ServiceStatusControllerTest.Monitor.cs" />
+    <Compile Include="Controllers\CounterControllerTest.Monitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -102,12 +101,11 @@
       <Project>{e0792ea0-cfea-46c6-8148-30484bddd18e}</Project>
       <Name>C4rm4x.WebApi.Monitoring.Core.Test</Name>
     </ProjectReference>
-    <ProjectReference Include="..\C4rm4x.WebApi.Monitoring.ServiceStatus\C4rm4x.WebApi.Monitoring.ServiceStatus.csproj">
-      <Project>{5048423b-f624-4451-a32d-af1578d3f611}</Project>
-      <Name>C4rm4x.WebApi.Monitoring.ServiceStatus</Name>
+    <ProjectReference Include="..\C4rm4x.WebApi.Monitoring.Counter\C4rm4x.WebApi.Monitoring.Counter.csproj">
+      <Project>{9a5e2fd1-fb7f-4474-b26b-66ebf914224f}</Project>
+      <Name>C4rm4x.WebApi.Monitoring.Counter</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />

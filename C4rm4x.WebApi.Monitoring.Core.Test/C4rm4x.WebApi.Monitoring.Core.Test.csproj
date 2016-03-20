@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{357E39C9-05AC-4236-BB93-C01BE1FA540E}</ProjectGuid>
+    <ProjectGuid>{E0792EA0-CFEA-46C6-8148-30484BDDD18E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>C4rm4x.WebApi.Monitoring.ServiceStatus.Test</RootNamespace>
-    <AssemblyName>C4rm4x.WebApi.Monitoring.ServiceStatus.Test</AssemblyName>
+    <RootNamespace>C4rm4x.WebApi.Monitoring.Core.Test</RootNamespace>
+    <AssemblyName>C4rm4x.WebApi.Monitoring.Core.Test</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -45,10 +45,6 @@
     </Reference>
     <Reference Include="C4rm4x.WebApi.Framework, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\C4rm4x.WebApi.Framework.2.0.0.0\lib\net452\C4rm4x.WebApi.Framework.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="C4rm4x.WebApi.Monitoring.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\C4rm4x.WebApi.Monitoring.Core.1.0.0.0\lib\net452\C4rm4x.WebApi.Monitoring.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="C4rm4x.WebApi.Validation, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -91,23 +87,18 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="AbstractServiceStatusRetrieverTest.Monitor.cs" />
-    <Compile Include="Controllers\Builders\ComponentStatusDtoBuilder.cs" />
-    <Compile Include="Controllers\Builders\MonitorResponseBuilder.cs" />
-    <Compile Include="Controllers\ServiceStatusControllerTest.Monitor.cs" />
+    <Compile Include="Controllers\Builders\ComponentDtoBuilder.cs" />
+    <Compile Include="Controllers\Builders\MonitorRequestBuilder.cs" />
+    <Compile Include="Controllers\Validators\ComponentDtoValidatorTest.Validate.cs" />
+    <Compile Include="Controllers\Validators\MonitorRequestValidatorTest.Validate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\C4rm4x.WebApi.Monitoring.Core.Test\C4rm4x.WebApi.Monitoring.Core.Test.csproj">
-      <Project>{e0792ea0-cfea-46c6-8148-30484bddd18e}</Project>
-      <Name>C4rm4x.WebApi.Monitoring.Core.Test</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\C4rm4x.WebApi.Monitoring.ServiceStatus\C4rm4x.WebApi.Monitoring.ServiceStatus.csproj">
-      <Project>{5048423b-f624-4451-a32d-af1578d3f611}</Project>
-      <Name>C4rm4x.WebApi.Monitoring.ServiceStatus</Name>
+    <ProjectReference Include="..\C4rm4x.WebApi.Monitoring.Core\C4rm4x.WebApi.Monitoring.Core.csproj">
+      <Project>{d7cb1d8e-a405-4bd7-9d62-27a3428dd522}</Project>
+      <Name>C4rm4x.WebApi.Monitoring.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />

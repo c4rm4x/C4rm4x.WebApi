@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("C4rm4x.WebApi.Monitoring.ServiceStatus")]
+[assembly: AssemblyTitle("C4rm4x.WebApi.Monitoring.Counter")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("]C4rM4X[")]
-[assembly: AssemblyProduct("C4rm4x.WebApi.Monitoring.ServiceStatus")]
+[assembly: AssemblyProduct("C4rm4x.WebApi.Monitoring.Counter")]
 [assembly: AssemblyCopyright("Copyright © ]C4rM4X[ 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("5048423b-f624-4451-a32d-af1578d3f611")]
+[assembly: Guid("9a5e2fd1-fb7f-4474-b26b-66ebf914224f")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("3.0.0.0")]
-[assembly: AssemblyFileVersion("3.0.0.0")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]

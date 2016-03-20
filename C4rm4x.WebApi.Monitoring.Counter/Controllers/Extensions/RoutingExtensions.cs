@@ -4,7 +4,7 @@ using System.Web.Http;
 
 #endregion
 
-namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers
+namespace C4rm4x.WebApi.Monitoring.Counter.Controllers
 {
     /// <summary>
     /// Routing extensions
@@ -12,20 +12,20 @@ namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers
     public static class RoutingExtensions
     {
         /// <summary>
-        /// Register service status controller within your application's HttpConfiguration
+        /// Register counter controller within your application's HttpConfiguration
         /// </summary>
         /// <param name="config">The config</param>
         /// <param name="routeTemplate">Route template</param>
-        public static void RegisterServiceStatusController(
+        public static void RegisterCounterController(
             this HttpConfiguration config,
-            string routeTemplate = "api/health")
+            string routeTemplate = "api/counter")
         {
             config
                 .Routes
-                .MapHttpRoute("Health", routeTemplate,
+                .MapHttpRoute("Counter", routeTemplate,
                 new
                 {
-                    controller = "ServiceStatus",
+                    controller = "Counter",
                     action = "Monitor"
                 });
         }

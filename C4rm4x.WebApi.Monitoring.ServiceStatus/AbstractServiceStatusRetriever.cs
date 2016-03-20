@@ -1,6 +1,6 @@
 ﻿#region Using
 
-using C4rm4x.Tools.Utilities;
+using C4rm4x.WebApi.Monitoring.Core;
 using System;
 
 #endregion
@@ -11,6 +11,7 @@ namespace C4rm4x.WebApi.Monitoring.ServiceStatus
     /// Basic implementation of IServiceStatusRetriever
     /// </summary>
     public abstract class AbstractServiceStatusRetriever :
+        AbstractMonitorService<bool>,
         IServiceStatusRetriever
     {
         /// <summary>
@@ -21,29 +22,14 @@ namespace C4rm4x.WebApi.Monitoring.ServiceStatus
         public AbstractServiceStatusRetriever(
             object componentIdentifier,
             string componentName)
-        {
-            componentIdentifier.NotNull(nameof(componentIdentifier));
-            componentName.NotNullOrEmpty(nameof(componentName));
-
-            ComponentIdentifier = componentIdentifier;
-            ComponentName = componentName;
-        }
+            : base(componentIdentifier, componentName)
+        { }
 
         /// <summary>
-        /// The component's identifier which this service is responsible for
+        /// Is component working as expected?
         /// </summary>
-        public object ComponentIdentifier { get; private set; }
-
-        /// <summary>
-        /// The component's name with this service is responsible for
-        /// </summary>
-        public string ComponentName { get; private set; }
-
-        /// <summary>
-        /// Is the component working as expected?
-        /// </summary>
-        /// <returns>True when component is working as expected; false, otherwise</returns>
-        public bool IsComponentWorking()
+        /// <returns>True if component is working as expected; false, otherwise</returns>
+        public override bool Monitor()
         {            
             try
             {

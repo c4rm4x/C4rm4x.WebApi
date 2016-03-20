@@ -1,6 +1,6 @@
 ﻿#region Using
 
-using C4rm4x.Tools.Utilities;
+using C4rm4x.WebApi.Monitoring.Core.Controllers;
 using System.Runtime.Serialization;
 
 #endregion
@@ -11,12 +11,13 @@ namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers
     /// Component with its health status
     /// </summary>
     [DataContract]
-    public class ComponentStatusDto
+    public class ComponentStatusDto : MonitorResultDto
     {
         /// <summary>
         /// Parameterless constructor for serialization/deserialization
         /// </summary>
         public ComponentStatusDto()
+            : base()
         {
         }
 
@@ -28,18 +29,10 @@ namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers
         public ComponentStatusDto(
             ComponentDto component,
             ComponentHealthStatus healthStatus = ComponentHealthStatus.Unknown)
+            : base(component)
         {
-            component.NotNull(nameof(component));
-
-            Component = component;
             HealthStatus = healthStatus;
         }
-
-        /// <summary>
-        /// The component
-        /// </summary>
-        [DataMember(IsRequired = true)]
-        public ComponentDto Component { get; set; }
 
         /// <summary>
         /// Component health status

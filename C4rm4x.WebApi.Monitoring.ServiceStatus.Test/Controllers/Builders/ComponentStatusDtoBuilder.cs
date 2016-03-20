@@ -1,13 +1,15 @@
 ﻿#region Using
 
 using C4rm4x.Tools.TestUtilities.Builders;
+using C4rm4x.WebApi.Monitoring.Core.Test.Controllers;
 using C4rm4x.WebApi.Monitoring.ServiceStatus.Controllers;
 
 #endregion
 
 namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Test.Controllers
 {
-    public class ComponentStatusDtoBuilder : AbstractBuilder<ComponentStatusDto>
+    public class ComponentStatusDtoBuilder : 
+        AbstractBuilder<ComponentStatusDto>
     {
         public ComponentStatusDtoBuilder()
         {
