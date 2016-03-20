@@ -19,6 +19,7 @@ namespace C4rm4x.WebApi.Monitoring.Counter.Controllers
         public CounterResultDto()
             : base()
         {
+            Total = long.MinValue;
         }
 
         /// <summary>
