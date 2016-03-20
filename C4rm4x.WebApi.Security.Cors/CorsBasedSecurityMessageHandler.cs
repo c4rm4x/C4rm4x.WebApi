@@ -139,7 +139,7 @@ namespace C4rm4x.WebApi.Security.Cors
         /// </summary>
         /// <param name="corsEngineFactory">The factory</param>
         /// <remarks>USE THIS ONLY FOR UNIT TESTING</remarks>
-        public void SetCorsEngineFactory(Func<CorsEngine> corsEngineFactory)
+        internal void SetCorsEngineFactory(Func<CorsEngine> corsEngineFactory)
         {
             corsEngineFactory.NotNull(nameof(corsEngineFactory));
 

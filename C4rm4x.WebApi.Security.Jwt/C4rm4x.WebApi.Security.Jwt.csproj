@@ -47,6 +47,10 @@
       <HintPath>..\packages\C4rm4x.WebApi.Security.2.0.0.0\lib\net452\C4rm4x.WebApi.Security.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="C4rm4x.WebApi.Validation, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\C4rm4x.WebApi.Validation.2.0.0.0\lib\net452\C4rm4x.WebApi.Validation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -87,6 +91,7 @@
     <Compile Include="Controllers\Extensions\RoutingExtensions.cs" />
     <Compile Include="Controllers\TokenController.cs" />
     <Compile Include="Controllers\UserCredentialsException.cs" />
+    <Compile Include="Controllers\Validators\GenerateTokenRequestValidator.cs" />
     <Compile Include="MessageHandlerExtensions.cs" />
     <Compile Include="Internal\HmacSigningCredentials.cs" />
     <Compile Include="Internal\JwtSecurityTokenHandlerExtensions.cs" />
@@ -100,7 +105,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

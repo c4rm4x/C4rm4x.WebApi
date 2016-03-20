@@ -115,7 +115,7 @@ namespace C4rm4x.WebApi.Security.Jwt
         /// </summary>
         /// <param name="securityTokenHandlerFactory">The factory</param>
         /// <remarks>USE THIS ONLY FOR UNIT TESTING</remarks>
-        public void SetSecurityTokenHandlerFactory(Func<JwtSecurityTokenHandler> securityTokenHandlerFactory)
+        internal void SetSecurityTokenHandlerFactory(Func<JwtSecurityTokenHandler> securityTokenHandlerFactory)
         {
             securityTokenHandlerFactory.NotNull(nameof(securityTokenHandlerFactory));
 

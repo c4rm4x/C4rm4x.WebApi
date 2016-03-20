@@ -57,7 +57,7 @@ namespace C4rm4x.WebApi.Security.Jwt.Controllers
             {
                 Validate(request);
 
-                return Ok(RetrieveToken(request));
+                return Handle(request);
             }
             catch (Exception e)
             {
@@ -72,13 +72,16 @@ namespace C4rm4x.WebApi.Security.Jwt.Controllers
         /// <exception cref="ValidationException">If request is not valid</exception>
         protected virtual void Validate(GenerateTokenRequest request)
         {
-            if (request.UserIdentifier.IsNullOrEmpty())
-                throw new ValidationException(
-                    new ValidationError(
-                        "UserIdentifier", request.UserIdentifier, "Cannot be null or empty"));
+            GetValidator()
+                .ThrowIf(request);
         }
 
-        private GenerateTokenResponse RetrieveToken(GenerateTokenRequest request)
+        private GenerateTokenRequestValidator GetValidator()
+        {
+            return new GenerateTokenRequestValidator();
+        }
+
+        private IHttpActionResult Handle(GenerateTokenRequest request)
         {
             var claimsIdentity = _claimsIdentityRetriever
                 .Retrieve(request.UserIdentifier, request.Secret);
@@ -86,8 +89,10 @@ namespace C4rm4x.WebApi.Security.Jwt.Controllers
             if (claimsIdentity.IsNull())
                 throw new UserCredentialsException();
 
-            return new GenerateTokenResponse(
+            var response = new GenerateTokenResponse(
                 _jwtSecurityTokenGenerator.Generate(claimsIdentity, GetOptions()));
+
+            return Ok(response);
         }
 
         private JwtGenerationOptions GetOptions()

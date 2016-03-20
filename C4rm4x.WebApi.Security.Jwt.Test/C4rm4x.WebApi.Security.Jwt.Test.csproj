@@ -55,6 +55,10 @@
       <HintPath>..\packages\C4rm4x.WebApi.Security.2.0.0.0\lib\net452\C4rm4x.WebApi.Security.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="C4rm4x.WebApi.Validation, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\C4rm4x.WebApi.Validation.2.0.0.0\lib\net452\C4rm4x.WebApi.Validation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Moq, Version=4.2.1510.2205, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
       <HintPath>..\packages\Moq.4.2.1510.2205\lib\net40\Moq.dll</HintPath>
       <Private>True</Private>
@@ -99,6 +103,7 @@
   <ItemGroup>
     <Compile Include="Controllers\Builders\GenerateTokenRequestBuilder.cs" />
     <Compile Include="Controllers\TokenControllerTest.GenerateToken.cs" />
+    <Compile Include="Controllers\Validators\GenerateTokenRequestValidatorTest.Validate.cs" />
     <Compile Include="JwtBasedSecurityMessageHandlerTest.SendAsync.cs" />
     <Compile Include="JwtSecurityTokenGeneratorTest.Generate.cs" />
     <Compile Include="JwtSecurityTokenGeneratorTest.Integration.cs" />
@@ -112,7 +117,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
