@@ -78,7 +78,7 @@ namespace C4rm4x.WebApi.Framework.Test.RequestHandling
             [TestMethod, UnitTest]
             public void Process_Returns_Ok_When_Everything_Goes_Well()
             {
-                var result = _sut.Process(new TestRequest(), Process);
+                var result = _sut.Process<TestRequest, TestResponse>(new TestRequest(), Process);
 
                 Assert.AreEqual(HttpStatusCode.OK, GetStatusCode(result));
             }
@@ -110,7 +110,7 @@ namespace C4rm4x.WebApi.Framework.Test.RequestHandling
             {
                 var request = new TestRequest();
 
-                _sut.Process(request, Process);
+                _sut.Process<TestRequest, TestResponse>(request, Process);
 
                 Verify<IValidatorFactory>(e => e.GetValidator(request.GetType()), Times.Once());
             }
@@ -120,7 +120,7 @@ namespace C4rm4x.WebApi.Framework.Test.RequestHandling
             {
                 var request = new TestRequest();
 
-                _sut.Process(request, Process);
+                _sut.Process<TestRequest, TestResponse>(request, Process);
 
                 Verify<IExecutionContextInitialiser>(e => e.PerRequest(request), Times.Once());
             }

@@ -90,6 +90,7 @@
     <Compile Include="RequestHandling\Results\BadRequestResultTest.ExecuteAsync.cs" />
     <Compile Include="RequestHandling\Results\InternalServerErrorResultTest.ExecuteAsync.cs" />
     <Compile Include="RequestHandling\Results\OkResultTest.ExecuteAsync.cs" />
+    <Compile Include="RequestHandling\Results\RedirectResultTest.ExecuteAsync.cs" />
     <Compile Include="Runtime\AbstractExecutionContextInitialiserTest.PerRequest.cs" />
     <Compile Include="Runtime\ExecutionContextTest.AddExtension.cs" />
     <Compile Include="Runtime\ExecutionContextTest.cs" />
@@ -122,7 +123,9 @@
   <ItemGroup>
     <Compile Include="Events\AbstractEventAggregatorTest.PublishAll.cs" />
     <Compile Include="ExceptionShielding\ExceptionPolicyTest.HandleException.cs" />
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <Compile Include="Runtime\ExecutionContextTest.GetExtension.cs" />
     <Compile Include="Settings\AbstractSettingsManagerTest.GetSetting.cs" />

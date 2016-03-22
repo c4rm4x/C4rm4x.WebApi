@@ -55,7 +55,7 @@ namespace C4rm4x.WebApi.Framework.RequestHandling
         /// <returns>Returns an instance of IHttpActionResult</returns>
         public IHttpActionResult Handle(TRequest request)
         {
-            return _shell.Process(request, Process);
+            return _shell.Process<TRequest, TResponse>(request, Process);
         }
 
         /// <summary>

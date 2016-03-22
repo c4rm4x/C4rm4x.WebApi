@@ -37,6 +37,18 @@ namespace C4rm4x.WebApi.Framework.RequestHandling
             Func<TRequest, TResponse> processor)
             where TRequest : ApiRequest
             where TResponse : ApiResponse;
+
+        /// <summary>
+        /// Runs the code of the actual handler after all the common operations that are
+        /// performed for each request regardless of its type
+        /// </summary>
+        /// <typeparam name="TRequest">Type of the request</typeparam>
+        /// <param name="request">The request to be handled</param>
+        /// <param name="processor">The processor responsible of actually handling the request</param>
+        IHttpActionResult Process<TRequest>(
+            TRequest request,
+            Func<TRequest, IHttpActionResult> processor)
+            where TRequest : ApiRequest;        
     }
 
     #endregion
@@ -86,6 +98,21 @@ namespace C4rm4x.WebApi.Framework.RequestHandling
             where TRequest : ApiRequest
             where TResponse : ApiResponse
         {
+            return Process(request, r => Ok(processor(r)));
+        }
+
+        /// <summary>
+        /// Runs the code of the actual handler after all the common operations that are
+        /// performed for each request regardless of its type
+        /// </summary>
+        /// <typeparam name="TRequest">Type of the request</typeparam>
+        /// <param name="request">The request to be handled</param>
+        /// <param name="processor">The processor responsible of actually handling the request</param>
+        public IHttpActionResult Process<TRequest>(
+            TRequest request,
+            Func<TRequest, IHttpActionResult> processor)
+            where TRequest : ApiRequest
+        {
             processor.NotNull(nameof(processor));
 
             try
@@ -94,7 +121,7 @@ namespace C4rm4x.WebApi.Framework.RequestHandling
 
                 InitialiseContext(request);
 
-                return Ok(processor(request));
+                return processor(request);
             }
             catch (Exception e)
             {
