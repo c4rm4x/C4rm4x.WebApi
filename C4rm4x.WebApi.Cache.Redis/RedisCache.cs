@@ -2,7 +2,6 @@
 
 using C4rm4x.Tools.Utilities;
 using C4rm4x.WebApi.Framework.Cache;
-using C4rm4x.WebApi.Framework.Settings;
 using StackExchange.Redis;
 using System;
 
@@ -15,26 +14,26 @@ namespace C4rm4x.WebApi.Cache.Redis
     /// </summary>
     public class RedisCache : ICache
     {
-        private const string RedisConnectionString = "Redis.Cache.ConnectionString";
-
-        private readonly ISettingsManager _settingsManager;
+        /// <summary>
+        /// Gets the connection string for your Redis instance
+        /// </summary>
+        public string ConnectionString { get; private set; }
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="settingsManager">The settings manager</param>
-        public RedisCache(
-            ISettingsManager settingsManager)
+        /// <param name="connectionString">The connection string</param>
+        public RedisCache(string connectionString)
         {
-            settingsManager.NotNull(nameof(settingsManager));
+            connectionString.NotNullOrEmpty(nameof(connectionString));
 
-            _settingsManager = settingsManager;
+            ConnectionString = connectionString;
         }
 
         private Lazy<ConnectionMultiplexer> Connection =>
             new Lazy<ConnectionMultiplexer>(() =>
             {
-                return ConnectionMultiplexer.Connect(_settingsManager.GetSettingAsString(RedisConnectionString));
+                return ConnectionMultiplexer.Connect(ConnectionString);
             });
 
         private IDatabase Cache

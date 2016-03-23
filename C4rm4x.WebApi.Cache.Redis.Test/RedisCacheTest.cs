@@ -8,6 +8,7 @@ using StackExchange.Redis;
 using System;
 using System.Configuration;
 using System.Runtime.Serialization;
+using SimpleInjector;
 
 #endregion
 
@@ -15,7 +16,7 @@ namespace C4rm4x.WebApi.Cache.Redis.Test
 {
     public partial class RedisCacheTest
     {
-        private const string RedisConnectionString = "Redis.Cache.ConnectionString";
+        private const string RedisConnectionString = "Redis";
 
         #region Helper classes
 
@@ -53,7 +54,9 @@ namespace C4rm4x.WebApi.Cache.Redis.Test
 
         private static string GetConnectionString()
         {            
-            return ConfigurationManager.AppSettings[RedisConnectionString];
+            return ConfigurationManager
+                .ConnectionStrings[RedisConnectionString]
+                .ConnectionString;
         }
 
         protected static IDatabase Cache
@@ -63,22 +66,21 @@ namespace C4rm4x.WebApi.Cache.Redis.Test
 
         [TestClass]
         public abstract class RedisCacheTestFixture : 
-            AutoMockFixture<RedisCache>
+            IntegrationFixture<RedisCache>
         {
-            [TestInitialize]
-            public override void Setup()
+            protected override void RegisterDependencies(
+                Container container, 
+                Lifestyle lifeStyle)
             {
-                base.Setup();
-
-                Returns<ISettingsManager, object>(
-                    s => s.GetSetting(RedisConnectionString),
-                    GetConnectionString());                    
+                container.Register(() => new RedisCache(GetConnectionString()), lifeStyle);
             }
 
             [TestCleanup]
-            public void Cleanup()
+            public override void Cleanup()
             {
                 FlushCache();
+
+                base.Cleanup();
             }
 
             private static void FlushCache()

@@ -20,12 +20,14 @@ namespace C4rm4x.WebApi.Cache.HttpRuntime.Test
 
         [TestClass]
         public abstract class CacheTestFixture :
-            AutoMockFixture<Cache>
+            IntegrationFixture<Cache>
         {
             [TestCleanup]
-            public void Cleanup()
+            public override void Cleanup()
             {
                 FlushCache();
+
+                base.Cleanup();
             }
 
             private static void FlushCache()
