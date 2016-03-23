@@ -1,6 +1,7 @@
 ﻿#region Using
 
 using C4rm4x.Tools.TestUtilities;
+using C4rm4x.WebApi.Framework.Persistance;
 using C4rm4x.WebApi.Persistance.Mongo;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MongoDB.Driver;
@@ -79,7 +80,10 @@ namespace C4rm4x.WebApi.Monitoring.Mongo.Test
                     () => new MongoClient(ConfigurationManager.ConnectionStrings["MongoDb"].ConnectionString), lifeStyle);
                 container.Register<IMongoDatabase>(
                     () => container.GetInstance<MongoClient>().GetDatabase(TestDatabase), lifeStyle);
-                container.Register<TestRepository>(lifeStyle);
+                container.Register(
+                    typeof(IRepository<TestEntity, string>), 
+                    typeof(TestRepository), 
+                    lifeStyle);
 
                 base.RegisterDependencies(container, lifeStyle);
             }

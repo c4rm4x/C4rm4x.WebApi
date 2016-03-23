@@ -1,6 +1,7 @@
 ﻿#region Using
 
 using C4rm4x.Tools.Utilities;
+using C4rm4x.WebApi.Framework.Persistance;
 using C4rm4x.WebApi.Monitoring.Core;
 using C4rm4x.WebApi.Monitoring.Counter;
 using C4rm4x.WebApi.Persistance.Mongo;
@@ -20,7 +21,7 @@ namespace C4rm4x.WebApi.Monitoring.Mongo
         ICounter
         where T : BaseEntity
     {
-        private readonly BaseRepository<T> _repository;
+        private readonly IRepository<T, string> _repository;
         private readonly Expression<Func<T, bool>> _predicate;
 
         /// <summary>
@@ -33,11 +34,12 @@ namespace C4rm4x.WebApi.Monitoring.Mongo
         public AbstractCounter(
             object componentIdentifier,
             string componentName,
-            BaseRepository<T> repository,
+            IRepository<T, string> repository,
             Expression<Func<T, bool>> predicate = null)
             : base(componentIdentifier, componentName)
         {
             repository.NotNull(nameof(repository));
+            repository.GetType().Is<BaseRepository<T>>();
 
             _repository = repository;
             _predicate = predicate;
