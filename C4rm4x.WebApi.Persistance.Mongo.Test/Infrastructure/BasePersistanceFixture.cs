@@ -28,7 +28,7 @@ namespace C4rm4x.WebApi.Persistance.Mongo.Test.Infrastructure
         protected override void RegisterDependencies(Container container, Lifestyle lifeStyle)
         {
             container.Register<MongoClient>(
-                () => new MongoClient(ConfigurationManager.AppSettings["MongoDb.ConnectionString"]), lifeStyle);
+                () => new MongoClient(ConfigurationManager.ConnectionStrings["MongoDb"].ConnectionString), lifeStyle);
             container.Register<IMongoDatabase>(
                 () => container.GetInstance<MongoClient>().GetDatabase(TestDatabase), lifeStyle);
 
