@@ -20,6 +20,7 @@ namespace C4rm4x.WebApi.Framework.RequestHandling.Results
     /// </summary>
     public class RedirectResult : IHttpActionResult
     {
+        /// <summary>
         /// Gets the location to which the request is redirected
         /// </summary>
         public string Url { get; private set; }

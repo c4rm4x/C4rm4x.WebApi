@@ -109,6 +109,7 @@
     <Compile Include="Settings\SettingsManagerExtensions.cs" />
     <Compile Include="Specification\AbstractSpecification.cs" />
     <Compile Include="Specification\ExpressionSpecification.cs" />
+    <Compile Include="Specification\NotNullSpecification.cs" />
     <Compile Include="Specification\OrSpecification.cs" />
     <Compile Include="Specification\AndSpecification.cs" />
     <Compile Include="Specification\ISpecification.cs" />

@@ -36,8 +36,6 @@ namespace C4rm4x.WebApi.Framework.Specification
         /// <param name="entity">Entity to validate</param>
         public void EnforceRule(TEntity entity)
         {
-            entity.NotNull(nameof(entity));
-
             if (!IsSatisfiedBy(entity))
                 throw _exceptionToThrow(entity);
         }

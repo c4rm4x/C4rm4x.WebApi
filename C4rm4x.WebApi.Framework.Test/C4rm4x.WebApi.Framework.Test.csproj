@@ -102,6 +102,7 @@
     <Compile Include="Settings\SettingsManagerExtensionsTest.GetSettingAsString.cs" />
     <Compile Include="Settings\SettingsManagerExtensionTest.GetAllSettingsAsString.cs" />
     <Compile Include="Specification\AbstractSpecificationTest.cs" />
+    <Compile Include="Specification\NotNullSpecificationTest.IsSatisfiedBy.cs" />
     <Compile Include="Specification\OrSpecificationTest.cs" />
     <Compile Include="Specification\AndSpecificationTest.cs" />
     <Compile Include="Specification\OrSpecificationTest.EnforceRule.cs" />
