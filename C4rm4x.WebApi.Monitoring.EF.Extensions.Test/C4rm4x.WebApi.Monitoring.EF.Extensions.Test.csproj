@@ -149,7 +149,6 @@
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Infrastructure\Resource.resx">
       <Generator>ResXFileCodeGenerator</Generator>

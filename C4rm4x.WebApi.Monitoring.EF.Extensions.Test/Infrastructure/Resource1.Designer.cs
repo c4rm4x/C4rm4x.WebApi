@@ -39,7 +39,7 @@ namespace C4rm4x.WebApi.Monitoring.EF.Test {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("C4rm4x.WebApi.Persistance.EF.Test.Infrastructure.Resource", typeof(Resource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("C4rm4x.WebApi.Monitoring.EF.Extensions.Test.Infrastructure.Resource", typeof(Resource).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
