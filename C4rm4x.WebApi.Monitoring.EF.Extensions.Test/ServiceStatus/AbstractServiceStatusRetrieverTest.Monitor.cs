@@ -13,7 +13,7 @@ namespace C4rm4x.WebApi.Monitoring.EF.Test
         public class AbstractServiceStatusRetrieverMonitorTest :
             AbstractServiceStatusRetrieverFixture
         {
-            [TestMethod, UnitTest]
+            [TestMethod, IntegrationTest]
             public void Monitor_Returns_True_When_A_Connection_With_Database_Can_Be_Established()
             {
                 Assert.IsTrue(_sut.Monitor());
