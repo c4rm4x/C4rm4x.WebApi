@@ -1,6 +1,7 @@
 ﻿#region Using
 
 using C4rm4x.Tools.HttpUtilities;
+using C4rm4x.Tools.Security.Jwt;
 using C4rm4x.Tools.TestUtilities;
 using C4rm4x.Tools.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

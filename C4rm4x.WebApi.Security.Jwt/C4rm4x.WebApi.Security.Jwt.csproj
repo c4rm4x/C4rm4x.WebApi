@@ -35,6 +35,10 @@
       <HintPath>..\packages\C4rm4x.Tools.HttpUtilities.1.0.0.0\lib\net452\C4rm4x.Tools.HttpUtilities.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="C4rm4x.Tools.Security.Jwt, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\C4rm4x.Tools.Security.Jwt.1.0.0.0\lib\net452\C4rm4x.Tools.Security.Jwt.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="C4rm4x.Tools.Utilities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\C4rm4x.Tools.Utilities.1.0.0.0\lib\net452\C4rm4x.Tools.Utilities.dll</HintPath>
       <Private>True</Private>
@@ -89,18 +93,12 @@
     <Compile Include="Controllers\Services\IClaimsIdentityRetriever.cs" />
     <Compile Include="Controllers\Services\IJwtGenerationOptionsFactory.cs" />
     <Compile Include="Controllers\Extensions\RoutingExtensions.cs" />
+    <Compile Include="Controllers\Services\JwtSecurityTokenGenerator.cs" />
     <Compile Include="Controllers\TokenController.cs" />
     <Compile Include="Controllers\UserCredentialsException.cs" />
     <Compile Include="Controllers\Validators\GenerateTokenRequestValidator.cs" />
     <Compile Include="MessageHandlerExtensions.cs" />
-    <Compile Include="Internal\HmacSigningCredentials.cs" />
-    <Compile Include="Internal\JwtSecurityTokenHandlerExtensions.cs" />
     <Compile Include="JwtBasedSecurityMessageHandler.cs" />
-    <Compile Include="JwtSecurityTokenGenerator.cs" />
-    <Compile Include="Options\JwtGenerationOptions.cs" />
-    <Compile Include="Options\JwtSigningAlgorithm.cs" />
-    <Compile Include="Options\JwtSigningCredentials.cs" />
-    <Compile Include="Options\JwtValidationOptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -39,6 +39,10 @@
       <HintPath>..\packages\C4rm4x.Tools.HttpUtilities.1.0.0.0\lib\net452\C4rm4x.Tools.HttpUtilities.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="C4rm4x.Tools.Security.Jwt, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\C4rm4x.Tools.Security.Jwt.1.0.0.0\lib\net452\C4rm4x.Tools.Security.Jwt.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="C4rm4x.Tools.TestUtilities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\C4rm4x.Tools.TestUtilities.1.0.0.0\lib\net452\C4rm4x.Tools.TestUtilities.dll</HintPath>
       <Private>True</Private>
@@ -105,8 +109,6 @@
     <Compile Include="Controllers\TokenControllerTest.GenerateToken.cs" />
     <Compile Include="Controllers\Validators\GenerateTokenRequestValidatorTest.Validate.cs" />
     <Compile Include="JwtBasedSecurityMessageHandlerTest.SendAsync.cs" />
-    <Compile Include="JwtSecurityTokenGeneratorTest.Generate.cs" />
-    <Compile Include="JwtSecurityTokenGeneratorTest.Integration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

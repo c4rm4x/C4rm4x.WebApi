@@ -1,5 +1,6 @@
 ﻿#region Using
 
+using C4rm4x.Tools.Security.Jwt;
 using System.Web.Http;
 
 #endregion

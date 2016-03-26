@@ -1,5 +1,6 @@
 ﻿#region Using
 
+using C4rm4x.Tools.Security.Jwt;
 using C4rm4x.Tools.Utilities;
 using C4rm4x.WebApi.Framework.Log;
 using C4rm4x.WebApi.Framework.RequestHandling.Results;

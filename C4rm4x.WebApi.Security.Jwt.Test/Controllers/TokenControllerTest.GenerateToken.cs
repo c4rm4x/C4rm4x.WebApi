@@ -1,5 +1,6 @@
 ﻿#region Using
 
+using C4rm4x.Tools.Security.Jwt;
 using C4rm4x.Tools.TestUtilities;
 using C4rm4x.WebApi.Security.Jwt.Controllers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
