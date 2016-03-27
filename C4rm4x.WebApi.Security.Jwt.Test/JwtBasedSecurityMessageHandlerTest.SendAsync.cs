@@ -11,6 +11,7 @@ using System.IdentityModel.Tokens;
 using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
+using System.Security.Principal;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -277,35 +278,20 @@ namespace C4rm4x.WebApi.Security.Jwt.Test
             }
 
             [TestMethod, UnitTest]
-            public void SendAsync_Sets_Thread_CurrentPrincipal_When_A_Valid_Jwt_Is_Found_In_Authorization_Header_Value()
+            public void SendAsync_Sets_Request_Context_Principal_When_A_Valid_Jwt_Is_Found_In_Authorization_Header_Value()
             {
                 var tokenHandler = Mock.Of<JwtSecurityTokenHandler>();
                 var validatedToken = It.IsAny<SecurityToken>();
                 var Principal = Mock.Of<ClaimsPrincipal>();
+                IPrincipal assignedPrincipal = null;
 
                 Mock.Get(tokenHandler)
                     .Setup(h => h.ValidateToken(It.IsAny<string>(), It.IsAny<TokenValidationParameters>(), out validatedToken))
                     .Returns(Principal);
 
-                SendAsync(tokenHandler);
+                SendAsync(tokenHandler, assignPrincipalAction: (r, p) => assignedPrincipal = p);
 
-                Assert.AreSame(Principal, Thread.CurrentPrincipal);
-            }
-
-            [TestMethod, UnitTest]
-            public void SendAsync_Sets_HttpContextFactory_Current_User_When_A_Valid_Jwt_Is_Found_In_Authorization_Header_Value()
-            {
-                var tokenHandler = Mock.Of<JwtSecurityTokenHandler>();
-                var validatedToken = It.IsAny<SecurityToken>();
-                var Principal = Mock.Of<ClaimsPrincipal>();
-
-                Mock.Get(tokenHandler)
-                    .Setup(h => h.ValidateToken(It.IsAny<string>(), It.IsAny<TokenValidationParameters>(), out validatedToken))
-                    .Returns(Principal);
-
-                SendAsync(tokenHandler);
-
-                Assert.AreSame(Principal, HttpContextFactory.Current.User);
+                Assert.AreSame(Principal, assignedPrincipal);
             }
 
             #region Helper classes
@@ -389,23 +375,31 @@ namespace C4rm4x.WebApi.Security.Jwt.Test
                 bool forceAuthentication,
                 HttpResponseMessage response,
                 JwtSecurityTokenHandler tokenHandler,
-                JwtValidationOptions options = null)
+                JwtValidationOptions options = null,
+                Action<HttpRequestMessage, IPrincipal> assignPrincipalAction = null)
             {
+                IPrincipal principal;
+
+                if (assignPrincipalAction.IsNull())
+                    assignPrincipalAction = (r, p) => principal = p;
+
                 var sut = new JwtBasedSecurityMessageHandler(
                     options ?? new JwtValidationOptions(), forceAuthentication);
 
                 sut.InnerHandler = new TestHandler(response);
                 sut.SetSecurityTokenHandlerFactory(() => tokenHandler);
+                sut.SetAssignPrincipalFactory(assignPrincipalAction);
 
                 return sut;
             }
 
             private static Task<HttpResponseMessage> SendAsync(
                 JwtSecurityTokenHandler tokenHandler,
-                JwtValidationOptions options = null)
+                JwtValidationOptions options = null,
+                Action<HttpRequestMessage, IPrincipal> assignPrincipalAction = null)
             {
                 return new HttpMessageInvoker(
-                    CreateSubjectUnderTest(false, null, tokenHandler, options ?? new JwtValidationOptions()))
+                    CreateSubjectUnderTest(false, null, tokenHandler, options ?? new JwtValidationOptions(), assignPrincipalAction))
                     .SendAsync(
                         GetHttpRequestMessage(ObjectMother.Create<string>()),
                         It.IsAny<CancellationToken>());

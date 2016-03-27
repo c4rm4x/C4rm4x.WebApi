@@ -1,6 +1,5 @@
 ﻿#region Using
 
-using C4rm4x.Tools.HttpUtilities;
 using C4rm4x.Tools.Security.Jwt;
 using C4rm4x.Tools.Utilities;
 using System;
@@ -10,7 +9,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Security.Principal;
-using System.Threading;
 
 #endregion
 
@@ -27,6 +25,9 @@ namespace C4rm4x.WebApi.Security.Jwt
 
         private Func<JwtSecurityTokenHandler> _securityTokenHandlerFactory =
             () => new JwtSecurityTokenHandler();
+
+        private Action<HttpRequestMessage, IPrincipal> _assignPrincipalFactory =
+            (request, principal) => request.GetRequestContext().Principal = principal;
 
         /// <summary>
         /// Gets whether or not the token must be present for the request be processed
@@ -66,7 +67,7 @@ namespace C4rm4x.WebApi.Security.Jwt
             if (!TryRetrieveToken(request, out securityToken))
                 return !ForceAuthentication;
 
-            return ValidateToken(securityToken);
+            return ValidateToken(request, securityToken);
         }
 
         private bool TryRetrieveToken(
@@ -82,7 +83,7 @@ namespace C4rm4x.WebApi.Security.Jwt
             return !(securityToken = authzHeaders.First()).IsNullOrEmpty();
         }
 
-        private bool ValidateToken(string securityToken)
+        private bool ValidateToken(HttpRequestMessage request, string securityToken)
         {
             var handler = _securityTokenHandlerFactory();
 
@@ -91,8 +92,8 @@ namespace C4rm4x.WebApi.Security.Jwt
                 IPrincipal principal;
                 var result = handler.TryValidateToken(securityToken, Options, out principal);
 
-                Thread.CurrentPrincipal = 
-                    HttpContextFactory.Current.User = principal;
+                if (result) // Do nothing if validation fails
+                    _assignPrincipalFactory(request, principal);
 
                 return result;
             }
@@ -121,6 +122,18 @@ namespace C4rm4x.WebApi.Security.Jwt
             securityTokenHandlerFactory.NotNull(nameof(securityTokenHandlerFactory));
 
             _securityTokenHandlerFactory = securityTokenHandlerFactory;
+        }
+
+        /// <summary>
+        /// Sets the assign principal factory
+        /// </summary>
+        /// <param name="assignPrincipalFactory">The factory</param>
+        /// <remarks>USE THIS ONLY FOR UNIT TESTING</remarks>
+        internal void SetAssignPrincipalFactory(Action<HttpRequestMessage, IPrincipal> assignPrincipalFactory)
+        {
+            assignPrincipalFactory.NotNull(nameof(assignPrincipalFactory));
+
+            _assignPrincipalFactory = assignPrincipalFactory;
         }
     }
 }
