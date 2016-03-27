@@ -277,35 +277,20 @@ namespace C4rm4x.WebApi.Security.Jwt.Test
             }
 
             [TestMethod, UnitTest]
-            public void SendAsync_Sets_Thread_CurrentPrincipal_When_A_Valid_Jwt_Is_Found_In_Authorization_Header_Value()
+            public void SendAsync_Sets_HttpRequestMessage_UserPrincipal_When_A_Valid_Jwt_Is_Found_In_Authorization_Header_Value()
             {
                 var tokenHandler = Mock.Of<JwtSecurityTokenHandler>();
                 var validatedToken = It.IsAny<SecurityToken>();
                 var Principal = Mock.Of<ClaimsPrincipal>();
+                var requestMessage = GetHttpRequestMessage(ObjectMother.Create<string>());
 
                 Mock.Get(tokenHandler)
                     .Setup(h => h.ValidateToken(It.IsAny<string>(), It.IsAny<TokenValidationParameters>(), out validatedToken))
                     .Returns(Principal);
 
-                SendAsync(tokenHandler);
+                SendAsync(tokenHandler, requestMessage: requestMessage);
 
-                Assert.AreSame(Principal, Thread.CurrentPrincipal);
-            }
-
-            [TestMethod, UnitTest]
-            public void SendAsync_Sets_HttpContextFactory_Current_User_When_A_Valid_Jwt_Is_Found_In_Authorization_Header_Value()
-            {
-                var tokenHandler = Mock.Of<JwtSecurityTokenHandler>();
-                var validatedToken = It.IsAny<SecurityToken>();
-                var Principal = Mock.Of<ClaimsPrincipal>();
-
-                Mock.Get(tokenHandler)
-                    .Setup(h => h.ValidateToken(It.IsAny<string>(), It.IsAny<TokenValidationParameters>(), out validatedToken))
-                    .Returns(Principal);
-
-                SendAsync(tokenHandler);
-
-                Assert.AreSame(Principal, HttpContextFactory.Current.User);
+                Assert.AreSame(Principal, requestMessage.GetUserPrincipal());
             }
 
             #region Helper classes
@@ -401,13 +386,14 @@ namespace C4rm4x.WebApi.Security.Jwt.Test
             }
 
             private static Task<HttpResponseMessage> SendAsync(
-                JwtSecurityTokenHandler tokenHandler,
-                JwtValidationOptions options = null)
+                JwtSecurityTokenHandler tokenHandler,                
+                JwtValidationOptions options = null,
+                HttpRequestMessage requestMessage = null)
             {
                 return new HttpMessageInvoker(
                     CreateSubjectUnderTest(false, null, tokenHandler, options ?? new JwtValidationOptions()))
                     .SendAsync(
-                        GetHttpRequestMessage(ObjectMother.Create<string>()),
+                        requestMessage ?? GetHttpRequestMessage(ObjectMother.Create<string>()),
                         It.IsAny<CancellationToken>());
             }
         }
