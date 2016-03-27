@@ -1,5 +1,6 @@
 ﻿#region Using
 
+using C4rm4x.Tools.HttpUtilities;
 using C4rm4x.Tools.Security.Jwt;
 using C4rm4x.Tools.Utilities;
 using System;
@@ -9,6 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Security.Principal;
+using System.Threading;
 
 #endregion
 
@@ -64,7 +66,7 @@ namespace C4rm4x.WebApi.Security.Jwt
             if (!TryRetrieveToken(request, out securityToken))
                 return !ForceAuthentication;
 
-            return ValidateToken(request, securityToken);
+            return ValidateToken(securityToken);
         }
 
         private bool TryRetrieveToken(
@@ -80,9 +82,7 @@ namespace C4rm4x.WebApi.Security.Jwt
             return !(securityToken = authzHeaders.First()).IsNullOrEmpty();
         }
 
-        private bool ValidateToken(
-            HttpRequestMessage request,
-            string securityToken)
+        private bool ValidateToken(string securityToken)
         {
             var handler = _securityTokenHandlerFactory();
 
@@ -90,8 +90,9 @@ namespace C4rm4x.WebApi.Security.Jwt
             {
                 IPrincipal principal;
                 var result = handler.TryValidateToken(securityToken, Options, out principal);
-                
-                request.SetUserPrincipal(principal);
+
+                Thread.CurrentPrincipal = 
+                    HttpContextFactory.Current.User = principal;
 
                 return result;
             }

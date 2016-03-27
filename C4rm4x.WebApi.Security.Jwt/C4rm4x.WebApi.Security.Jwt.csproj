@@ -97,7 +97,6 @@
     <Compile Include="Controllers\TokenController.cs" />
     <Compile Include="Controllers\UserCredentialsException.cs" />
     <Compile Include="Controllers\Validators\GenerateTokenRequestValidator.cs" />
-    <Compile Include="HttpRequestMessageExtensions.cs" />
     <Compile Include="MessageHandlerExtensions.cs" />
     <Compile Include="JwtBasedSecurityMessageHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
