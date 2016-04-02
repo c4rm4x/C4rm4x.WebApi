@@ -33,28 +33,48 @@ namespace C4rm4x.WebApi.Security
         /// <summary>
         /// Gets or sets the authorized claim
         /// </summary>
-        public dynamic Claim { get; set; }
+        public Claim Claim { get; set; }
 
         /// <summary>
-        /// Gets the claim type getter
+        /// Constructor for unit testing
         /// </summary>
-        /// <remarks>When not specified, the claim type will be read from property Type</remarks>
-        public Func<dynamic, string> ClaimTypeGetter { get; set; } = DefaultClaimTypeGetter;
+        internal SecuredAttribute()
+        { }
 
         /// <summary>
-        /// Gets the claim value getter
+        /// Constructor
         /// </summary>
-        /// <remarks>When not specified, the claim value will be read from property Value</remarks>
-        public Func<dynamic, string> ClaimValueGetter { get; set; } = DefaultClaimValueGetter;
-
-        private static string DefaultClaimTypeGetter(dynamic claim)
+        /// <param name="role">The role</param>
+        public SecuredAttribute(string role)
         {
-            return claim.Type;
+            role.NotNullOrEmpty(nameof(role));
+
+            Role = role;
         }
 
-        private static string DefaultClaimValueGetter(dynamic claim)
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="claimType">The claim type</param>
+        /// <param name="claimValue">The claim value</param>
+        public SecuredAttribute(
+            string claimType, 
+            string claimValue)
+            : this(new Claim(claimType, claimValue))
         {
-            return claim.Value;
+            claimType.NotNullOrEmpty(nameof(claimType));
+            claimValue.NotNullOrEmpty(nameof(claimValue));
+        }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="claim">The claim</param>
+        public SecuredAttribute(Claim claim)
+        {
+            claim.NotNull(nameof(claim));
+
+            Claim = claim;
         }
 
         /// <summary>
@@ -142,8 +162,8 @@ namespace C4rm4x.WebApi.Security
         private bool NotAuthorizedClaim(ClaimsPrincipal user)
         {
             return user.IsNotNull() && 
-                Claim != null && 
-                !user.HasClaim(ClaimTypeGetter(Claim), ClaimValueGetter(Claim));
+                Claim.IsNotNull() && 
+                !user.HasClaim(Claim.Type, Claim.Value);
         }
 
         /// <summary>
