@@ -1,9 +1,7 @@
 ﻿#region Using
 
 using C4rm4x.Tools.TestUtilities;
-using C4rm4x.Tools.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
 using System;
 using System.Threading;
 
@@ -24,7 +22,7 @@ namespace C4rm4x.WebApi.Cache.Redis.Test
 
                 _sut.Store(Key, Value);
 
-                var result = GetInstance(Key);
+                var result = GetItem(Key);
 
                 Assert.IsNotNull(result);
                 Assert.AreEqual(Value, result);
@@ -43,21 +41,12 @@ namespace C4rm4x.WebApi.Cache.Redis.Test
 
                 Thread.Sleep((expirationTime + 1) * Milliseconds);
 
-                Assert.IsNull(GetInstance(Key));
+                Assert.IsNull(GetItem(Key));
             }
 
             private static int GetRand(int max)
             {
                 return new Random().Next(1, max);
-            }
-
-            private static TestClass GetInstance(string key)
-            {
-                string instance = Cache.StringGet(key);
-
-                if (instance.IsNullOrEmpty()) return null;
-
-                return JsonConvert.DeserializeObject<TestClass>(instance);
             }
         }
     }

@@ -3,8 +3,6 @@
 using C4rm4x.Tools.TestUtilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Web.Caching;
-using Caching = System.Web.Caching.Cache;
 
 #endregion
 
@@ -59,16 +57,6 @@ namespace C4rm4x.WebApi.Cache.HttpRuntime.Test
 
                 Assert.IsNotNull(result);
                 Assert.AreSame(Value, result);
-            }
-
-            private static void AddEntry<TValue>(
-                string key,
-                TValue value)
-            {
-                HttpCache.Add(key, value, null,
-                    DateTime.Now.AddSeconds(10),
-                    Caching.NoSlidingExpiration,
-                    CacheItemPriority.Normal, null);
             }
         }
     }

@@ -2,13 +2,13 @@
 
 using C4rm4x.Tools.TestUtilities;
 using C4rm4x.Tools.Utilities;
-using C4rm4x.WebApi.Framework.Settings;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
+using SimpleInjector;
 using StackExchange.Redis;
 using System;
 using System.Configuration;
 using System.Runtime.Serialization;
-using SimpleInjector;
 
 #endregion
 
@@ -62,6 +62,23 @@ namespace C4rm4x.WebApi.Cache.Redis.Test
         protected static IDatabase Cache
         {
             get { return Connection.Value.GetDatabase(); }
+        }
+
+        protected static void AddEntry<TValue>(
+            string key,
+            TValue value)
+            where TValue : class
+        {
+            Cache.StringSet(key, JsonConvert.SerializeObject(value));
+        }
+
+        protected static TestClass GetItem(string key)
+        {
+            string instance = Cache.StringGet(key);
+
+            if (instance.IsNullOrEmpty()) return null;
+
+            return JsonConvert.DeserializeObject<TestClass>(instance);
         }
 
         [TestClass]

@@ -2,7 +2,6 @@
 
 using C4rm4x.Tools.TestUtilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json;
 using System;
 
 #endregion
@@ -52,7 +51,7 @@ namespace C4rm4x.WebApi.Cache.Redis.Test
                 var Key = ObjectMother.Create<string>();
                 var Value = ObjectMother.Create<TestClass>();
 
-                AddEntry(Key, Value);
+                AddEntry<TestClass>(Key, Value);
 
                 var result = _sut.Retrieve<TestClass>(Key);
 
@@ -65,14 +64,6 @@ namespace C4rm4x.WebApi.Cache.Redis.Test
                 string value)
             {
                 Cache.StringSet(key, value);
-            }
-
-            private static void AddEntry<TValue>(
-                string key,
-                TValue value)
-                where TValue : class
-            {
-                Cache.StringSet(key, JsonConvert.SerializeObject(value));
             }
         }
     }

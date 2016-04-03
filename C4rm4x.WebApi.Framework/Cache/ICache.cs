@@ -35,5 +35,18 @@
         /// <param name="key">The key</param>
         /// <returns>The object based on spefified key if exists. Otherwise null</returns>
         T Retrieve<T>(string key);
+
+        /// <summary>
+        /// Retrieves whether or not there is an entry cached with the given key
+        /// </summary>
+        /// <param name="key">The key</param>
+        /// <returns>True when there is an entry stored with the given key; false, otherwise</returns>
+        bool Exists(string key);
+
+        /// <summary>
+        /// Removes the entry cached associated with the given key (if any)
+        /// </summary>
+        /// <param name="key">The key</param>
+        void Remove(string key);
     }
 }

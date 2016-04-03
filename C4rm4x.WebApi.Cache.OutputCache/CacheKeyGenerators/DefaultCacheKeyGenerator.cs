@@ -24,8 +24,8 @@ namespace C4rm4x.WebApi.Cache.OutputCache
             actionContext.NotNull(nameof(actionContext));
 
             return "{0}-{1}".AsFormat(
-                actionContext.ControllerContext.ControllerDescriptor.ControllerType.FullName.ToLower(),
-                actionContext.ActionDescriptor.ActionName.ToLower());
+                actionContext.ControllerContext.ControllerDescriptor.ControllerType.FullName,
+                actionContext.ActionDescriptor.ActionName);
         }
     }
 }

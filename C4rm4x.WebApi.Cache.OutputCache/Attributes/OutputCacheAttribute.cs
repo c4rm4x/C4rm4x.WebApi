@@ -52,7 +52,7 @@ namespace C4rm4x.WebApi.Cache.OutputCache
         /// <param name="cacheKeyGeneratorType">The type of the class responsible for generating the keys</param>
         public OutputCacheAttribute(
             int serverTimeSpan, 
-            int clientTimeSpan,
+            int clientTimeSpan = 0,
             Type cacheKeyGeneratorType = null)
         {
             serverTimeSpan.Must(x => x > 0, "serverTimeSpan must be greater than 0");
@@ -81,6 +81,13 @@ namespace C4rm4x.WebApi.Cache.OutputCache
             CreateResponse(actionContext, content);
             
             ApplyCacheHeaders(actionContext.Response);
+        }
+
+        private byte[] GetCachedContent(
+            HttpActionContext actionContext)
+        {
+            return GetCache(actionContext)
+                .Retrieve<byte[]>(GetCacheKey(actionContext));
         }
 
         private static void CreateResponse(
@@ -113,7 +120,7 @@ namespace C4rm4x.WebApi.Cache.OutputCache
             var cacheKey = GetCacheKey(actionExecutedContext.ActionContext);
 
             if (cacheKey.IsNullOrEmpty() ||
-                !GetCachedContent(actionExecutedContext.ActionContext, cacheKey).IsNullOrEmpty() ||
+                ExistsItemInCache(actionExecutedContext, cacheKey) ||
                 actionExecutedContext.Response.Content.IsNull())
                 return;
 
@@ -122,18 +129,23 @@ namespace C4rm4x.WebApi.Cache.OutputCache
             ApplyCacheHeaders(actionExecutedContext.Response);
         }
 
+        private bool ExistsItemInCache(
+            HttpActionExecutedContext actionExecutedContext, 
+            string cacheKey)
+        {
+            return GetCache(actionExecutedContext.ActionContext)
+                .Exists(cacheKey);
+        }
+
         private void StoreContent(
             HttpActionExecutedContext actionExecutedContext,
-            string cacheKey = null)
+            string cacheKey)
         {
             var actionContext = actionExecutedContext.ActionContext;
             var content = actionExecutedContext
-                .Response.Content.ReadAsByteArrayAsync().Result; 
-                
-            GetCache(actionContext).Store(
-                cacheKey ?? GetCacheKey(actionContext),
-                content,
-                ServerTimeSpan);
+                .Response.Content.ReadAsByteArrayAsync().Result;
+
+            GetCache(actionContext).Store(cacheKey, content, ServerTimeSpan);
         }
 
         /// <summary>
@@ -174,14 +186,6 @@ namespace C4rm4x.WebApi.Cache.OutputCache
         {
             return Activator.CreateInstance(CacheKeyGeneratorType) 
                 as ICacheKeyGenerator;
-        }
-
-        private byte[] GetCachedContent(
-            HttpActionContext actionContext, 
-            string cacheKey = null)
-        {
-            return GetCache(actionContext)
-                .Retrieve<byte[]>(cacheKey ?? GetCacheKey(actionContext));
         }
 
         /// <summary>

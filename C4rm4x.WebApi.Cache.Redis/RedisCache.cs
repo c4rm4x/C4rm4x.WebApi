@@ -99,5 +99,24 @@ namespace C4rm4x.WebApi.Cache.Redis
                 ? (TimeSpan?)null
                 : new TimeSpan(0, 0, expirationTime);
         }
+
+        /// <summary>
+        /// Retrieves whether or not there is an entry cached with the given key
+        /// </summary>
+        /// <param name="key">The key</param>
+        /// <returns></returns>True when there is an entry stored with the given key; false, otherwise</returns>
+        public bool Exists(string key)
+        {
+            return Cache.KeyExists(key);
+        }
+
+        /// <summary>
+        /// Removes the entry cached associated with the given key (if any)
+        /// </summary>
+        /// <param name="key">They key</param>
+        public void Remove(string key)
+        {
+            Cache.KeyDelete(key);
+        }
     }
 }

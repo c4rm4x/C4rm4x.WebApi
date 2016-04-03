@@ -2,6 +2,9 @@
 
 using C4rm4x.Tools.TestUtilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Web.Caching;
+using Caching = System.Web.Caching.Cache;
 
 #endregion
 
@@ -36,6 +39,16 @@ namespace C4rm4x.WebApi.Cache.HttpRuntime.Test
 
                 while (enumerator.MoveNext())
                     HttpCache.Remove(enumerator.Key.ToString());
+            }
+
+            protected static void AddEntry<TValue>(
+                string key,
+                TValue value)
+            {
+                HttpCache.Add(key, value, null,
+                    DateTime.Now.AddSeconds(10),
+                    Caching.NoSlidingExpiration,
+                    CacheItemPriority.Normal, null);
             }
         }
     }

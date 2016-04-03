@@ -109,7 +109,7 @@ namespace C4rm4x.WebApi.Cache.OutputCache.Test
             }
 
             [TestMethod, UnitTest]
-            public void OnActionExecuted_Uses_ICache_To_Retrieve_Content_When_HttpMethod_Is_Get()
+            public void OnActionExecuted_Uses_ICache_To_Check_Whether_Or_Not_The_Content_Is_Already_Cached_When_HttpMethod_Is_Get()
             {
                 var cache = GetCache();
 
@@ -117,7 +117,7 @@ namespace C4rm4x.WebApi.Cache.OutputCache.Test
                     .OnActionExecuted(GetHttpActionExecutedContext(HttpMethod.Get, cache));
 
                 Mock.Get(cache)
-                    .Verify(c => c.Retrieve<byte[]>(It.IsAny<string>()), Times.Once());
+                    .Verify(c => c.Exists(Key), Times.Once());
             }
 
             [TestMethod, UnitTest]
@@ -126,8 +126,8 @@ namespace C4rm4x.WebApi.Cache.OutputCache.Test
                 var cache = GetCache();
 
                 Mock.Get(cache)
-                    .Setup(c => c.Retrieve<byte[]>(Key))
-                    .Returns(GetContent().ToArray());
+                    .Setup(c => c.Exists(Key))
+                    .Returns(true);
 
                 CreateSubjectUnderTest()
                     .OnActionExecuted(GetHttpActionExecutedContext(cache));

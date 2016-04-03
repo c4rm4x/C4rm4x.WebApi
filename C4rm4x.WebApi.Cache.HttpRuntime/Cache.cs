@@ -84,5 +84,24 @@ namespace C4rm4x.WebApi.Cache.HttpRuntime
         {
             return (T)Retrieve(key);
         }
+
+        /// <summary>
+        /// Retrieves whether or not there is an entry cached with the given key
+        /// </summary>
+        /// <param name="key">The key</param>
+        /// <returns>True when there is an entry stored with the given key; false, otherwise</returns>
+        public bool Exists(string key)
+        {
+            return Retrieve(key).IsNotNull();
+        }
+
+        /// <summary>
+        /// Removes the entry cached associated with the given key (if any)
+        /// </summary>
+        /// <param name="key">The key</param>
+        public void Remove(string key)
+        {
+            HttpCache.Remove(key);
+        }
     }
 }
