@@ -110,8 +110,7 @@ namespace C4rm4x.WebApi.Cache.OutputCache
         {
             actionExecutedContext.NotNull(nameof(actionExecutedContext));
 
-            if (actionExecutedContext.ActionContext.Response.IsNull() ||
-                !actionExecutedContext.ActionContext.Response.IsSuccessStatusCode) return;
+            if (!actionExecutedContext.IsASuccessfulResponse()) return;
 
             if (!IsCachingAllowed(actionExecutedContext.ActionContext)) return;
 

@@ -87,6 +87,7 @@
     <Compile Include="Attributes\OutputCacheAttributeTest.cs" />
     <Compile Include="Attributes\OutputCacheAttributeTest.OnActionExecuted.cs" />
     <Compile Include="Attributes\OutputCacheAttributeTest.OnActionExecuting.cs" />
+    <Compile Include="CacheKeyGenerators\DefaultCacheKeyGeneratorTest.cs" />
     <Compile Include="Internals\CacheTimeTest.From.cs" />
     <Compile Include="OutputCacheConfigurationTest.cs" />
     <Compile Include="OutputCacheConfigurationTest.GetOutputCacheProvider.cs" />

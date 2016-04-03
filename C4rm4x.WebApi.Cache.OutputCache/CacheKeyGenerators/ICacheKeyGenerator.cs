@@ -19,5 +19,16 @@ namespace C4rm4x.WebApi.Cache.OutputCache
         /// <param name="actionContext">The action context</param>
         /// <returns>The key for the given action context</returns>
         string Generate(HttpActionContext actionContext);
+
+        /// <summary>
+        /// Generates the key that should be used to cache/retrieve the content
+        /// for the given action context and action name
+        /// </summary>
+        /// <param name="actionContext">The action context</param>
+        /// <param name="actionName">The action name</param>
+        /// <returns>The key for the given action context and action name</returns>
+        string Generate(
+            HttpActionContext actionContext, 
+            string actionName);
     }
 }

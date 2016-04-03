@@ -29,6 +29,13 @@ namespace C4rm4x.WebApi.Cache.OutputCache.Test
             {
                 public string Generate(HttpActionContext actionContext)
                 {
+                    return Generate(actionContext, null);
+                }
+
+                public string Generate(
+                    HttpActionContext actionContext, 
+                    string actionName)
+                {
                     return Key;
                 }
             }

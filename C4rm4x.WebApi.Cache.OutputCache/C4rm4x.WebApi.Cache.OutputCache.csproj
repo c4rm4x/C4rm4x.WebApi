@@ -65,11 +65,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\AutoInvalidateOutputCacheAttribute.cs" />
+    <Compile Include="Attributes\BaseInvalidateOutputCacheAttribute.cs" />
+    <Compile Include="Attributes\InvalidateOutputCacheAttribute.cs" />
     <Compile Include="Attributes\OutputCacheAttribute.cs" />
     <Compile Include="CacheKeyGenerators\DefaultCacheKeyGenerator.cs" />
     <Compile Include="CacheKeyGenerators\ICacheKeyGenerator.cs" />
     <Compile Include="Extensions\HttpConfigurationExtensions.cs" />
     <Compile Include="Internals\CacheTime.cs" />
+    <Compile Include="Internals\HttpActionExecutedContextExtensions.cs" />
     <Compile Include="OutputCacheConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

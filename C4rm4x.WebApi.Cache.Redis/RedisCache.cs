@@ -104,7 +104,7 @@ namespace C4rm4x.WebApi.Cache.Redis
         /// Retrieves whether or not there is an entry cached with the given key
         /// </summary>
         /// <param name="key">The key</param>
-        /// <returns></returns>True when there is an entry stored with the given key; false, otherwise</returns>
+        /// <returns>True when there is an entry stored with the given key; false, otherwise</returns>
         public bool Exists(string key)
         {
             return Cache.KeyExists(key);
