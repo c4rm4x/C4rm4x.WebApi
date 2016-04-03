@@ -61,41 +61,7 @@ namespace C4rm4x.WebApi.Cache.OutputCache
             ServerTimeSpan = serverTimeSpan;
             ClientTimeSpan = clientTimeSpan;
             CacheKeyGeneratorType = cacheKeyGeneratorType ?? typeof(DefaultCacheKeyGenerator);
-        }
-
-        /// <summary>
-        /// Retrieves an instance that implements ICache for the given action context
-        /// </summary>
-        /// <param name="actionContext">The action context</param>
-        /// <returns>Returns the instance that implements ICache for the given action context (if any)</returns>
-        protected ICache GetCache(HttpActionContext actionContext)
-        {
-            if (_cache.IsNull())
-                _cache = GetCache(
-                    actionContext.Request.GetConfiguration(), 
-                    actionContext.Request);
-
-            return _cache;
-        }
-
-        private ICache GetCache(
-            HttpConfiguration config, 
-            HttpRequestMessage request)
-        {
-            return config
-                .GetOutputCacheConfiguration()
-                .GetOutputCacheProvider(request);
-        }
-
-        /// <summary>
-        /// Returns whether or not the caching is allowed for the given action context
-        /// </summary>
-        /// <param name="actionContext">The action context</param>
-        /// <returns>True if the request method is a GET; false, otherwise</returns>
-        protected virtual bool IsCachingAllowed(HttpActionContext actionContext)
-        {
-            return actionContext.Request.Method == HttpMethod.Get;
-        }
+        }                
 
         /// <summary>
         /// Action to occur before the actual action method is invoked
@@ -154,6 +120,46 @@ namespace C4rm4x.WebApi.Cache.OutputCache
             ApplyCacheHeaders(actionExecutedContext.Response);
         }
 
+        private void StoreContent(
+            HttpActionContext actionContext,
+            byte[] content,
+            string cacheKey = null)
+        {
+            GetCache(actionContext).Store(
+                cacheKey ?? GetCacheKey(actionContext),
+                content,
+                ServerTimeSpan);
+        }
+
+        /// <summary>
+        /// Returns whether or not the caching is allowed for the given action context
+        /// </summary>
+        /// <param name="actionContext">The action context</param>
+        /// <returns>True if the request method is a GET; false, otherwise</returns>
+        protected virtual bool IsCachingAllowed(HttpActionContext actionContext)
+        {
+            return actionContext.Request.Method == HttpMethod.Get;
+        }
+
+        private ICache GetCache(HttpActionContext actionContext)
+        {
+            if (_cache.IsNull())
+                _cache = GetCache(
+                    actionContext.Request.GetConfiguration(),
+                    actionContext.Request);
+
+            return _cache;
+        }
+
+        private ICache GetCache(
+            HttpConfiguration config,
+            HttpRequestMessage request)
+        {
+            return config
+                .GetOutputCacheConfiguration()
+                .GetOutputCacheProvider(request);
+        }
+
         private string GetCacheKey(HttpActionContext actionContext)
         {
             return GetCacheKeyGenerator().Generate(actionContext);
@@ -171,17 +177,6 @@ namespace C4rm4x.WebApi.Cache.OutputCache
         {
             return GetCache(actionContext)
                 .Retrieve<byte[]>(cacheKey ?? GetCacheKey(actionContext));
-        }
-
-        private void StoreContent(
-            HttpActionContext actionContext,
-            byte[] content,
-            string cacheKey = null)
-        {
-            GetCache(actionContext).Store(
-                cacheKey ?? GetCacheKey(actionContext),
-                content, 
-                ServerTimeSpan);
         }
 
         /// <summary>
