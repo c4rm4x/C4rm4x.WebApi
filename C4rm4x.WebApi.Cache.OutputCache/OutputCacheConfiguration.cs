@@ -31,11 +31,6 @@ namespace C4rm4x.WebApi.Cache.OutputCache
             _config = config;
         }
 
-        internal void GetOutputCacheProvider(bool v)
-        {
-            throw new NotImplementedException();
-        }
-
         /// <summary>
         /// Register the output cache provider 
         /// (in case it differs from the cache for the rest of the application)

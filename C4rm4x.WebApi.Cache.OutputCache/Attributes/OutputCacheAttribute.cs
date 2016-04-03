@@ -70,8 +70,6 @@ namespace C4rm4x.WebApi.Cache.OutputCache
         public override void OnActionExecuting(
             HttpActionContext actionContext)
         {
-            const string JsonContentType = "application/json";
-
             actionContext.NotNull(nameof(actionContext));
 
             if (!IsCachingAllowed(actionContext)) return;
@@ -80,11 +78,20 @@ namespace C4rm4x.WebApi.Cache.OutputCache
 
             if (content.IsNullOrEmpty()) return;
 
+            CreateResponse(actionContext, content);
+            
+            ApplyCacheHeaders(actionContext.Response);
+        }
+
+        private static void CreateResponse(
+            HttpActionContext actionContext,
+            byte[] content)
+        {
+            const string JsonContentType = "application/json";
+
             actionContext.Response = actionContext.Request.CreateResponse();
             actionContext.Response.Content = new ByteArrayContent(content);
             actionContext.Response.Content.Headers.ContentType = new MediaTypeHeaderValue(JsonContentType);
-
-            ApplyCacheHeaders(actionContext.Response);
         }
 
         /// <summary>
@@ -106,25 +113,23 @@ namespace C4rm4x.WebApi.Cache.OutputCache
             var cacheKey = GetCacheKey(actionExecutedContext.ActionContext);
 
             if (cacheKey.IsNullOrEmpty() ||
-                !GetCachedContent(actionExecutedContext.ActionContext, cacheKey).IsNullOrEmpty())
+                !GetCachedContent(actionExecutedContext.ActionContext, cacheKey).IsNullOrEmpty() ||
+                actionExecutedContext.Response.Content.IsNull())
                 return;
 
-            var responseContent = actionExecutedContext.Response.Content;
-
-            if (responseContent.IsNull()) return;
-
-            var content = responseContent.ReadAsByteArrayAsync().Result;
-
-            StoreContent(actionExecutedContext.ActionContext, content, cacheKey);
+            StoreContent(actionExecutedContext, cacheKey);
 
             ApplyCacheHeaders(actionExecutedContext.Response);
         }
 
         private void StoreContent(
-            HttpActionContext actionContext,
-            byte[] content,
+            HttpActionExecutedContext actionExecutedContext,
             string cacheKey = null)
         {
+            var actionContext = actionExecutedContext.ActionContext;
+            var content = actionExecutedContext
+                .Response.Content.ReadAsByteArrayAsync().Result; 
+                
             GetCache(actionContext).Store(
                 cacheKey ?? GetCacheKey(actionContext),
                 content,
