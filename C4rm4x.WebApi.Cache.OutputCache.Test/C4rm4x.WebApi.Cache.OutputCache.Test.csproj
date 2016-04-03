@@ -84,6 +84,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Attributes\AutoInvalidateOutputCacheAttributeTest.cs" />
+    <Compile Include="Attributes\InvalidateOutputCacheAttributeTest.cs" />
     <Compile Include="Attributes\OutputCacheAttributeTest.cs" />
     <Compile Include="Attributes\OutputCacheAttributeTest.OnActionExecuted.cs" />
     <Compile Include="Attributes\OutputCacheAttributeTest.OnActionExecuting.cs" />

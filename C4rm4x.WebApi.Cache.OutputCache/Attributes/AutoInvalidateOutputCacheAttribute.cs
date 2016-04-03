@@ -14,7 +14,7 @@ namespace C4rm4x.WebApi.Cache.OutputCache
 {
     /// <summary>
     /// Invalidate output cache for all the get-methods within the controller associated
-    /// to this context for all POST, PUT and DELETE http methods sucessfully process
+    /// to this context for all POST, PUT and DELETE http methods sucessfully processed
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     public sealed class AutoInvalidateOutputCacheAttribute :
@@ -31,7 +31,7 @@ namespace C4rm4x.WebApi.Cache.OutputCache
 
         /// <summary>
         /// Invalidate the output cache using the given action executed context
-        /// for all the get-methods for all POST, PUT and DELETE http methods successfully process
+        /// for all the get-methods for all POST, PUT and DELETE http methods successfully processed
         /// </summary>
         /// <param name="actionExecutedContext">The context</param>
         protected override void InvalidateOutputCache(
@@ -55,7 +55,7 @@ namespace C4rm4x.WebApi.Cache.OutputCache
                 .ControllerContext
                 .ControllerDescriptor
                 .ControllerType
-                .GetMethods(BindingFlags.Public | BindingFlags.Instance);
+                .GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
 
             return ProjectActionNames(allActions.Where(IsGetAction));
         }

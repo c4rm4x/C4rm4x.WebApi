@@ -37,7 +37,7 @@ namespace C4rm4x.WebApi.Cache.OutputCache.Test
                     _sut.Generate(GetHttpActionContext(ActionName)));
             }
 
-            private HttpActionContext GetHttpActionContext(
+            private static HttpActionContext GetHttpActionContext(
                 string actionName)
             {
                 return new HttpActionContext(
