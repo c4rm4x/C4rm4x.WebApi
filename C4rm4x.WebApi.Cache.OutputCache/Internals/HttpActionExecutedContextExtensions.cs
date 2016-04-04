@@ -6,7 +6,7 @@ using System.Web.Http.Filters;
 
 #endregion
 
-namespace C4rm4x.WebApi.Cache.OutputCache
+namespace C4rm4x.WebApi.Cache.OutputCache.Internals
 {
     internal static class HttpActionExecutedContextExtensions
     {

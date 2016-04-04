@@ -6,7 +6,6 @@ using C4rm4x.WebApi.Framework.Cache;
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 
@@ -21,8 +20,6 @@ namespace C4rm4x.WebApi.Cache.OutputCache
     public class OutputCacheAttribute : 
         ActionFilterAttribute
     {
-        private ICache _cache;
-
         private Func<DateTime> _nowFactory = () => DateTime.UtcNow;
 
         /// <summary>
@@ -159,21 +156,11 @@ namespace C4rm4x.WebApi.Cache.OutputCache
 
         private ICache GetCache(HttpActionContext actionContext)
         {
-            if (_cache.IsNull())
-                _cache = GetCache(
-                    actionContext.Request.GetConfiguration(),
-                    actionContext.Request);
-
-            return _cache;
-        }
-
-        private ICache GetCache(
-            HttpConfiguration config,
-            HttpRequestMessage request)
-        {
-            return config
+            return actionContext
+                .Request
+                .GetConfiguration()
                 .GetOutputCacheConfiguration()
-                .GetOutputCacheProvider(request);
+                .GetOutputCacheProvider(actionContext.Request);
         }
 
         private string GetCacheKey(HttpActionContext actionContext)

@@ -1,10 +1,9 @@
 ﻿#region Using
 
-using C4rm4x.Tools.Utilities;
+using C4rm4x.WebApi.Cache.OutputCache.Internals;
 using C4rm4x.WebApi.Framework.Cache;
 using System;
 using System.Net.Http;
-using System.Web.Http;
 using System.Web.Http.Filters;
 
 #endregion
@@ -17,8 +16,6 @@ namespace C4rm4x.WebApi.Cache.OutputCache
     public abstract class BaseInvalidateOutputCacheAttribute :
         ActionFilterAttribute
     {
-        private ICache _cache;
-        
         /// <summary>
         /// Gets the type of the class responsible for generating the keys
         /// </summary>
@@ -73,21 +70,11 @@ namespace C4rm4x.WebApi.Cache.OutputCache
 
         private ICache GetCache(HttpActionExecutedContext actionExecutedContext)
         {
-            if (_cache.IsNull())
-                _cache = GetCache(
-                    actionExecutedContext.Request.GetConfiguration(),
-                    actionExecutedContext.Request);
-
-            return _cache;
-        }
-
-        private ICache GetCache(
-            HttpConfiguration config,
-            HttpRequestMessage request)
-        {
-            return config
+            return actionExecutedContext
+                .Request
+                .GetConfiguration()
                 .GetOutputCacheConfiguration()
-                .GetOutputCacheProvider(request);
+                .GetOutputCacheProvider(actionExecutedContext.Request);
         }
 
         private string GetCacheKey(
