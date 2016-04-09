@@ -7,8 +7,8 @@
     <ProjectGuid>{BE5FCC8F-6E8E-414F-941A-FD043A9A9421}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>C4rm4x.WebApi.Security.WhiteList</RootNamespace>
-    <AssemblyName>C4rm4x.WebApi.Security.WhiteList</AssemblyName>
+    <RootNamespace>C4rm4x.WebApi.Security.Acl</RootNamespace>
+    <AssemblyName>C4rm4x.WebApi.Security.Acl</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -28,7 +28,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\C4rm4x.WebApi.Security.WhiteList.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\C4rm4x.WebApi.Security.Acl.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="C4rm4x.Tools.Utilities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -39,8 +39,8 @@
       <HintPath>..\packages\C4rm4x.WebApi.Framework.2.3.0.0\lib\net452\C4rm4x.WebApi.Framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="C4rm4x.WebApi.Security, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\C4rm4x.WebApi.Security.3.0.0.0\lib\net452\C4rm4x.WebApi.Security.dll</HintPath>
+    <Reference Include="C4rm4x.WebApi.Security, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\C4rm4x.WebApi.Security.3.1.0.0\lib\net452\C4rm4x.WebApi.Security.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -73,11 +73,11 @@
     <Compile Include="Internals\HttpRequestHeadersExtensions.cs" />
     <Compile Include="Extensions\MessageHandlerExtensions.cs" />
     <Compile Include="Internals\StringExtensions.cs" />
-    <Compile Include="Subscriptions\ISubscriptionDataProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Subscriptions\ISubscriberRepository.cs" />
     <Compile Include="Subscriptions\Subscriber.cs" />
-    <Compile Include="WhiteListBasedSecurityMessageHandler.cs" />
-    <Compile Include="WhiteListConfiguration.cs" />
+    <Compile Include="AclBasedSecurityMessageHandler.cs" />
+    <Compile Include="AclConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -6,7 +6,7 @@ using System.Text;
 
 #endregion
 
-namespace C4rm4x.WebApi.Security.WhiteList.Internals
+namespace C4rm4x.WebApi.Security.Acl.Internals
 {
     internal static class StringExtensions
     {
@@ -15,8 +15,15 @@ namespace C4rm4x.WebApi.Security.WhiteList.Internals
         {
             base64.NotNullOrEmpty(nameof(base64));
 
-            return Encoding.UTF8.GetString(
-                Convert.FromBase64String(base64));
+            try
+            {
+                return Encoding.UTF8.GetString(
+                    Convert.FromBase64String(base64));
+            }
+            catch (FormatException)
+            {
+                return string.Empty;
+            }
         }
     }
 }

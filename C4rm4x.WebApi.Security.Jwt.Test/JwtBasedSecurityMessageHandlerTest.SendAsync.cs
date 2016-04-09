@@ -313,7 +313,6 @@ namespace C4rm4x.WebApi.Security.Jwt.Test
                 }
             }
 
-
             #endregion
 
             private static HttpContextBase GetHttpContext()

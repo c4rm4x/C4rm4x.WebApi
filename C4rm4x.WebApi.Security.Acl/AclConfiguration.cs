@@ -2,25 +2,25 @@
 
 using C4rm4x.Tools.Utilities;
 using C4rm4x.WebApi.Framework.Cache;
-using C4rm4x.WebApi.Security.WhiteList.Subscriptions;
+using C4rm4x.WebApi.Security.Acl.Subscriptions;
 using System;
 using System.Net.Http;
 using System.Web.Http;
 
 #endregion
 
-namespace C4rm4x.WebApi.Security.WhiteList
+namespace C4rm4x.WebApi.Security.Acl
 {
     /// <summary>
-    /// Class responsible to manage all the configuration white list related
+    /// Class responsible to manage all the configuration ACL related
     /// </summary>
-    public class WhiteListConfiguration
+    public class AclConfiguration
     {
         /// <summary>
         /// The key associated with the list of susbcribers in the cache
         /// </summary>
-        internal const string SubscribersCacheKey = 
-            "WhiteListSecurityMessageHandler.Subscribers";
+        internal const string SubscribersCacheKey =
+            "AclSecurityMessageHandler.Subscribers";
 
         private readonly HttpConfiguration _config;
 
@@ -31,7 +31,7 @@ namespace C4rm4x.WebApi.Security.WhiteList
         /// Constructor
         /// </summary>
         /// <param name="config">The Http configuration</param>
-        public WhiteListConfiguration(HttpConfiguration config)
+        public AclConfiguration(HttpConfiguration config)
         {
             config.NotNull(nameof(config));
 
@@ -39,11 +39,11 @@ namespace C4rm4x.WebApi.Security.WhiteList
         }
 
         /// <summary>
-        /// Register the white list cache provider 
+        /// Register the ACL cache provider 
         /// (in case it differs from the cache for the rest of the application)
         /// </summary>
         /// <param name="provider"></param>
-        public void RegisterWhiteListCacheProvider(Func<ICache> provider)
+        public void RegisterAclCacheProvider(Func<ICache> provider)
         {
             provider.NotNull(nameof(provider));
 
@@ -56,7 +56,7 @@ namespace C4rm4x.WebApi.Security.WhiteList
         /// </summary>
         /// <param name="request">The request</param>
         /// <returns>The instance that implements ICache</returns>
-        public ICache GetWhiteListCacheProvider(HttpRequestMessage request)
+        public ICache GetAclCacheProvider(HttpRequestMessage request)
         {
             object result;
 
@@ -77,11 +77,11 @@ namespace C4rm4x.WebApi.Security.WhiteList
         /// </summary>
         /// <param name="request">The request</param>
         /// <returns>The instance that implements ISubscriptionDataProvider</returns>
-        public ISubscriptionDataProvider GetSubscriptionDataProvider(
+        public ISubscriberRepository GetSubscriberRepository(
             HttpRequestMessage request)
         {
-            return _resolverFactory(request, typeof(ISubscriptionDataProvider)) 
-                as ISubscriptionDataProvider;
+            return _resolverFactory(request, typeof(ISubscriberRepository)) 
+                as ISubscriberRepository;
         }
 
         /// <summary>

@@ -5,7 +5,7 @@ using System.Web.Http;
 
 #endregion
 
-namespace C4rm4x.WebApi.Security.WhiteList
+namespace C4rm4x.WebApi.Security.Acl
 {
     /// <summary>
     /// Set of extensions for HttpConfiguration
@@ -17,12 +17,12 @@ namespace C4rm4x.WebApi.Security.WhiteList
         /// </summary>
         /// <param name="config">The http configu</param>
         /// <returns>An instance of WhiteListConfiguration</returns>
-        public static WhiteListConfiguration GetWhiteListConfiguration(
+        public static AclConfiguration GetAclConfiguration(
             this HttpConfiguration config)
         {
             config.NotNull(nameof(config));
 
-            return new WhiteListConfiguration(config);
+            return new AclConfiguration(config);
         }
     }
 }

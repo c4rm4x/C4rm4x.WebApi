@@ -1,11 +1,12 @@
 ﻿#region Using
 
+using System;
 using System.Security.Cryptography;
 using System.Text;
 
 #endregion
 
-namespace C4rm4x.WebApi.Security.WhiteList.Subscriptions
+namespace C4rm4x.WebApi.Security.Acl.Subscriptions
 {
     /// <summary>
     /// Entity that defines a subscriber
@@ -13,18 +14,25 @@ namespace C4rm4x.WebApi.Security.WhiteList.Subscriptions
     public class Subscriber
     {
         /// <summary>
+        /// Constructor
+        /// </summary>
+        internal Subscriber()
+        { }
+
+        /// <summary>
         /// What is the identifier of all their requests
         /// </summary>
-        public string Identifier { get; private set; }
+        public string Identifier { get; internal set; }
 
         /// <summary>
         /// What is the shared secret between them and this app
         /// </summary>
-        public string Secret { get; private set; }
+        public string Secret { get; internal set; }
 
         internal bool ValidateSecret(string sharedSecret)
         {
-            return ComputeHash(sharedSecret) == Secret;
+            return ComputeHash(sharedSecret)
+                .Equals(Secret, StringComparison.InvariantCultureIgnoreCase);
         }
 
         private static string ComputeHash(string sharedSecret)
@@ -32,7 +40,17 @@ namespace C4rm4x.WebApi.Security.WhiteList.Subscriptions
             var hash = new MD5CryptoServiceProvider()
                 .ComputeHash(Encoding.UTF8.GetBytes(sharedSecret));
 
-            return Encoding.UTF8.GetString(hash);
+            return FromHex(hash);
+        }
+
+        private static string FromHex(byte[] hash)
+        {
+            var sb = new StringBuilder();
+
+            for (var i = 0; i < hash.Length; i++)
+                sb.Append(hash[i].ToString("X2"));
+
+            return sb.ToString();
         }
     }
 }

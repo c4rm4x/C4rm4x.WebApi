@@ -6,7 +6,7 @@ using System.Net.Http.Headers;
 
 #endregion
 
-namespace C4rm4x.WebApi.Security.WhiteList.Internals
+namespace C4rm4x.WebApi.Security.Acl.Internals
 {
     internal static class HttpRequestHeaderExtensions
     {

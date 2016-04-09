@@ -5,15 +5,15 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("C4rm4x.WebApi.Security.WhiteList")]
+[assembly: AssemblyTitle("C4rm4x.WebApi.Security.Acl")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("]C4rM4X[")]
-[assembly: AssemblyProduct("C4rm4x.WebApi.Security.WhiteList")]
+[assembly: AssemblyProduct("C4rm4x.WebApi.Security.Acl")]
 [assembly: AssemblyCopyright("Copyright © ]C4rM4X[ 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: InternalsVisibleTo("C4rm4x.WebApi.Security.WhiteList")]
+[assembly: InternalsVisibleTo("C4rm4x.WebApi.Security.Acl.Test")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 

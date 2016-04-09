@@ -7,7 +7,7 @@ using System.Web.Http;
 
 #endregion
 
-namespace C4rm4x.WebApi.Security.WhiteList
+namespace C4rm4x.WebApi.Security.Acl
 {
     /// <summary>
     /// Message handler extensions
@@ -15,32 +15,32 @@ namespace C4rm4x.WebApi.Security.WhiteList
     public static class MessageHandlerExtensions
     {
         /// <summary>
-        /// Configure message handlers to enable white list based 
+        /// Configure message handlers to enable ACL based 
         /// SecurityMessageHandler for all the requests
         /// </summary>
         /// <param name="config">The config</param>
         /// <param name="cacheProvider">Sets the cache provider (if this differs for the one used in the rest of the application)</param>
-        public static void EnableWhiteList(
+        public static void EnableAcl(
             this HttpConfiguration config,
             Func<ICache> cacheProvider = null)
         {
             config.NotNull(nameof(config));
 
             config.MessageHandlers.Add(
-                new WhiteListBasedSecurityMessageHandler());
+                new AclBasedSecurityMessageHandler());
 
-            SetWhiteListCacheProvider(config, cacheProvider);
+            SetAclCacheProvider(config, cacheProvider);
         }
 
-        private static void SetWhiteListCacheProvider(
+        private static void SetAclCacheProvider(
             HttpConfiguration config,
             Func<ICache> cacheProvider)
         {
             if (cacheProvider.IsNull()) return;
 
             config
-                .GetWhiteListConfiguration()
-                .RegisterWhiteListCacheProvider(cacheProvider);
+                .GetAclConfiguration()
+                .RegisterAclCacheProvider(cacheProvider);
         }
     }
 }

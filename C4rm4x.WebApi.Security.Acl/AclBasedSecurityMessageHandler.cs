@@ -2,25 +2,38 @@
 
 using C4rm4x.Tools.Utilities;
 using C4rm4x.WebApi.Framework.Cache;
-using C4rm4x.WebApi.Security.WhiteList.Internals;
-using C4rm4x.WebApi.Security.WhiteList.Subscriptions;
+using C4rm4x.WebApi.Security.Acl.Internals;
+using C4rm4x.WebApi.Security.Acl.Subscriptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 
 #endregion
 
-namespace C4rm4x.WebApi.Security.WhiteList
+namespace C4rm4x.WebApi.Security.Acl
 {
     /// <summary>
     /// Delegating handler responsible to check whether or not the the HTTP requests are
     /// comming form one of the subscribers
     /// </summary>
-    public class WhiteListBasedSecurityMessageHandler : 
+    public class AclBasedSecurityMessageHandler : 
         SecurityMessageHandler
     {
-        private const int OneHour = 60 * 60;        
+        private const int OneHour = 60 * 60;
+
+        private Func<AclConfiguration, HttpRequestMessage, ISubscriberRepository> _subscriberRepositoryFactory =
+            (config, request) => config.GetSubscriberRepository(request);
+
+        /// <summary>
+        /// Gets the actual HttpStatusCode. 
+        /// In this case, Unauthorized.
+        /// </summary>
+        protected override HttpStatusCode ForbiddenErrorCode
+        {
+            get { return HttpStatusCode.Unauthorized; }
+        }
 
         /// <summary>
         /// Returns whether or not the current HTTP request is allowed to proceeed
@@ -47,11 +60,17 @@ namespace C4rm4x.WebApi.Security.WhiteList
         {
             apiIdentifier = sharedSecret = string.Empty;
 
-            var authorization = request.Headers.GetAuthorization()
+            var authorizationAsBase64 = request.Headers.GetAuthorization();
+
+            if (authorizationAsBase64.IsNullOrEmpty())
+                return false;
+
+             var authorization = authorizationAsBase64
+                .Replace("Basic ", string.Empty)
                 .FromBase64()
                 .Split(new[] { ":" }, StringSplitOptions.RemoveEmptyEntries);
 
-            if (authorization.IsNullOrEmpty() || authorization.Length != 2)
+            if (authorization.Length != 2)
                 return false;
 
             return !(apiIdentifier = authorization[0]).IsNullOrEmpty() &&
@@ -82,20 +101,20 @@ namespace C4rm4x.WebApi.Security.WhiteList
 
             if (!subscribers.IsNullOrEmpty()) return subscribers;
 
-            return RetrieveFromDataProvider(request);
+            return RetrieveFromRepository(request);
         }
 
         private IEnumerable<Subscriber> RetrieveFromCache(
             HttpRequestMessage request)
         {
             return GetCache(request)
-                .Retrieve<IEnumerable<Subscriber>>(WhiteListConfiguration.SubscribersCacheKey);
+                .Retrieve<IEnumerable<Subscriber>>(AclConfiguration.SubscribersCacheKey);
         }
 
-        private IEnumerable<Subscriber> RetrieveFromDataProvider(
+        private IEnumerable<Subscriber> RetrieveFromRepository(
             HttpRequestMessage request)
         {
-            var subscribers = GetSubscriptionDataProvider(request).GetAll();
+            var subscribers = GetSubscriberRepository(request).GetAll();
 
             if (!subscribers.IsNullOrEmpty())
                 StoreInCache(request, subscribers);
@@ -103,11 +122,12 @@ namespace C4rm4x.WebApi.Security.WhiteList
             return subscribers;
         }
 
-        private ISubscriptionDataProvider GetSubscriptionDataProvider(
+        private ISubscriberRepository GetSubscriberRepository(
             HttpRequestMessage request)
         {
-            return GetWhiteListConfiguration(request)
-                .GetSubscriptionDataProvider(request);
+            return _subscriberRepositoryFactory(
+                GetAclConfiguration(request), 
+                request);
         }
 
         private void StoreInCache(
@@ -115,21 +135,31 @@ namespace C4rm4x.WebApi.Security.WhiteList
             IEnumerable<Subscriber> subscribers)
         {
             GetCache(request)
-                .Store(WhiteListConfiguration.SubscribersCacheKey, subscribers, OneHour);
+                .Store(AclConfiguration.SubscribersCacheKey, subscribers, OneHour);
         }
 
         private ICache GetCache(HttpRequestMessage request)
         {
-            return GetWhiteListConfiguration(request)
-                .GetWhiteListCacheProvider(request);
+            return GetAclConfiguration(request).GetAclCacheProvider(request);
         }
 
-        private WhiteListConfiguration GetWhiteListConfiguration(
+        private AclConfiguration GetAclConfiguration(
             HttpRequestMessage request)
         {
-            return request
-                .GetConfiguration()
-                .GetWhiteListConfiguration();
+            return request.GetConfiguration().GetAclConfiguration();
+        }
+
+        /// <summary>
+        /// Sets subscriber repository factory
+        /// </summary>
+        /// <remarks>USE THIS ONLY UNIT TESTING</remarks>
+        /// <param name="subscriberRepositoryFactory">The factory</param>
+        internal void SetSubscriberRepositoryFactory(
+            Func<AclConfiguration, HttpRequestMessage, ISubscriberRepository> subscriberRepositoryFactory)
+        {
+            subscriberRepositoryFactory.NotNull(nameof(subscriberRepositoryFactory));
+
+            _subscriberRepositoryFactory = subscriberRepositoryFactory;
         }
     }
 }
