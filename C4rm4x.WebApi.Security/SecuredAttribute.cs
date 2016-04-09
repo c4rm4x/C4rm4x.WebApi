@@ -36,9 +36,9 @@ namespace C4rm4x.WebApi.Security
         public Claim Claim { get; set; }
 
         /// <summary>
-        /// Constructor for unit testing
+        /// Constructor
         /// </summary>
-        internal SecuredAttribute()
+        public SecuredAttribute()
         { }
 
         /// <summary>

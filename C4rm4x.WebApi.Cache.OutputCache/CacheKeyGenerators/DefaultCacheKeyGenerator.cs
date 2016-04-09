@@ -19,7 +19,7 @@ namespace C4rm4x.WebApi.Cache.OutputCache
         /// </summary>
         /// <param name="actionContext">The action context</param>
         /// <returns>The key for the given action context</returns>
-        public string Generate(HttpActionContext actionContext)
+        public virtual string Generate(HttpActionContext actionContext)
         {
             actionContext.NotNull(nameof(actionContext));
 
@@ -33,7 +33,7 @@ namespace C4rm4x.WebApi.Cache.OutputCache
         /// <param name="actionContext">The action context</param>
         /// <param name="actionName">The action name</param>
         /// <returns>The key for the given action context and action name</returns>
-        public string Generate(
+        public virtual string Generate(
             HttpActionContext actionContext, 
             string actionName)
         {
