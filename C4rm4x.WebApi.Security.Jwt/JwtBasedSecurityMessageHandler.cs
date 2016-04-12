@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Security.Principal;
+using System.Threading;
 
 #endregion
 
@@ -93,7 +94,10 @@ namespace C4rm4x.WebApi.Security.Jwt
                 var result = handler.TryValidateToken(securityToken, Options, out principal);
 
                 if (result) // Do nothing if validation fails
+                {
+                    Thread.CurrentPrincipal = principal;
                     _assignPrincipalFactory(request, principal);
+                }
 
                 return result;
             }
