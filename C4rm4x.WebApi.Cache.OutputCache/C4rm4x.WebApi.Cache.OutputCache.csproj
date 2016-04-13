@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="Attributes\AutoInvalidateOutputCacheAttribute.cs" />
     <Compile Include="Attributes\BaseInvalidateOutputCacheAttribute.cs" />
+    <Compile Include="Attributes\ClientOnlyOutputCacheAttribute.cs" />
     <Compile Include="Attributes\InvalidateOutputCacheAttribute.cs" />
     <Compile Include="Attributes\OutputCacheAttribute.cs" />
     <Compile Include="CacheKeyGenerators\DefaultCacheKeyGenerator.cs" />
