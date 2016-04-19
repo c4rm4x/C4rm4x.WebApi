@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
@@ -26,6 +27,11 @@ namespace C4rm4x.WebApi.Persistance.EF
     {
         private readonly DbContext _entities;
         private readonly DbSet<T> _set;
+
+        /// <summary>
+        /// Gets the dbQuery object linked to this repository
+        /// </summary>
+        protected DbQuery<T> Query => _set;
 
         /// <summary>
         /// Constructors
@@ -102,7 +108,7 @@ namespace C4rm4x.WebApi.Persistance.EF
         /// <param name="predicate">Predicate</param>
         /// <returns>The first ocurrence if at least one entity fulfills a given predicate. Null otherwise</returns>
         public T Get(Expression<Func<T, bool>> predicate)
-        {
+        {            
             return _set.FirstOrDefault(predicate);
         }
 
