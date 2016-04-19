@@ -294,6 +294,22 @@ namespace C4rm4x.WebApi.Security.Jwt.Test
                 Assert.AreSame(Principal, assignedPrincipal);
             }
 
+            [TestMethod, UnitTest]
+            public void SendAsync_Sets_Thread_CurrentPrincipal_When_A_Valid_Jwt_Is_Found_In_Authorization_Header_Value()
+            {
+                var tokenHandler = Mock.Of<JwtSecurityTokenHandler>();
+                var validatedToken = It.IsAny<SecurityToken>();
+                var Principal = Mock.Of<ClaimsPrincipal>();
+
+                Mock.Get(tokenHandler)
+                    .Setup(h => h.ValidateToken(It.IsAny<string>(), It.IsAny<TokenValidationParameters>(), out validatedToken))
+                    .Returns(Principal);
+
+                SendAsync(tokenHandler);
+
+                Assert.AreSame(Principal, Thread.CurrentPrincipal);
+            }
+
             #region Helper classes
 
             class TestHandler : DelegatingHandler
@@ -312,7 +328,6 @@ namespace C4rm4x.WebApi.Security.Jwt.Test
                     return Task.FromResult(ResponseMessage);
                 }
             }
-
 
             #endregion
 
