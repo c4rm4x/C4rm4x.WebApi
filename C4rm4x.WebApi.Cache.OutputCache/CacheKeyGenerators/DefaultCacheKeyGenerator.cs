@@ -2,6 +2,8 @@
 
 using C4rm4x.Tools.Utilities;
 using System.Web.Http.Controllers;
+using System;
+using System.Web.Http;
 
 #endregion
 
@@ -27,6 +29,25 @@ namespace C4rm4x.WebApi.Cache.OutputCache
         }
 
         /// <summary>
+        /// Generates the key that should be use to cache/retrieve the content
+        /// for the given controllerType and action name
+        /// </summary>
+        /// <param name="controllerType">The controller type (must be ApiController)</param>
+        /// <param name="actionName">The action name</param>
+        /// <returns>The key for the given controller type and action name</returns>
+        /// <exception cref="ArgumentException">If controller type is not an ApiController</exception>
+        public string Generate(
+            Type controllerType,
+            string actionName)
+        {
+            controllerType.NotNull(nameof(controllerType));
+            controllerType.Is<ApiController>();
+            actionName.NotNullOrEmpty(nameof(actionName));
+
+            return "{0}-{1}".AsFormat(controllerType.FullName, actionName);
+        }
+
+        /// <summary>
         /// Generates the key that should be used to cache/retrieve the content
         /// for the given action context and action name
         /// </summary>
@@ -40,8 +61,8 @@ namespace C4rm4x.WebApi.Cache.OutputCache
             actionContext.NotNull(nameof(actionContext));
             actionName.NotNullOrEmpty(nameof(actionName));
 
-            return "{0}-{1}".AsFormat(
-                actionContext.ControllerContext.ControllerDescriptor.ControllerType.FullName,
+            return Generate(
+                actionContext.ControllerContext.ControllerDescriptor.ControllerType, 
                 actionName);
         }
     }

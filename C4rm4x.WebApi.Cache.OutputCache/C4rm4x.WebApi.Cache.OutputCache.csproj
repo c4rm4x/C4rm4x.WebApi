@@ -69,6 +69,7 @@
     <Compile Include="Attributes\BaseInvalidateOutputCacheAttribute.cs" />
     <Compile Include="Attributes\ClientOnlyOutputCacheAttribute.cs" />
     <Compile Include="Attributes\InvalidateOutputCacheAttribute.cs" />
+    <Compile Include="Attributes\InvalidateXReferencedOutputCacheAttribute.cs" />
     <Compile Include="Attributes\OutputCacheAttribute.cs" />
     <Compile Include="CacheKeyGenerators\DefaultCacheKeyGenerator.cs" />
     <Compile Include="CacheKeyGenerators\ICacheKeyGenerator.cs" />

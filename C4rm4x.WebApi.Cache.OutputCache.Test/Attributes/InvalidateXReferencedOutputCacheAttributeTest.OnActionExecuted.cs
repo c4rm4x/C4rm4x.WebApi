@@ -18,10 +18,10 @@ using System.Web.Http.Routing;
 
 namespace C4rm4x.WebApi.Cache.OutputCache.Test
 {
-    public partial class InvalidateOutputCacheAttributeTest
+    public partial class InvalidateXReferencedOutputCacheAttributeTest
     {
         [TestClass]
-        public class InvalidateOutputCacheAttributeOnActionExecutedTest
+        public class InvalidateXReferencedOutputCacheAttributeOnActionExecutedTest
         {
             private const string ActionName = "actionName";
 
@@ -46,7 +46,7 @@ namespace C4rm4x.WebApi.Cache.OutputCache.Test
             }
 
             [TestMethod, UnitTest]
-            public void OnActionExecuted_Checks_Whether_Or_Not_The_Key_For_The_Given_Action_Name_Is_In_The_Cache_When_Response_Was_Successfully_Processed()
+            public void OnActionExecuted_Checks_Whether_Or_Not_The_Key_For_The_Given_ControllerType_And_Action_Name_Is_In_The_Cache_When_Response_Was_Successfully_Processed()
             {
                 var cache = GetCache();
                 var response = GetHttpResponseMessage();
@@ -55,7 +55,7 @@ namespace C4rm4x.WebApi.Cache.OutputCache.Test
                     .OnActionExecuted(GetHttpActionExecutedContext(cache, response));
 
                 Mock.Get(cache)
-                    .Verify(c => c.Exists(GetKey(ActionName)), Times.Once());
+                    .Verify(c => c.Exists(GetKey(typeof(TestController), ActionName)), Times.Once());
             }
 
             [TestMethod, UnitTest]
@@ -87,13 +87,15 @@ namespace C4rm4x.WebApi.Cache.OutputCache.Test
                     .OnActionExecuted(GetHttpActionExecutedContext(cache));
 
                 Mock.Get(cache)
-                    .Verify(c => c.Remove(GetKey(ActionName)), Times.Once());
+                    .Verify(c => c.Remove(GetKey(typeof(TestController), ActionName)), Times.Once());
             }
 
-            private static InvalidateOutputCacheAttribute CreateSubjectUnderTest(
+            private static InvalidateXReferencedOutputCacheAttribute CreateSubjectUnderTest(
+                Type controllerType = null,
                 string actionName = ActionName)
             {
-                return new InvalidateOutputCacheAttribute(
+                return new InvalidateXReferencedOutputCacheAttribute(
+                    controllerType ?? typeof(TestController),
                     actionName);
             }
 
@@ -115,11 +117,10 @@ namespace C4rm4x.WebApi.Cache.OutputCache.Test
 
             private static HttpActionExecutedContext GetHttpActionExecutedContext(
                 ICache cache = null,
-                HttpResponseMessage response = null,
-                string actionName = ActionName)
+                HttpResponseMessage response = null)
             {
                 var actionExecutedContext = new HttpActionExecutedContext(
-                    GetHttpActionContext(cache, actionName), null);
+                    GetHttpActionContext(cache), null);
 
                 actionExecutedContext.Response =
                     actionExecutedContext.ActionContext.Response =
@@ -129,12 +130,11 @@ namespace C4rm4x.WebApi.Cache.OutputCache.Test
             }
 
             private static HttpActionContext GetHttpActionContext(
-                ICache cache,
-                string actionName)
+                ICache cache)
             {
                 return new HttpActionContext(
                     GetHttpControllerContext(cache ?? GetCache()),
-                    GetHttpActionDescriptor(actionName));
+                    Mock.Of<HttpActionDescriptor>());
             }
 
             private static HttpControllerContext GetHttpControllerContext(
@@ -146,9 +146,6 @@ namespace C4rm4x.WebApi.Cache.OutputCache.Test
                     config,
                     GetHttpRouteData(config, request),
                     request);
-
-                controllerContext.ControllerDescriptor =
-                    GetHttpControllerDescriptor(config);
 
                 return controllerContext;
             }
@@ -186,30 +183,11 @@ namespace C4rm4x.WebApi.Cache.OutputCache.Test
                 return request;
             }
 
-            private static HttpControllerDescriptor GetHttpControllerDescriptor(
-                HttpConfiguration config)
-            {
-                return new HttpControllerDescriptor(
-                    config,
-                    "test",
-                    typeof(TestController));
-            }
-
-            private static HttpActionDescriptor GetHttpActionDescriptor(
+            private static string GetKey(
+                Type controllerType,
                 string actionName)
             {
-                var actionDescriptor = Mock.Of<HttpActionDescriptor>();
-
-                Mock.Get(actionDescriptor)
-                    .SetupGet(a => a.ActionName)
-                    .Returns(actionName);
-
-                return actionDescriptor;
-            }
-
-            private static string GetKey(string actionName)
-            {
-                return "{0}-{1}".AsFormat(typeof(TestController).FullName, actionName);
+                return "{0}-{1}".AsFormat(controllerType.FullName, actionName);
             }
         }
     }
