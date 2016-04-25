@@ -72,7 +72,7 @@ namespace C4rm4x.WebApi.Cache.OutputCache
             HttpActionExecutedContext actionExecutedContext)
         {
             var cache = GetCache(actionExecutedContext);
-            var cacheKey = GetCacheKey();
+            var cacheKey = GetCacheKey(actionExecutedContext);
 
             if (!cache.Exists(cacheKey)) return;
 
@@ -88,10 +88,10 @@ namespace C4rm4x.WebApi.Cache.OutputCache
                 .GetOutputCacheProvider(actionExecutedContext.Request);
         }
 
-        private string GetCacheKey()
+        private string GetCacheKey(HttpActionExecutedContext actionExecutedContext)
         {
             return GetCacheKeyGenerator()
-                .Generate(ControllerType, ActionName);
+                .Generate(ControllerType, ActionName, actionExecutedContext.ActionContext);
         }
 
         private ICacheKeyGenerator GetCacheKeyGenerator()

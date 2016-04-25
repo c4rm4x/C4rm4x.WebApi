@@ -38,10 +38,12 @@ namespace C4rm4x.WebApi.Cache.OutputCache
         /// </summary>
         /// <param name="controllerType">The controller type (must be ApiController)</param>
         /// <param name="actionName">The action name</param>
+        /// <param name="context">The action context</param>
         /// <returns>The key for the given controller type and action name</returns>
         /// <exception cref="ArgumentException">If controller type is not an ApiController</exception>
         string Generate(
             Type controllerType,
-            string actionName);        
+            string actionName,
+            HttpActionContext context);        
     }
 }

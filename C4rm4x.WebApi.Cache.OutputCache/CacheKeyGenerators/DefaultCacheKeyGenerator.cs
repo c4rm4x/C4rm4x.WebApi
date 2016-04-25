@@ -34,15 +34,18 @@ namespace C4rm4x.WebApi.Cache.OutputCache
         /// </summary>
         /// <param name="controllerType">The controller type (must be ApiController)</param>
         /// <param name="actionName">The action name</param>
+        /// <param name="context">The action context</param>
         /// <returns>The key for the given controller type and action name</returns>
         /// <exception cref="ArgumentException">If controller type is not an ApiController</exception>
         public virtual string Generate(
             Type controllerType,
-            string actionName)
+            string actionName,
+            HttpActionContext context)
         {
             controllerType.NotNull(nameof(controllerType));
             controllerType.Is<ApiController>();
             actionName.NotNullOrEmpty(nameof(actionName));
+            context.NotNull(nameof(context));
 
             return "{0}-{1}".AsFormat(controllerType.FullName, actionName);
         }
@@ -63,7 +66,8 @@ namespace C4rm4x.WebApi.Cache.OutputCache
 
             return Generate(
                 actionContext.ControllerContext.ControllerDescriptor.ControllerType, 
-                actionName);
+                actionName,
+                actionContext);
         }
     }
 }
