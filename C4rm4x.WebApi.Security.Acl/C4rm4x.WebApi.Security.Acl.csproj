@@ -31,6 +31,10 @@
     <DocumentationFile>bin\Release\C4rm4x.WebApi.Security.Acl.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="C4rm4x.Tools.Security.Acl, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\C4rm4x.Tools.Security.Acl.1.1.0.0\lib\net452\C4rm4x.Tools.Security.Acl.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="C4rm4x.Tools.Utilities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\C4rm4x.Tools.Utilities.1.0.0.0\lib\net452\C4rm4x.Tools.Utilities.dll</HintPath>
       <Private>True</Private>
@@ -49,6 +53,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IdentityModel" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
@@ -70,9 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\HttpConfigurationExtensions.cs" />
-    <Compile Include="Internals\HttpRequestHeadersExtensions.cs" />
     <Compile Include="Extensions\MessageHandlerExtensions.cs" />
-    <Compile Include="Internals\StringExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Subscriptions\ISubscriberRepository.cs" />
     <Compile Include="Subscriptions\Subscriber.cs" />
@@ -80,6 +83,7 @@
     <Compile Include="AclConfiguration.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

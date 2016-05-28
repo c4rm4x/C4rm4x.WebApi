@@ -1,14 +1,16 @@
 ﻿#region Using
 
+using C4rm4x.Tools.Security.Acl;
 using C4rm4x.Tools.Utilities;
 using C4rm4x.WebApi.Framework.Cache;
-using C4rm4x.WebApi.Security.Acl.Internals;
 using C4rm4x.WebApi.Security.Acl.Subscriptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Principal;
+using System.Threading;
 
 #endregion
 
@@ -26,6 +28,9 @@ namespace C4rm4x.WebApi.Security.Acl
         private Func<AclConfiguration, HttpRequestMessage, ISubscriberRepository> _subscriberRepositoryFactory =
             (config, request) => config.GetSubscriberRepository(request);
 
+        private Action<HttpRequestMessage, IPrincipal> _assignPrincipalFactory =
+            (request, principal) => request.GetRequestContext().Principal = principal;
+
         /// <summary>
         /// Gets the actual HttpStatusCode. 
         /// In this case, Unauthorized.
@@ -33,6 +38,21 @@ namespace C4rm4x.WebApi.Security.Acl
         protected override HttpStatusCode ForbiddenErrorCode
         {
             get { return HttpStatusCode.Unauthorized; }
+        }
+
+        /// <summary>
+        /// Gets whether or not the header must be present for the request to be processed
+        /// </summary>
+        public bool ForceAuthentication { get; private set; }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="forceAuthentication">Indicates whether or not the header must be present for the request to be processed</param>
+        public AclBasedSecurityMessageHandler(
+            bool forceAuthentication)
+        {
+            ForceAuthentication = forceAuthentication;
         }
 
         /// <summary>
@@ -45,53 +65,45 @@ namespace C4rm4x.WebApi.Security.Acl
         {
             request.NotNull(nameof(request));
 
-            string apiIdentifier, 
-                sharedSecret;
-            if (!TryRetrieveApiCredentials(request, out apiIdentifier, out sharedSecret))
-                return false;
+            AclClientCredentials credentials;
+            if (!TryRetrieveApiCredentials(request, out credentials))
+                return !ForceAuthentication;
 
-            return ValidateApiCredentials(request, apiIdentifier, sharedSecret);
+            return ValidateApiCredentials(request, credentials);
         }
 
         private static bool TryRetrieveApiCredentials(
             HttpRequestMessage request,
-            out string apiIdentifier,
-            out string sharedSecret)
+            out AclClientCredentials credentials)
         {
-            apiIdentifier = sharedSecret = string.Empty;
-
-            var authorizationAsBase64 = request.Headers.GetAuthorization();
-
-            if (authorizationAsBase64.IsNullOrEmpty())
-                return false;
-
-             var authorization = authorizationAsBase64
-                .Replace("Basic ", string.Empty)
-                .FromBase64()
-                .Split(new[] { ":" }, StringSplitOptions.RemoveEmptyEntries);
-
-            if (authorization.Length != 2)
-                return false;
-
-            return !(apiIdentifier = authorization[0]).IsNullOrEmpty() &&
-                !(sharedSecret = authorization[1]).IsNullOrEmpty();
+            return new AclClientCredentialsRetriever()
+                .TryParse(request, out credentials);
         }
 
         private bool ValidateApiCredentials(
             HttpRequestMessage request,
-            string apiIdentifier,
-            string sharedSecret)
+            AclClientCredentials credentials)
         {
             var subscribers = GetSubscribers(request);
 
             if (subscribers.IsNullOrEmpty()) return false;
 
             var thisSubscriber = subscribers.FirstOrDefault(
-                s => s.Identifier.Equals(apiIdentifier, StringComparison.InvariantCultureIgnoreCase));
+                s => s.Identifier.Equals(credentials.Identifier, StringComparison.InvariantCultureIgnoreCase));
 
             if (thisSubscriber.IsNull()) return false;
 
-            return thisSubscriber.ValidateSecret(sharedSecret);
+            IPrincipal principal;
+            var result = thisSubscriber
+                .ValidateCredentials(credentials, out principal);
+
+            if (result)
+            {
+                Thread.CurrentPrincipal = principal;
+                _assignPrincipalFactory(request, principal);
+            }
+
+            return result;
         }
 
         private IEnumerable<Subscriber> GetSubscribers(
@@ -150,7 +162,7 @@ namespace C4rm4x.WebApi.Security.Acl
         }
 
         /// <summary>
-        /// Sets subscriber repository factory
+        /// Sets the subscriber repository factory
         /// </summary>
         /// <remarks>USE THIS ONLY UNIT TESTING</remarks>
         /// <param name="subscriberRepositoryFactory">The factory</param>
@@ -160,6 +172,19 @@ namespace C4rm4x.WebApi.Security.Acl
             subscriberRepositoryFactory.NotNull(nameof(subscriberRepositoryFactory));
 
             _subscriberRepositoryFactory = subscriberRepositoryFactory;
+        }
+
+        /// <summary>
+        /// Sets the assign principal factory
+        /// </summary>
+        /// <remarks>USE THIS ONLY UNIT TESTING</remarks>
+        /// <param name="assignPrincipalFactory">The factory</param>
+        internal void SetAssignPrincipalFactory(
+            Action<HttpRequestMessage, IPrincipal> assignPrincipalFactory)
+        {
+            assignPrincipalFactory.NotNull(nameof(assignPrincipalFactory));
+
+            _assignPrincipalFactory = assignPrincipalFactory;
         }
     }
 }

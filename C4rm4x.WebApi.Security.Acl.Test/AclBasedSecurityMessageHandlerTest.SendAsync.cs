@@ -15,6 +15,7 @@ using System.Web.Http.Hosting;
 using System;
 using System.Linq;
 using System.Web.Http;
+using System.Security.Principal;
 
 #endregion
 
@@ -30,19 +31,39 @@ namespace C4rm4x.WebApi.Security.Acl.Test
             private const string ValidAuthorizationHeader = "U3Vic2NyaWJlcjpoZWxsbw=="; // Subscriber:hello
 
             [TestMethod, UnitTest]
-            public void SendAsync_Returns_Unauthorized_Response_When_Authorization_Header_Is_Not_Present()
+            public void SendAsync_Returns_InnerHandler_Result_When_Authorization_Header_Is_Not_Present_But_ForceAuthentication_Is_False()
             {
-                Assert.AreEqual(
-                    HttpStatusCode.Unauthorized,
-                    SendAsync(authorization: string.Empty).Result.StatusCode);
+                var Response = new HttpResponseMessage();
+
+                Assert.AreSame(
+                    Response,
+                    SendAsync(authorization: string.Empty, forceAuthentication: false, response: Response).Result);
             }
 
             [TestMethod, UnitTest]
-            public void SendAsync_Returns_Unauthorized_Response_When_Authorization_Header_Value_Is_Not_A_Valid_Header()
+            public void SendAsync_Returns_Unauthorized_Response_When_Authorization_Header_Is_Not_Present_And_ForceAuthentication_Is_True()
             {
                 Assert.AreEqual(
                     HttpStatusCode.Unauthorized,
-                    SendAsync(authorization: ObjectMother.Create<string>()).Result.StatusCode);
+                    SendAsync(authorization: string.Empty, forceAuthentication: true).Result.StatusCode);
+            }
+
+            [TestMethod, UnitTest]
+            public void SendAsync_Returns_InnerHandler_Result_When_Authorization_Header_Value_Is_Not_A_Valid_Header_But_ForceAuthentication_Is_False()
+            {
+                var Response = new HttpResponseMessage();
+
+                Assert.AreSame(
+                    Response,
+                    SendAsync(authorization: ObjectMother.Create<string>(), forceAuthentication: false, response: Response).Result);
+            }
+
+            [TestMethod, UnitTest]
+            public void SendAsync_Returns_Unauthorized_Response_When_Authorization_Header_Value_Is_Not_A_Valid_Header_And_ForceAuthentication_Is_True()
+            {
+                Assert.AreEqual(
+                    HttpStatusCode.Unauthorized,
+                    SendAsync(authorization: ObjectMother.Create<string>(), forceAuthentication: true).Result.StatusCode);
             }
 
             [TestMethod, UnitTest]
@@ -151,7 +172,7 @@ namespace C4rm4x.WebApi.Security.Acl.Test
             }
 
             [TestMethod, UnitTest]
-            public void SendAsync_Returns_InnerHandler_Result_When_Authorization_Header_Is_Present_And_There_Is_A_Subscriber_With_Given_Identificator_But_Secret_Is_Correct()
+            public void SendAsync_Returns_InnerHandler_Result_When_Authorization_Header_Is_Present_And_There_Is_A_Subscriber_With_Given_Identificator_And_Secret_Is_Correct()
             {
                 var cache = Mock.Of<ICache>();
                 var response = new HttpResponseMessage();
@@ -169,6 +190,48 @@ namespace C4rm4x.WebApi.Security.Acl.Test
                         authorization: ValidAuthorizationHeader,
                         response: response,
                         cache: cache).Result);
+            }
+
+            [TestMethod, UnitTest]
+            public void SendAsync_Sets_Thread_CurrentPrincipal_When_A_Valid_Authorization_Header_Is_Present_And_Subscriber_With_Given_Identifier_And_Secret_Exists()
+            {
+                var cache = Mock.Of<ICache>();
+                var response = new HttpResponseMessage();
+
+                Mock.Get(cache)
+                    .Setup(c => c.Retrieve<IEnumerable<Subscriber>>(AclConfiguration.SubscribersCacheKey))
+                    .Returns(new[]
+                    {
+                        GetSubscriber(secret: Secret)
+                    });
+
+                SendAsync(
+                    authorization: ValidAuthorizationHeader,
+                    cache: cache);
+
+                Assert.IsNotNull(Thread.CurrentPrincipal);
+            }
+
+            [TestMethod, UnitTest]
+            public void SendAsync_Sets_Request_Context_Principal_When_A_Valid_Authorization_Header_Is_Present_And_Subscriber_With_Given_Identifier_And_Secret_Exists()
+            {
+                var cache = Mock.Of<ICache>();
+                var response = new HttpResponseMessage();
+                IPrincipal assignedPrincipal = null;
+
+                Mock.Get(cache)
+                    .Setup(c => c.Retrieve<IEnumerable<Subscriber>>(AclConfiguration.SubscribersCacheKey))
+                    .Returns(new[]
+                    {
+                        GetSubscriber(secret: Secret)
+                    });
+
+                SendAsync(
+                    authorization: ValidAuthorizationHeader,
+                    cache: cache,
+                    assignPrincipalFactory: (r, p) => assignedPrincipal = p);
+
+                Assert.IsNotNull(assignedPrincipal);
             }
 
             #region Helper classes
@@ -193,13 +256,15 @@ namespace C4rm4x.WebApi.Security.Acl.Test
             #endregion
 
             private static Task<HttpResponseMessage> SendAsync(
+                bool forceAuthentication = false,
                 string authorization = null,
                 ICache cache = null,
                 HttpResponseMessage response = null,
-                ISubscriberRepository subscriberRepository = null)
+                ISubscriberRepository subscriberRepository = null,
+                Action<HttpRequestMessage, IPrincipal> assignPrincipalFactory = null)
             {
                 return new HttpMessageInvoker(
-                    CreateSubjectUnderTest(response, subscriberRepository))
+                    CreateSubjectUnderTest(response, subscriberRepository, forceAuthentication, assignPrincipalFactory))
                     .SendAsync(
                         GetHttpRequestMessage(authorization, cache),
                         It.IsAny<CancellationToken>());
@@ -234,13 +299,20 @@ namespace C4rm4x.WebApi.Security.Acl.Test
 
             private static AclBasedSecurityMessageHandler CreateSubjectUnderTest(
                 HttpResponseMessage response,
-                ISubscriberRepository subscriberRepository)
+                ISubscriberRepository subscriberRepository,
+                bool forceAuthentication = false,
+                Action<HttpRequestMessage, IPrincipal> assignPrincipalFactory = null)
             {
-                var sut = new AclBasedSecurityMessageHandler();
+                IPrincipal principal;
+                if (assignPrincipalFactory.IsNull())
+                    assignPrincipalFactory = (r, p) => principal = p;
+
+                var sut = new AclBasedSecurityMessageHandler(forceAuthentication);
 
                 sut.InnerHandler = new TestHandler(response);
                 sut.SetSubscriberRepositoryFactory(
                     (config, request) => subscriberRepository ?? Mock.Of<ISubscriberRepository>());
+                sut.SetAssignPrincipalFactory(assignPrincipalFactory);
 
                 return sut;
             }
