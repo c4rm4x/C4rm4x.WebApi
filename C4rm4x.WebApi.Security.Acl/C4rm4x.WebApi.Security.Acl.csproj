@@ -31,8 +31,8 @@
     <DocumentationFile>bin\Release\C4rm4x.WebApi.Security.Acl.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="C4rm4x.Tools.Security.Acl, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\C4rm4x.Tools.Security.Acl.1.1.0.0\lib\net452\C4rm4x.Tools.Security.Acl.dll</HintPath>
+    <Reference Include="C4rm4x.Tools.Security.Acl, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\C4rm4x.Tools.Security.Acl.1.0.0.0\lib\net452\C4rm4x.Tools.Security.Acl.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="C4rm4x.Tools.Utilities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
