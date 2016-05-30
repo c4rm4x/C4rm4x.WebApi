@@ -24,7 +24,7 @@ function Get-Password {
         [string[]]$sourceData
     )
 
-    for ($loop = 1; $loop –le $length; $loop++) {
+    for ($loop = 1; $loop â€“le $length; $loop++) {
         $password += ($sourceData | GET-RANDOM)
     }
 
@@ -37,7 +37,7 @@ function Get-Base64 {
         [string]$text
     )
     
-    $bytes = [System.Text.Encoding]::Unicode.GetBytes($text)
+    $bytes = [System.Text.Encoding]::UTF8.GetBytes($text)
     $encodedText = [Convert]::ToBase64String($bytes)
     
     return $encodedText
@@ -102,7 +102,7 @@ function Insert-Subscriber {
 
 
 
-$alphabet=$NULL;for ($a = 65; $a –le 90; $a++) { $alphabet +=,[char][byte]$a }
+$alphabet=$NULL;for ($a = 65; $a â€“le 90; $a++) { $alphabet +=,[char][byte]$a }
 
 $connectionString = Get-AppConfig -file $appConfig
 $password = Get-Password -length 40 -sourceData $alphabet
