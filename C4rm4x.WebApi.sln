@@ -115,6 +115,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.Security.Acl"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.Security.Acl.Test", "C4rm4x.WebApi.Security.Acl.Test\C4rm4x.WebApi.Security.Acl.Test.csproj", "{A4E409EC-86F0-4D29-968E-A865209CFDBD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.Monitoring.ServiceBus.Extensions", "C4rm4x.WebApi.Monitoring.ServiceBus.Extensions\C4rm4x.WebApi.Monitoring.ServiceBus.Extensions.csproj", "{87A71D83-4772-475A-9639-33A79708AE88}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -305,6 +307,10 @@ Global
 		{A4E409EC-86F0-4D29-968E-A865209CFDBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4E409EC-86F0-4D29-968E-A865209CFDBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4E409EC-86F0-4D29-968E-A865209CFDBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87A71D83-4772-475A-9639-33A79708AE88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87A71D83-4772-475A-9639-33A79708AE88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87A71D83-4772-475A-9639-33A79708AE88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87A71D83-4772-475A-9639-33A79708AE88}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -356,5 +362,6 @@ Global
 		{B377C39F-6D8E-4F53-9355-CDE924E7D297} = {661FBB8E-C84C-4B9B-BE74-3D42EF77B9B5}
 		{BE5FCC8F-6E8E-414F-941A-FD043A9A9421} = {27D66FA5-7564-41D5-95C1-92DE510BB7FD}
 		{A4E409EC-86F0-4D29-968E-A865209CFDBD} = {27D66FA5-7564-41D5-95C1-92DE510BB7FD}
+		{87A71D83-4772-475A-9639-33A79708AE88} = {513E6653-F9D8-47E6-873A-05787BC49385}
 	EndGlobalSection
 EndGlobal
