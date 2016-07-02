@@ -2,6 +2,8 @@
 
 using C4rm4x.Tools.Utilities;
 using C4rm4x.WebApi.Monitoring.ServiceBus.Core;
+using Microsoft.ServiceBus.Messaging;
+using System;
 using BaseAbstractServiceStatusRetriever = C4rm4x.WebApi.Monitoring.ServiceStatus.AbstractServiceStatusRetriever;
 
 #endregion
@@ -47,7 +49,10 @@ namespace C4rm4x.WebApi.Monitoring.ServiceBus
         /// </summary>
         protected override void CheckComponentResponsiveness()
         {
-            _topicDescriptionRetriever.Get(TopicPath);
+            if (_topicDescriptionRetriever
+                .Get(TopicPath)
+                .AvailabilityStatus != EntityAvailabilityStatus.Available)
+                throw new ApplicationException("ServiceBus is not available");
         }
     }
 }
