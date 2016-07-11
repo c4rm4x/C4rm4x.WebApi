@@ -54,12 +54,11 @@ namespace C4rm4x.WebApi.Monitoring.ServiceBus
             {
                 return _topicDescriptionRetriever
                     .Get(TopicPath)
-                    .MessageCountDetails
-                    .ActiveMessageCount;
+                    .SizeInBytes;
             }
             catch
             {
-                return 0;
+                return -1;
             }
         }
     }
