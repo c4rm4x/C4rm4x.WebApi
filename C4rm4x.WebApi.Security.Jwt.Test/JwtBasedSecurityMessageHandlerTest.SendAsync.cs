@@ -51,6 +51,16 @@ namespace C4rm4x.WebApi.Security.Jwt.Test
             }
 
             [TestMethod, UnitTest]
+            public void SendAsync_Returns_InnerHandler_Result_When_ForceAuthentication_Is_False_And_Authorization_Header_Is_Present_But_Scheme_Is_Basic()
+            {
+                var Response = new HttpResponseMessage();
+
+                Assert.AreSame(
+                    Response,
+                    SendAsync(forceAuthentication: false, token: "Basic {0}".AsFormat(ObjectMother.Create<string>()), response: Response).Result);
+            }
+
+            [TestMethod, UnitTest]
             public void SendAsync_Returns_Unauthorized_Response_When_Authorization_Header_Value_Is_Not_A_Valid_Jwt()
             {
                 Assert.AreEqual(

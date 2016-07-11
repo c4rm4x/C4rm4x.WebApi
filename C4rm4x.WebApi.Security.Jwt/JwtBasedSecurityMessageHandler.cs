@@ -10,6 +10,7 @@ using System.Net;
 using System.Net.Http;
 using System.Security.Principal;
 using System.Threading;
+using System.Net.Http.Headers;
 
 #endregion
 
@@ -22,8 +23,6 @@ namespace C4rm4x.WebApi.Security.Jwt
     public class JwtBasedSecurityMessageHandler 
         : SecurityMessageHandler
     {
-        private const string AuthorizationHeader = "Authorization";
-
         private Func<JwtSecurityTokenHandler> _securityTokenHandlerFactory =
             () => new JwtSecurityTokenHandler();
 
@@ -75,13 +74,17 @@ namespace C4rm4x.WebApi.Security.Jwt
             HttpRequestMessage request, 
             out string securityToken)
         {
-            securityToken = null;
+            securityToken = ExtractCredential(request.Headers.Authorization);
 
-            IEnumerable<string> authzHeaders;
-            if (!request.Headers.TryGetValues(AuthorizationHeader, out authzHeaders))
-                return false;
+            return !securityToken.IsNullOrEmpty();
+        }
 
-            return !(securityToken = authzHeaders.First()).IsNullOrEmpty();
+        private string ExtractCredential(AuthenticationHeaderValue authorizationHeaderValue)
+        {
+            if (authorizationHeaderValue.IsNull())
+                return string.Empty;
+
+            return authorizationHeaderValue.GetBearerToken();
         }
 
         private bool ValidateToken(HttpRequestMessage request, string securityToken)

@@ -31,8 +31,8 @@
     <DocumentationFile>bin\Release\C4rm4x.WebApi.Security.Jwt.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="C4rm4x.Tools.HttpUtilities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\C4rm4x.Tools.HttpUtilities.1.0.0.0\lib\net452\C4rm4x.Tools.HttpUtilities.dll</HintPath>
+    <Reference Include="C4rm4x.Tools.HttpUtilities, Version=2.0.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\C4rm4x.Tools.HttpUtilities.2.0.0.1\lib\net452\C4rm4x.Tools.HttpUtilities.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="C4rm4x.Tools.Security.Jwt, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -43,12 +43,12 @@
       <HintPath>..\packages\C4rm4x.Tools.Utilities.1.0.0.0\lib\net452\C4rm4x.Tools.Utilities.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="C4rm4x.WebApi.Framework, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\C4rm4x.WebApi.Framework.2.0.0.0\lib\net452\C4rm4x.WebApi.Framework.dll</HintPath>
+    <Reference Include="C4rm4x.WebApi.Framework, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\C4rm4x.WebApi.Framework.2.3.0.0\lib\net452\C4rm4x.WebApi.Framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="C4rm4x.WebApi.Security, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\C4rm4x.WebApi.Security.2.0.0.0\lib\net452\C4rm4x.WebApi.Security.dll</HintPath>
+    <Reference Include="C4rm4x.WebApi.Security, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\C4rm4x.WebApi.Security.3.1.0.0\lib\net452\C4rm4x.WebApi.Security.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="C4rm4x.WebApi.Validation, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -97,6 +97,7 @@
     <Compile Include="Controllers\TokenController.cs" />
     <Compile Include="Controllers\UserCredentialsException.cs" />
     <Compile Include="Controllers\Validators\GenerateTokenRequestValidator.cs" />
+    <Compile Include="Internal\AuthenticationHeaderValueExtensions.cs" />
     <Compile Include="MessageHandlerExtensions.cs" />
     <Compile Include="JwtBasedSecurityMessageHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
