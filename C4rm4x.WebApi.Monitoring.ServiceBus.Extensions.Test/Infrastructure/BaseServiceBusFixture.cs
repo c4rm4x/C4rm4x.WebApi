@@ -9,6 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SimpleInjector;
 using System.Collections.Generic;
 using System;
+using System.Configuration;
 
 #endregion
 
@@ -35,8 +36,15 @@ namespace C4rm4x.WebApi.Monitoring.ServiceBus.Test
         {
             base.RegisterDependencies(container, lifeStyle);
 
-            container.Register<INamespaceManagerFactory, NamespaceManagerFactory>(lifeStyle);
+            container.Register<INamespaceManagerFactory>(
+                () => new NamespaceManagerFactory(GetConnectionString()), 
+                lifeStyle);
             container.Register<ITopicDescriptionRetriever, TopicDescriptionRetriever>(lifeStyle);
+        }
+
+        private static string GetConnectionString()
+        {
+            return ConfigurationManager.AppSettings["Microsoft.ServiceBus.ConnectionString"];
         }
 
         [TestInitialize]
