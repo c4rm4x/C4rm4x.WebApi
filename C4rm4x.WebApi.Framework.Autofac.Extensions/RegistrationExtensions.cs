@@ -386,15 +386,19 @@ namespace C4rm4x.WebApi.Framework.Autofac
             tenantId.NotNull(nameof(tenantId));
             assemblies.NotNullOrEmpty(nameof(assemblies));
 
-            container.RegisterAllDomainServices(tenantId, assemblies);
-            container.RegisterAllTransformers(tenantId, assemblies);
-            container.RegisterAllRepositories(tenantId, assemblies);
-            container.RegisterAllValidators(tenantId, assemblies);
-            container.RegisterAllRequestHandlers(tenantId, assemblies);
-            container.RegisterAllEventHandlers(tenantId, assemblies);
-            container.RegisterAllDataProviders(tenantId, assemblies);
-            container.RegisterAllExecutionContextInitialisers(tenantId, assemblies);
-            container.RegisterAllSpecifications(tenantId, assemblies);
+            container.ConfigureTenant(tenantId,
+                b =>
+                {
+                    b.RegisterAllDomainServices(assemblies);
+                    b.RegisterAllTransformers(assemblies);
+                    b.RegisterAllRepositories(assemblies);
+                    b.RegisterAllValidators(assemblies);
+                    b.RegisterAllRequestHandlers(assemblies);
+                    b.RegisterAllEventHandlers(assemblies);
+                    b.RegisterAllDataProviders(assemblies);
+                    b.RegisterAllExecutionContextInitialisers(assemblies);
+                    b.RegisterAllSpecifications(assemblies);
+                });
         }
 
         /// <summary>
