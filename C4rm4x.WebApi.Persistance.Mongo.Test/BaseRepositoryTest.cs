@@ -37,6 +37,15 @@ namespace C4rm4x.WebApi.Persistance.Mongo.Test
             {
                 return TestEntities.Find(e => e.Value == value).FirstOrDefault();
             }
+
+            protected IMongoCollection<TestEntity> TestEntities
+            {
+                get
+                {
+                    return GetInstance<IMongoDatabase>()
+                        .GetCollection<TestEntity>(typeof(TestEntity).Name);
+                }
+            }
         }
     }
 }

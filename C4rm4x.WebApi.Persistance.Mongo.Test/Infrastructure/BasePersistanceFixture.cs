@@ -39,14 +39,5 @@ namespace C4rm4x.WebApi.Persistance.Mongo.Test.Infrastructure
         {
             get { return GetInstance<MongoClient>(); }
         }
-
-        protected IMongoCollection<TestEntity> TestEntities
-        {
-            get
-            {
-                return GetInstance<IMongoDatabase>()
-                    .GetCollection<TestEntity>(typeof(TestEntity).Name);
-            }
-        }
     }
 }
