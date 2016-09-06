@@ -26,7 +26,7 @@ namespace C4rm4x.WebApi.Framework
         public ExecutionContextInitialiserAttribute(params Type[] typesOfRequests)
         {
             foreach (var typeOfRequest in typesOfRequests)
-                typeOfRequest.Is<ApiEventData>();
+                typeOfRequest.Is<ApiRequest>();
 
             TypesOfRequests = typesOfRequests;
         }
