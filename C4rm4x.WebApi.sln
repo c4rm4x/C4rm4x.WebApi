@@ -123,6 +123,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.Persistance.D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.Persistance.Document.Test", "C4rm4x.WebApi.Persistance.Document.Test\C4rm4x.WebApi.Persistance.Document.Test.csproj", "{28981CFA-210A-419E-9664-79C210389C42}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.Messaging.ServiceBus", "C4rm4x.WebApi.Messaging.ServiceBus\C4rm4x.WebApi.Messaging.ServiceBus.csproj", "{0DF71D01-6A0A-4BA4-AF59-08E76893846B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.Messaging.ServiceBus.Test", "C4rm4x.WebApi.Messaging.ServiceBus.Test\C4rm4x.WebApi.Messaging.ServiceBus.Test.csproj", "{1D2FBA90-4045-4867-8218-E22ABFD123E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -329,6 +333,14 @@ Global
 		{28981CFA-210A-419E-9664-79C210389C42}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28981CFA-210A-419E-9664-79C210389C42}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28981CFA-210A-419E-9664-79C210389C42}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0DF71D01-6A0A-4BA4-AF59-08E76893846B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0DF71D01-6A0A-4BA4-AF59-08E76893846B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0DF71D01-6A0A-4BA4-AF59-08E76893846B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0DF71D01-6A0A-4BA4-AF59-08E76893846B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D2FBA90-4045-4867-8218-E22ABFD123E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D2FBA90-4045-4867-8218-E22ABFD123E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D2FBA90-4045-4867-8218-E22ABFD123E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D2FBA90-4045-4867-8218-E22ABFD123E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -384,5 +396,7 @@ Global
 		{9F6DFE00-A88D-445C-8A1F-3056D64073AE} = {513E6653-F9D8-47E6-873A-05787BC49385}
 		{88BFA862-87F7-4B80-A624-4C8762B741AA} = {5569BC95-FC39-452F-BE34-5AB0EB2C7A86}
 		{28981CFA-210A-419E-9664-79C210389C42} = {5569BC95-FC39-452F-BE34-5AB0EB2C7A86}
+		{0DF71D01-6A0A-4BA4-AF59-08E76893846B} = {EC1479EC-6A9E-4472-93B3-3692373EE33E}
+		{1D2FBA90-4045-4867-8218-E22ABFD123E8} = {EC1479EC-6A9E-4472-93B3-3692373EE33E}
 	EndGlobalSection
 EndGlobal
