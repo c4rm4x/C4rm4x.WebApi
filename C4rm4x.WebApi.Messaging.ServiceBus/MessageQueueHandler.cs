@@ -1,9 +1,9 @@
 ﻿#region Using
 
+using C4rm4x.Tools.ServiceBus;
 using C4rm4x.Tools.Utilities;
 using C4rm4x.WebApi.Framework.Messaging;
 using Microsoft.ServiceBus.Messaging;
-using System;
 
 #endregion
 
@@ -36,21 +36,7 @@ namespace C4rm4x.WebApi.Messaging.ServiceBus
         public void Send<TItem>(TItem item) 
             where TItem : class
         {
-            _sender.Send(GetBrokeredMessage(item));
-        }
-
-        private static BrokeredMessage GetBrokeredMessage<TItem>(TItem item) 
-            where TItem : class
-        {
-            item.NotNull(nameof(item));
-
-            var brokeredMessage = new BrokeredMessage(item);
-
-            brokeredMessage.Label = "{0}_{1}".AsFormat(typeof(TItem).Name, DateTime.UtcNow.ToString("yyyyMMddHHmmss"));
-            brokeredMessage.MessageId = Guid.NewGuid().ToString();
-            brokeredMessage.ContentType = typeof(TItem).AssemblyQualifiedName;
-
-            return brokeredMessage;
+            _sender.Send(item.BuildBrokeredMessage());
         }
     }
 }
