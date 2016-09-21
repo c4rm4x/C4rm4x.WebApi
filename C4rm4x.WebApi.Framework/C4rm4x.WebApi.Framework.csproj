@@ -67,6 +67,7 @@
     <Compile Include="Attributes\DomainServiceAttribute.cs" />
     <Compile Include="Attributes\EventHandlerAttribute.cs" />
     <Compile Include="Attributes\ExecutionContextInitialiserAttribute.cs" />
+    <Compile Include="Attributes\JobAttribute.cs" />
     <Compile Include="Attributes\RepositoryAttribute.cs" />
     <Compile Include="Attributes\RequestHandlerAttribute.cs" />
     <Compile Include="Attributes\SpecificationAttribute.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="Runtime\IExecutionContextExtension.cs" />
     <Compile Include="Runtime\IExecutionContextExtensionInitialiser.cs" />
     <Compile Include="Runtime\IExecutionContextInitialiser.cs" />
+    <Compile Include="Scheduler\IProcessor.cs" />
     <Compile Include="Settings\AbstractSettingsManager.cs" />
     <Compile Include="Settings\ISettingsManager.cs" />
     <Compile Include="Settings\SettingsManagerExtensions.cs" />

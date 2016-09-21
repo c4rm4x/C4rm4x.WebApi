@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.Framework", "C4rm4x.WebApi.Framework\C4rm4x.WebApi.Framework.csproj", "{CA86A5F5-7EBC-46A2-87AA-112128FD894C}"
 EndProject
@@ -126,6 +126,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.Messaging.ServiceBus", "C4rm4x.WebApi.Messaging.ServiceBus\C4rm4x.WebApi.Messaging.ServiceBus.csproj", "{0DF71D01-6A0A-4BA4-AF59-08E76893846B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.Messaging.ServiceBus.Test", "C4rm4x.WebApi.Messaging.ServiceBus.Test\C4rm4x.WebApi.Messaging.ServiceBus.Test.csproj", "{1D2FBA90-4045-4867-8218-E22ABFD123E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scheduler", "Scheduler", "{890F8C62-95CB-415A-A6A0-2CF9ECFFF9DE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.Scheduler.Quartz.SimpleInjector.Extensions", "C4rm4x.WebApi.Scheduler.Quartz.SimpleInjector.Extensions\C4rm4x.WebApi.Scheduler.Quartz.SimpleInjector.Extensions.csproj", "{EE72DB26-D86E-42FA-A2AD-5FE999B1CF18}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -341,6 +345,10 @@ Global
 		{1D2FBA90-4045-4867-8218-E22ABFD123E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D2FBA90-4045-4867-8218-E22ABFD123E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D2FBA90-4045-4867-8218-E22ABFD123E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE72DB26-D86E-42FA-A2AD-5FE999B1CF18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE72DB26-D86E-42FA-A2AD-5FE999B1CF18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE72DB26-D86E-42FA-A2AD-5FE999B1CF18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE72DB26-D86E-42FA-A2AD-5FE999B1CF18}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -398,5 +406,6 @@ Global
 		{28981CFA-210A-419E-9664-79C210389C42} = {5569BC95-FC39-452F-BE34-5AB0EB2C7A86}
 		{0DF71D01-6A0A-4BA4-AF59-08E76893846B} = {EC1479EC-6A9E-4472-93B3-3692373EE33E}
 		{1D2FBA90-4045-4867-8218-E22ABFD123E8} = {EC1479EC-6A9E-4472-93B3-3692373EE33E}
+		{EE72DB26-D86E-42FA-A2AD-5FE999B1CF18} = {890F8C62-95CB-415A-A6A0-2CF9ECFFF9DE}
 	EndGlobalSection
 EndGlobal
