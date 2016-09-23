@@ -19,6 +19,8 @@ namespace C4rm4x.WebApi.Cache.Redis
         /// </summary>
         public string ConnectionString { get; private set; }
 
+        private Lazy<ConnectionMultiplexer> Connection { get; set; }
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -28,13 +30,12 @@ namespace C4rm4x.WebApi.Cache.Redis
             connectionString.NotNullOrEmpty(nameof(connectionString));
 
             ConnectionString = connectionString;
-        }
 
-        private Lazy<ConnectionMultiplexer> Connection =>
-            new Lazy<ConnectionMultiplexer>(() =>
+            Connection = new Lazy<ConnectionMultiplexer>(() =>
             {
                 return ConnectionMultiplexer.Connect(ConnectionString);
             });
+        }
 
         private IDatabase Cache
         {

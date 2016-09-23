@@ -23,6 +23,8 @@ namespace C4rm4x.WebApi.Persistance.Document
         private readonly Database _database;
         private readonly IDocumentClient _client;
 
+        private Lazy<DocumentCollection> Collection { get; set; }
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -37,14 +39,13 @@ namespace C4rm4x.WebApi.Persistance.Document
 
             _client = client;
             _database = database;
-        }
 
-        private Lazy<DocumentCollection> Collection =>
-            new Lazy<DocumentCollection>(() =>
+            Collection = new Lazy<DocumentCollection>(() =>
             {
                 return GetOrCreateCollection().Result;
             });
-
+        }
+        
         private async Task<DocumentCollection> GetOrCreateCollection()
         {
             var collectionName = typeof(T).Name;

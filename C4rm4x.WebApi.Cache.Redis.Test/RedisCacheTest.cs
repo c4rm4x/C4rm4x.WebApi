@@ -46,7 +46,7 @@ namespace C4rm4x.WebApi.Cache.Redis.Test
 
         #endregion
 
-        private static Lazy<ConnectionMultiplexer> Connection =>
+        private static Lazy<ConnectionMultiplexer> Connection =
             new Lazy<ConnectionMultiplexer>(() =>
             {
                 return ConnectionMultiplexer.Connect(GetConnectionString());
