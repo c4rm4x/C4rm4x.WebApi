@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.Framework", "C4rm4x.WebApi.Framework\C4rm4x.WebApi.Framework.csproj", "{CA86A5F5-7EBC-46A2-87AA-112128FD894C}"
 EndProject
@@ -130,6 +130,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scheduler", "Scheduler", "{890F8C62-95CB-415A-A6A0-2CF9ECFFF9DE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.Scheduler.Quartz.SimpleInjector.Extensions", "C4rm4x.WebApi.Scheduler.Quartz.SimpleInjector.Extensions\C4rm4x.WebApi.Scheduler.Quartz.SimpleInjector.Extensions.csproj", "{EE72DB26-D86E-42FA-A2AD-5FE999B1CF18}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.Security.Jwt.Facebook.Extensions", "C4rm4x.WebApi.Security.Jwt.Facebook.Extensions\C4rm4x.WebApi.Security.Jwt.Facebook.Extensions.csproj", "{D003AB4F-BA94-45F5-9F61-8EED1CD6445F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.Security.Jwt.Facebook.Extensions.Test", "C4rm4x.WebApi.Security.Jwt.Facebook.Extensions.Test\C4rm4x.WebApi.Security.Jwt.Facebook.Extensions.Test.csproj", "{148AE95B-0BFD-4AD5-90F8-F521548B0931}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -349,6 +353,14 @@ Global
 		{EE72DB26-D86E-42FA-A2AD-5FE999B1CF18}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE72DB26-D86E-42FA-A2AD-5FE999B1CF18}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE72DB26-D86E-42FA-A2AD-5FE999B1CF18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D003AB4F-BA94-45F5-9F61-8EED1CD6445F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D003AB4F-BA94-45F5-9F61-8EED1CD6445F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D003AB4F-BA94-45F5-9F61-8EED1CD6445F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D003AB4F-BA94-45F5-9F61-8EED1CD6445F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{148AE95B-0BFD-4AD5-90F8-F521548B0931}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{148AE95B-0BFD-4AD5-90F8-F521548B0931}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{148AE95B-0BFD-4AD5-90F8-F521548B0931}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{148AE95B-0BFD-4AD5-90F8-F521548B0931}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -407,5 +419,7 @@ Global
 		{0DF71D01-6A0A-4BA4-AF59-08E76893846B} = {EC1479EC-6A9E-4472-93B3-3692373EE33E}
 		{1D2FBA90-4045-4867-8218-E22ABFD123E8} = {EC1479EC-6A9E-4472-93B3-3692373EE33E}
 		{EE72DB26-D86E-42FA-A2AD-5FE999B1CF18} = {890F8C62-95CB-415A-A6A0-2CF9ECFFF9DE}
+		{D003AB4F-BA94-45F5-9F61-8EED1CD6445F} = {27D66FA5-7564-41D5-95C1-92DE510BB7FD}
+		{148AE95B-0BFD-4AD5-90F8-F521548B0931} = {27D66FA5-7564-41D5-95C1-92DE510BB7FD}
 	EndGlobalSection
 EndGlobal
