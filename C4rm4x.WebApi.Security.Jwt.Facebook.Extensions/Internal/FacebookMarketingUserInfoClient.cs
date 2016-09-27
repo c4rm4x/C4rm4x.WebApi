@@ -14,7 +14,7 @@ namespace C4rm4x.WebApi.Security.Jwt.Facebook
         {
             var client = new FacebookMarketingClient(token);
 
-            var jsonResult = client.Retrieve(userId, "id", "name", "email", "picture");
+            var jsonResult = client.Retrieve("me", "id", "name", "picture");
 
             if (jsonResult == null || 
                 !jsonResult.id.Equals(userId, StringComparison.InvariantCultureIgnoreCase))
@@ -28,7 +28,6 @@ namespace C4rm4x.WebApi.Security.Jwt.Facebook
             return new FBUser(
                 data.id,
                 data.name,
-                data.email,
                 data.picture?.data?.url ?? string.Empty);
         }
     }

@@ -23,11 +23,6 @@ namespace C4rm4x.WebApi.Security.Jwt.Facebook
         public string Name { get; private set; }
 
         /// <summary>
-        /// Gets the user's email address
-        /// </summary>
-        public string Email { get; private set; }
-
-        /// <summary>
         /// Gets the user's picture url
         /// </summary>
         public Uri Picture { get; private set; }
@@ -37,25 +32,21 @@ namespace C4rm4x.WebApi.Security.Jwt.Facebook
         /// </summary>
         /// <param name="id">User's id</param>
         /// <param name="name">User's name</param>
-        /// <param name="email">User's email address</param>
         /// <param name="pictureUrl">User's picture url</param>
         public FBUser(
             string id,
             string name,
-            string email,
             string pictureUrl)
         {
             Uri locationAsUri = null;
 
             id.NotNullOrEmpty(nameof(id));
             name.NotNullOrEmpty(nameof(name));
-            email.NotNullOrEmpty(nameof(email));
             pictureUrl.NotNullOrEmpty(nameof(pictureUrl));
             pictureUrl.Must(x => Uri.TryCreate(x, UriKind.Absolute, out locationAsUri), "pictureUrl is not a valid URL");
 
             Id = id;
             Name = name;
-            Email = email;
             Picture = locationAsUri;
         }
     }
