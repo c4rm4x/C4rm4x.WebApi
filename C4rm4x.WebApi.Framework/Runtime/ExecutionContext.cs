@@ -74,7 +74,7 @@ namespace C4rm4x.WebApi.Framework.Runtime
             TExtension extension)
             where TExtension : class, IExecutionContextExtension
         {
-            _extensions.Add(typeof(TExtension), extension);
+            _extensions.Add(extension.GetType(), extension);
         }
 
         /// <summary>
