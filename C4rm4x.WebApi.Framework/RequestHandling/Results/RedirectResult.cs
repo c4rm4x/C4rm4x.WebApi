@@ -68,7 +68,11 @@ namespace C4rm4x.WebApi.Framework.RequestHandling.Results
             var sb = new StringBuilder(Url);
 
             if (QueryStringParameters.Any())
-                sb.AppendFormat("?{0}", GetQueryString());
+            {
+                var prefix = Url.Contains("?") ? "&" : "?";
+
+                sb.AppendFormat("{0}{1}", prefix, GetQueryString());
+            }
 
             return sb.ToString();
         }

@@ -22,7 +22,7 @@ namespace C4rm4x.WebApi.Framework.Test.RequestHandling.Results
         [TestClass]
         public class RedirectResultExecuteAsyncTest
         {
-            private const string Target = "http://www.google.com";
+            private const string Target = "http://www.google.com?source=test";
 
             [TestMethod, UnitTest]
             public void ExecuteAsync_Returns_Redirect_Response()
@@ -81,7 +81,7 @@ namespace C4rm4x.WebApi.Framework.Test.RequestHandling.Results
 
             private static string GetUrl(KeyValuePair<string, object>[] parameters)
             {
-                return "{0}?{1}".AsFormat(
+                return "{0}&{1}".AsFormat(
                     Target,
                     string.Join("&", parameters.Select(p => "{0}={1}".AsFormat(p.Key, p.Value))));
             }
