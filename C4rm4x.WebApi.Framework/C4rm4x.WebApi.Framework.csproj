@@ -96,6 +96,7 @@
     <Compile Include="RequestHandling\HandlerShell.cs" />
     <Compile Include="RequestHandling\IHandlerFactory.cs" />
     <Compile Include="RequestHandling\Results\BadRequestResult.cs" />
+    <Compile Include="RequestHandling\Results\ContentResult.cs" />
     <Compile Include="RequestHandling\Results\HttpResponseMessageUtils.cs" />
     <Compile Include="RequestHandling\Results\InternalServerErrorResult.cs" />
     <Compile Include="RequestHandling\Results\OkResult.cs" />

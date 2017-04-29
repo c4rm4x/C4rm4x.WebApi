@@ -88,6 +88,7 @@
     <Compile Include="RequestHandling\HandlerShellTest.Process.cs" />
     <Compile Include="RequestHandling\HandlerTest.Handle.cs" />
     <Compile Include="RequestHandling\Results\BadRequestResultTest.ExecuteAsync.cs" />
+    <Compile Include="RequestHandling\Results\ContentResultTest.ExecuteAsync.cs" />
     <Compile Include="RequestHandling\Results\InternalServerErrorResultTest.ExecuteAsync.cs" />
     <Compile Include="RequestHandling\Results\OkResultTest.ExecuteAsync.cs" />
     <Compile Include="RequestHandling\Results\RedirectResultTest.ExecuteAsync.cs" />
