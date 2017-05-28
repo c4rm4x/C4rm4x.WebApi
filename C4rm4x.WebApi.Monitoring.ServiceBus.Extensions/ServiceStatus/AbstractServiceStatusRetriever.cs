@@ -4,6 +4,7 @@ using C4rm4x.Tools.Utilities;
 using C4rm4x.WebApi.Monitoring.ServiceBus.Core;
 using Microsoft.ServiceBus.Messaging;
 using System;
+using System.Threading.Tasks;
 using BaseAbstractServiceStatusRetriever = C4rm4x.WebApi.Monitoring.ServiceStatus.AbstractServiceStatusRetriever;
 
 #endregion
@@ -47,12 +48,15 @@ namespace C4rm4x.WebApi.Monitoring.ServiceBus
         /// <summary>
         /// Checks whether or not the service bus topic is up and running
         /// </summary>
-        protected override void CheckComponentResponsiveness()
+        protected override async Task CheckComponentResponsivenessAsync()
         {
-            if (_topicDescriptionRetriever
+            await Task.Run(() =>
+            {
+                if (_topicDescriptionRetriever
                 .Get(TopicPath)
                 .AvailabilityStatus != EntityAvailabilityStatus.Available)
-                throw new ApplicationException("ServiceBus is not available");
+                    throw new ApplicationException("ServiceBus is not available");
+            });
         }
     }
 }

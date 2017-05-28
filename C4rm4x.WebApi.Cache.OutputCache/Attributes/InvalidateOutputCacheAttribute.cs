@@ -2,6 +2,7 @@
 
 using C4rm4x.Tools.Utilities;
 using System;
+using System.Threading.Tasks;
 using System.Web.Http.Filters;
 
 #endregion
@@ -40,10 +41,10 @@ namespace C4rm4x.WebApi.Cache.OutputCache
         /// for the given action name (if exists)
         /// </summary>
         /// <param name="actionExecutedContext">The context</param>
-        protected override void InvalidateOutputCache(
+        protected override async Task InvalidateOutputCacheAsync(
             HttpActionExecutedContext actionExecutedContext)
         {
-            RemoveIfExists(actionExecutedContext, ActionName);
+            await RemoveIfExistsAsync(actionExecutedContext, ActionName);
         }
     }
 }

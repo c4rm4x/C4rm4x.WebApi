@@ -1,6 +1,7 @@
 ﻿#region Using
 
 using C4rm4x.Tools.Utilities;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -43,6 +44,6 @@ namespace C4rm4x.WebApi.Monitoring.Core
         /// Performs the operation to monitor your service and returns the result of it
         /// </summary>
         /// <returns></returns>
-        public abstract TMonitor Monitor();
+        public abstract Task<TMonitor> MonitorAsync();
     }
 }

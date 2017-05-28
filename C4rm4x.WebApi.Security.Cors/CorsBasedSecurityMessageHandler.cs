@@ -43,15 +43,15 @@ namespace C4rm4x.WebApi.Security.Cors
         /// </summary>
         /// <param name="request">The current HTTP request</param>
         /// <returns>True if the current HTTP request is allowed; false, otherwise</returns>
-        protected override bool IsRequestAllowed(HttpRequestMessage request)
+        protected override async Task<bool> IsRequestAllowedAsync(HttpRequestMessage request)
         {
             var corsRequestContext = GetCorsRequestContext(request);
 
             if (corsRequestContext.IsNull()) // No CORS request -> Valid!
                 return true;
 
-            return _corsEngineFactory()
-                .EvaluateCorsPolicy(corsRequestContext, Options);
+            return await Task.FromResult(_corsEngineFactory()
+                .EvaluateCorsPolicy(corsRequestContext, Options));
         }
 
         private CorsRequestContext GetCorsRequestContext(
@@ -82,27 +82,27 @@ namespace C4rm4x.WebApi.Security.Cors
         /// <param name="request">The HTTP request message to send to the server</param>
         /// <param name="cancellationToken">A cancellation token to cancel operation</param>
         /// <returns>Returns a task to produce the HTTP response</returns>
-        protected override Task<HttpResponseMessage> Handle(
+        protected override async Task<HttpResponseMessage> HandleAsync(
             HttpRequestMessage request,
             CancellationToken cancellationToken)
         {
             var corsRequestContext = GetCorsRequestContext(request);
 
             if (corsRequestContext.IsNull()) // No CORS request -> Send to inner handler
-                return base.Handle(request, cancellationToken);
+                return await base.HandleAsync(request, cancellationToken);
 
-            return HandleCorsRequest(request, cancellationToken, corsRequestContext);
+            return await HandleCorsRequestAsync(request, cancellationToken, corsRequestContext);
         }
 
-        private Task<HttpResponseMessage> HandleCorsRequest(
+        private async Task<HttpResponseMessage> HandleCorsRequestAsync(
             HttpRequestMessage request,
             CancellationToken cancellationToken,
             CorsRequestContext corsRequestContext)
         {
             if (corsRequestContext.IsPreflight)
-                return HandleCorsPreflightRequest(corsRequestContext);
+                return await HandleCorsPreflightRequestAsync(corsRequestContext);
 
-            return base.Handle(request, cancellationToken)
+            return await base.HandleAsync(request, cancellationToken)
                 .ContinueWith(responseTask =>
                 {
                     var response = responseTask.Result;
@@ -113,14 +113,14 @@ namespace C4rm4x.WebApi.Security.Cors
                 });
         }
 
-        private Task<HttpResponseMessage> HandleCorsPreflightRequest(
+        private async Task<HttpResponseMessage> HandleCorsPreflightRequestAsync(
             CorsRequestContext corsRequestContext)
         {           
             var response = new HttpResponseMessage(HttpStatusCode.OK);
 
             WriteCorsHeaders(response, corsRequestContext);
 
-            return Task.FromResult(response);
+            return await Task.FromResult(response);
         }
 
         private void WriteCorsHeaders(

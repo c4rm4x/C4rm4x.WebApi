@@ -4,6 +4,7 @@ using C4rm4x.Tools.Utilities;
 using C4rm4x.WebApi.Monitoring.Core;
 using C4rm4x.WebApi.Monitoring.Counter;
 using C4rm4x.WebApi.Monitoring.ServiceBus.Core;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -48,7 +49,12 @@ namespace C4rm4x.WebApi.Monitoring.ServiceBus
         /// Counts the number of messages pending to be processed in the topic
         /// </summary>
         /// <returns>The total number of messages pending to be processed in the topic</returns>
-        public override long Monitor()
+        public override async Task<long> MonitorAsync()
+        {
+            return await Task.FromResult(DoMonitor());
+        }
+
+        private long DoMonitor()
         {
             try
             {

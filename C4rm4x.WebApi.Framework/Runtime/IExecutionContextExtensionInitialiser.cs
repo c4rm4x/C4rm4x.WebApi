@@ -1,4 +1,10 @@
-﻿namespace C4rm4x.WebApi.Framework.Runtime
+﻿#region Using
+
+using System.Threading.Tasks;
+
+#endregion
+
+namespace C4rm4x.WebApi.Framework.Runtime
 {
     /// <summary>
     /// Interface that appends a new execution context extension based on type of request
@@ -12,6 +18,6 @@
         /// </summary>
         /// <param name="request">The request</param>
         /// <returns>A new instance of execution context extension for this specific type of request</returns>
-        IExecutionContextExtension Append(TRequest request);
+        Task<object> AppendAsync(TRequest request);
     }
 }

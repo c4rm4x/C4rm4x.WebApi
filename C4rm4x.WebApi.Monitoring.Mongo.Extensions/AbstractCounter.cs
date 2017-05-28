@@ -7,6 +7,7 @@ using C4rm4x.WebApi.Monitoring.Counter;
 using C4rm4x.WebApi.Persistance.Mongo;
 using System;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -49,11 +50,11 @@ namespace C4rm4x.WebApi.Monitoring.Mongo
         /// Counts the number of all entities of type T (that fulfill the predicate if any)
         /// </summary>
         /// <returns>The total number of entities of type T (that fulfill the predicate if any)</returns>
-        public override long Monitor()
+        public override async Task<long> MonitorAsync()
         {
             return _predicate.IsNull()
-                ? _repository.Count()
-                : _repository.Count(_predicate);
+                ? await _repository.CountAsync()
+                : await _repository.CountAsync(_predicate);
         }
     }
 }

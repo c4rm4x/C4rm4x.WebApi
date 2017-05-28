@@ -10,6 +10,7 @@ using System.Data.Entity.Infrastructure;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -49,40 +50,38 @@ namespace C4rm4x.WebApi.Persistance.EF
         /// Adds a new entity into persistence layer
         /// </summary>
         /// <param name="entityToAdd">Entity to add</param>
-        public void Add(T entityToAdd)
+        public async Task AddAsync(T entityToAdd)
         {
-            _set.Add(entityToAdd);
+            await Task.FromResult(_set.Add(entityToAdd));
         }
 
         /// <summary>
         /// Updates a given entity in persistence layer
         /// </summary>
         /// <param name="entityToUpdate">Entity to update</param>
-        public void Update(T entityToUpdate)
+        public async Task UpdateAsync(T entityToUpdate)
         {
-            _entities.Entry(entityToUpdate).State =
-                EntityState.Modified;
+            await Task.FromResult(_entities.Entry(entityToUpdate).State = EntityState.Modified);
         }
 
         /// <summary>
         /// Deletes an entity by id
         /// </summary>
         /// <param name="id">Entity's id to be removed</param>
-        /// <exception cref="PersistenceException">If there is no entity with given Id</exception>
-        public void Delete(K id)
+        public async Task DeleteAsync(K id)
         {
-            var entityToDelete = Get(id);
+            var entityToDelete = await GetAsync(id);
 
-            Delete(entityToDelete);
+            await DeleteAsync(entityToDelete);
         }
 
         /// <summary>
         /// Deletes a given entity
         /// </summary>
         /// <param name="entityToDelete">Entity to delete</param>
-        public void Delete(T entityToDelete)
+        public async Task DeleteAsync(T entityToDelete)
         {
-            _set.Remove(entityToDelete);
+            await Task.FromResult(_set.Remove(entityToDelete));
         }
 
         /// <summary>
@@ -90,16 +89,9 @@ namespace C4rm4x.WebApi.Persistance.EF
         /// </summary>
         /// <param name="id">Entity's id to be retrieved</param>
         /// <returns>Entity with given Id</returns>
-        /// <exception cref="PersistenceException">If there is no entity with given Id</exception>
-        public T Get(K id)
+        public async Task<T> GetAsync(K id)
         {
-            var entity = _set.Find(id);
-
-            if (entity.IsNull())
-                throw new PersistenceException(
-                    "Entity with id {0} does not exist".AsFormat(id));
-
-            return entity;
+            return await _set.FindAsync(id);
         }
 
         /// <summary>
@@ -107,18 +99,18 @@ namespace C4rm4x.WebApi.Persistance.EF
         /// </summary>
         /// <param name="predicate">Predicate</param>
         /// <returns>The first ocurrence if at least one entity fulfills a given predicate. Null otherwise</returns>
-        public T Get(Expression<Func<T, bool>> predicate)
+        public async Task<T> GetAsync(Expression<Func<T, bool>> predicate)
         {            
-            return _set.FirstOrDefault(predicate);
+            return await _set.FirstOrDefaultAsync(predicate);
         }
 
         /// <summary>
         /// Retrieves all the entities of type T
         /// </summary>
         /// <returns>All the entities of type T</returns>
-        public List<T> GetAll()
+        public async Task<List<T>> GetAllAsync()
         {
-            return _set.ToList();
+            return await _set.ToListAsync();
         }
 
         /// <summary>
@@ -126,18 +118,18 @@ namespace C4rm4x.WebApi.Persistance.EF
         /// </summary>
         /// <param name="predicate">Predicate</param>
         /// <returns>The list of all entities that fulfill a given predicate. Empty list if none of them does</returns>
-        public List<T> GetAll(Expression<Func<T, bool>> predicate)
+        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>> predicate)
         {
-            return _set.Where(predicate).ToList();
+            return await _set.Where(predicate).ToListAsync();
         }
 
         /// <summary>
         /// Returns the number of all entities of type T
         /// </summary>
         /// <returns>The number of entities</returns>
-        public long Count()
+        public async Task<long> CountAsync()
         {
-            return _set.LongCount();
+            return await _set.LongCountAsync();
         }
 
         /// <summary>
@@ -145,9 +137,9 @@ namespace C4rm4x.WebApi.Persistance.EF
         /// </summary>
         /// <param name="predicate">The predicate</param>
         /// <returns>The number of all entities that fulfill a given predicate</returns>
-        public long Count(Expression<Func<T, bool>> predicate)
+        public async Task<long> CountAsync(Expression<Func<T, bool>> predicate)
         {
-            return _set.LongCount(predicate);
+            return await _set.LongCountAsync(predicate);
         }
 
         /// <summary>
@@ -156,23 +148,14 @@ namespace C4rm4x.WebApi.Persistance.EF
         /// <param name="queryName">SQL command or stored procedure</param>
         /// <param name="parameters">Stored procedure parameters</param>
         /// <returns>A collection of T returned by SQL statement</returns>
-        /// <exception cref="PersistenceException">If any error occurs</exception>           
-        public List<T> ExecuteQuery(
+        public async Task<List<T>> ExecuteQueryAsync(
             string queryName,
             params SqlParameter[] parameters)
         {
-            try
-            {
-                return _set.SqlQuery(
-                    BuildQuery(queryName, parameters), parameters)
-                    .AsNoTracking()
-                    .ToList();
-            }
-            catch (Exception e)
-            {
-                throw new PersistenceException(
-                    "Error executing query", e);
-            }
+            return await _set
+                .SqlQuery(BuildQuery(queryName, parameters), parameters)
+                .AsNoTracking()
+                .ToListAsync();
         }
 
         /// <summary>
@@ -181,21 +164,13 @@ namespace C4rm4x.WebApi.Persistance.EF
         /// <param name="queryName">SQL command or stored procedure</param>
         /// <param name="parameters">Stored procedure paramenters</param>
         /// <returns>The number of records affected by the statement</returns>        
-        /// <exception cref="PersistenceException">If any error occurs</exception>     
-        public int ExecuteNonQuery(
+        public async Task<int> ExecuteNonQueryAsync(
             string queryName,
             params SqlParameter[] parameters)
         {
-            try
-            {
-                return _entities.Database.ExecuteSqlCommand(
-                    BuildQuery(queryName, parameters), parameters);
-            }
-            catch (Exception e)
-            {
-                throw new PersistenceException(
-                    "Error executing non query", e);
-            }
+            return await _entities
+                .Database
+                .ExecuteSqlCommandAsync(BuildQuery(queryName, parameters), parameters);
         }
 
         private static string BuildQuery(

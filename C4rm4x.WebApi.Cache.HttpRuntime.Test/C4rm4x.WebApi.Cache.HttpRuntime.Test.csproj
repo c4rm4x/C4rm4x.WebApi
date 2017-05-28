@@ -35,8 +35,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="C4rm4x.Tools.TestUtilities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\C4rm4x.Tools.TestUtilities.1.0.0.0\lib\net452\C4rm4x.Tools.TestUtilities.dll</HintPath>
+    <Reference Include="C4rm4x.Tools.TestUtilities, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\C4rm4x.Tools.TestUtilities.1.2.0\lib\net452\C4rm4x.Tools.TestUtilities.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="C4rm4x.Tools.TestUtilities.Integration.Extensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -47,8 +47,8 @@
       <HintPath>..\packages\C4rm4x.Tools.Utilities.1.0.0.0\lib\net452\C4rm4x.Tools.Utilities.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="C4rm4x.WebApi.Framework, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\C4rm4x.WebApi.Framework.2.3.0.0\lib\net452\C4rm4x.WebApi.Framework.dll</HintPath>
+    <Reference Include="C4rm4x.WebApi.Framework, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\C4rm4x.WebApi.Framework.3.0.0\lib\net452\C4rm4x.WebApi.Framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Moq, Version=4.2.1510.2205, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
@@ -97,10 +97,10 @@
   </Choose>
   <ItemGroup>
     <Compile Include="CacheTest.cs" />
-    <Compile Include="CacheTest.Exists.cs" />
-    <Compile Include="CacheTest.Remove.cs" />
-    <Compile Include="CacheTest.Retrieve.cs" />
-    <Compile Include="CacheTest.Store.cs" />
+    <Compile Include="CacheTest.ExistsAsync.cs" />
+    <Compile Include="CacheTest.RemoveAsync.cs" />
+    <Compile Include="CacheTest.RetrieveAsync.cs" />
+    <Compile Include="CacheTest.StoreAsync.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

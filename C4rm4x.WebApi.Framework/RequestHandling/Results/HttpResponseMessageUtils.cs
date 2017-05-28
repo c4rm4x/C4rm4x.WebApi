@@ -12,6 +12,12 @@ namespace C4rm4x.WebApi.Framework.RequestHandling.Results
 {
     internal static class HttpResponseMessageUtils
     {
+        internal static HttpResponseMessage Create(
+            HttpStatusCode statusCode)
+        {
+            return new HttpResponseMessage(statusCode);
+        }
+
         internal static HttpResponseMessage Create<TContent>(
             HttpStatusCode statusCode,
             TContent content,

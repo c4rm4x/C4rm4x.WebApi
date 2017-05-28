@@ -35,12 +35,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="C4rm4x.Tools.ServiceBus, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\C4rm4x.Tools.ServiceBus.1.0.0.0\lib\net452\C4rm4x.Tools.ServiceBus.dll</HintPath>
+    <Reference Include="C4rm4x.Tools.Messaging, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\C4rm4x.Tools.Messaging.1.0.0.0\lib\net452\C4rm4x.Tools.Messaging.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="C4rm4x.Tools.TestUtilities, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\C4rm4x.Tools.TestUtilities.1.1.0.0\lib\net452\C4rm4x.Tools.TestUtilities.dll</HintPath>
+    <Reference Include="C4rm4x.Tools.ServiceBus, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\C4rm4x.Tools.ServiceBus.1.1.0.0\lib\net452\C4rm4x.Tools.ServiceBus.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="C4rm4x.Tools.TestUtilities, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\C4rm4x.Tools.TestUtilities.1.2.0\lib\net452\C4rm4x.Tools.TestUtilities.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="C4rm4x.Tools.TestUtilities.Integration.Extensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -51,8 +55,8 @@
       <HintPath>..\packages\C4rm4x.Tools.Utilities.1.0.0.0\lib\net452\C4rm4x.Tools.Utilities.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="C4rm4x.WebApi.Framework, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\C4rm4x.WebApi.Framework.2.4.0.0\lib\net452\C4rm4x.WebApi.Framework.dll</HintPath>
+    <Reference Include="C4rm4x.WebApi.Framework, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\C4rm4x.WebApi.Framework.3.0.0\lib\net452\C4rm4x.WebApi.Framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.ServiceBus, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -109,7 +113,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Infrastructure\TestMessage.cs" />
-    <Compile Include="MessageQueueHandlerTest.Send.cs" />
+    <Compile Include="MessageQueueHandlerTest.SendAsync.cs" />
     <Compile Include="MessageTransactionFactoryTest.Create.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

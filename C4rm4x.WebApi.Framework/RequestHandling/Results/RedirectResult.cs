@@ -56,7 +56,7 @@ namespace C4rm4x.WebApi.Framework.RequestHandling.Results
 
         private HttpResponseMessage Execute()
         {
-            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.Redirect);
+            HttpResponseMessage response = HttpResponseMessageUtils.Create(HttpStatusCode.Redirect);
 
             response.Headers.Location = new Uri(GetDestinationUrl());
 

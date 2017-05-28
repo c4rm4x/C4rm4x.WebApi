@@ -12,9 +12,7 @@ namespace C4rm4x.WebApi.Framework.Test.Runtime
     {
         #region Helper classes
 
-        public class TestExecutionContextExtension
-            : IExecutionContextExtension
-        { }
+        public class TestExtension { }
 
         #endregion
 

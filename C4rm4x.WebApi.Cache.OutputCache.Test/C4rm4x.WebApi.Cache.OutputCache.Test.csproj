@@ -35,16 +35,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="C4rm4x.Tools.TestUtilities, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\C4rm4x.Tools.TestUtilities.1.1.0.0\lib\net452\C4rm4x.Tools.TestUtilities.dll</HintPath>
+    <Reference Include="C4rm4x.Tools.TestUtilities, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\C4rm4x.Tools.TestUtilities.1.2.0\lib\net452\C4rm4x.Tools.TestUtilities.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="C4rm4x.Tools.Utilities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\C4rm4x.Tools.Utilities.1.0.0.0\lib\net452\C4rm4x.Tools.Utilities.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="C4rm4x.WebApi.Framework, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\C4rm4x.WebApi.Framework.2.3.0.0\lib\net452\C4rm4x.WebApi.Framework.dll</HintPath>
+    <Reference Include="C4rm4x.WebApi.Framework, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\C4rm4x.WebApi.Framework.3.0.0\lib\net452\C4rm4x.WebApi.Framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Moq, Version=4.2.1510.2205, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
@@ -84,13 +84,13 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Attributes\AutoInvalidateOutputCacheAttributeTest.OnActionExecuted.cs" />
-    <Compile Include="Attributes\ClientOnlyOutputCacheAttributeTest.OnActionExecuted.cs" />
-    <Compile Include="Attributes\InvalidateXReferencedOutputCacheAttributeTest.OnActionExecuted.cs" />
-    <Compile Include="Attributes\InvalidateOutputCacheAttributeTest.OnActionExecuted.cs" />
+    <Compile Include="Attributes\AutoInvalidateOutputCacheAttributeTest.OnActionExecutedAsync.cs" />
+    <Compile Include="Attributes\ClientOnlyOutputCacheAttributeTest.OnActionExecutedAsync.cs" />
+    <Compile Include="Attributes\InvalidateXReferencedOutputCacheAttributeTest.OnActionExecutedAsync.cs" />
+    <Compile Include="Attributes\InvalidateOutputCacheAttributeTest.OnActionExecutedAsync.cs" />
     <Compile Include="Attributes\OutputCacheAttributeTest.cs" />
-    <Compile Include="Attributes\OutputCacheAttributeTest.OnActionExecuted.cs" />
-    <Compile Include="Attributes\OutputCacheAttributeTest.OnActionExecuting.cs" />
+    <Compile Include="Attributes\OutputCacheAttributeTest.OnActionExecutedAsync.cs" />
+    <Compile Include="Attributes\OutputCacheAttributeTest.OnActionExecutingAsync.cs" />
     <Compile Include="CacheKeyGenerators\DefaultCacheKeyGeneratorTest.cs" />
     <Compile Include="Internals\CacheTimeTest.From.cs" />
     <Compile Include="OutputCacheConfigurationTest.cs" />

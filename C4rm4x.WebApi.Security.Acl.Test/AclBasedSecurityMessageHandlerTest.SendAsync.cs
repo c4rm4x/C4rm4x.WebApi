@@ -76,7 +76,7 @@ namespace C4rm4x.WebApi.Security.Acl.Test
                     .Result;
 
                 Mock.Get(cache)
-                    .Verify(c => c.Retrieve<IEnumerable<Subscriber>>(AclConfiguration.SubscribersCacheKey),
+                    .Verify(c => c.RetrieveAsync<IEnumerable<Subscriber>>(AclConfiguration.SubscribersCacheKey),
                     Times.Once());
             }
 
@@ -87,8 +87,8 @@ namespace C4rm4x.WebApi.Security.Acl.Test
                 var repository = Mock.Of<ISubscriberRepository>();
 
                 Mock.Get(cache)
-                    .Setup(c => c.Retrieve<IEnumerable<Subscriber>>(AclConfiguration.SubscribersCacheKey))
-                    .Returns(GetSubscribers().ToArray());
+                    .Setup(c => c.RetrieveAsync<IEnumerable<Subscriber>>(AclConfiguration.SubscribersCacheKey))
+                    .Returns(Task.FromResult(GetSubscribers().AsEnumerable()));
 
                 var result = SendAsync(
                     authorization: ValidAuthorizationHeader,
@@ -97,7 +97,7 @@ namespace C4rm4x.WebApi.Security.Acl.Test
                     .Result;
 
                 Mock.Get(repository)
-                    .Verify(c => c.GetAll(), Times.Never());
+                    .Verify(c => c.GetAllAsync(), Times.Never());
             }
 
             [TestMethod, UnitTest]
@@ -111,7 +111,7 @@ namespace C4rm4x.WebApi.Security.Acl.Test
                     .Result;
 
                 Mock.Get(repository)
-                    .Verify(c => c.GetAll(), Times.Once());
+                    .Verify(c => c.GetAllAsync(), Times.Once());
             }
 
             [TestMethod, UnitTest]
@@ -122,8 +122,8 @@ namespace C4rm4x.WebApi.Security.Acl.Test
                 var subscribers = GetSubscribers().ToList();
 
                 Mock.Get(repository)
-                    .Setup(r => r.GetAll())
-                    .Returns(subscribers);
+                    .Setup(r => r.GetAllAsync())
+                    .Returns(Task.FromResult(subscribers));
 
                 var result = SendAsync(
                     authorization: ValidAuthorizationHeader,
@@ -132,7 +132,7 @@ namespace C4rm4x.WebApi.Security.Acl.Test
                     .Result;
 
                 Mock.Get(cache)
-                    .Verify(c => c.Store(AclConfiguration.SubscribersCacheKey, subscribers, 3600), 
+                    .Verify(c => c.StoreAsync(AclConfiguration.SubscribersCacheKey, subscribers, 3600), 
                     Times.Once());
             }
 
@@ -142,8 +142,8 @@ namespace C4rm4x.WebApi.Security.Acl.Test
                 var cache = Mock.Of<ICache>();
 
                 Mock.Get(cache)
-                    .Setup(c => c.Retrieve<IEnumerable<Subscriber>>(AclConfiguration.SubscribersCacheKey))
-                    .Returns(GetSubscribers().ToArray());
+                    .Setup(c => c.RetrieveAsync<IEnumerable<Subscriber>>(AclConfiguration.SubscribersCacheKey))
+                    .Returns(Task.FromResult(GetSubscribers().AsEnumerable()));
 
                 Assert.AreEqual(
                     HttpStatusCode.Unauthorized,
@@ -158,11 +158,12 @@ namespace C4rm4x.WebApi.Security.Acl.Test
                 var cache = Mock.Of<ICache>();
 
                 Mock.Get(cache)
-                    .Setup(c => c.Retrieve<IEnumerable<Subscriber>>(AclConfiguration.SubscribersCacheKey))
-                    .Returns(new[]
+                    .Setup(c => c.RetrieveAsync<IEnumerable<Subscriber>>(AclConfiguration.SubscribersCacheKey))
+                    .Returns(Task.FromResult(new[]
                     {
                         GetSubscriber(secret: "5a8dd3ad0756a93ded72b823b19dd877") // hello!
-                    }); 
+                    }
+                    .AsEnumerable())); 
 
                 Assert.AreEqual(
                     HttpStatusCode.Unauthorized,
@@ -178,11 +179,12 @@ namespace C4rm4x.WebApi.Security.Acl.Test
                 var response = new HttpResponseMessage();
 
                 Mock.Get(cache)
-                    .Setup(c => c.Retrieve<IEnumerable<Subscriber>>(AclConfiguration.SubscribersCacheKey))
-                    .Returns(new[]
+                    .Setup(c => c.RetrieveAsync<IEnumerable<Subscriber>>(AclConfiguration.SubscribersCacheKey))
+                    .Returns(Task.FromResult(new[]
                     {
                         GetSubscriber(secret: Secret)
-                    });
+                    }
+                    .AsEnumerable()));
 
                 Assert.AreSame(
                     response,
@@ -199,11 +201,12 @@ namespace C4rm4x.WebApi.Security.Acl.Test
                 var response = new HttpResponseMessage();
 
                 Mock.Get(cache)
-                    .Setup(c => c.Retrieve<IEnumerable<Subscriber>>(AclConfiguration.SubscribersCacheKey))
-                    .Returns(new[]
+                    .Setup(c => c.RetrieveAsync<IEnumerable<Subscriber>>(AclConfiguration.SubscribersCacheKey))
+                    .Returns(Task.FromResult(new[]
                     {
                         GetSubscriber(secret: Secret)
-                    });
+                    }
+                    .AsEnumerable()));
 
                 SendAsync(
                     authorization: ValidAuthorizationHeader,
@@ -220,11 +223,12 @@ namespace C4rm4x.WebApi.Security.Acl.Test
                 IPrincipal assignedPrincipal = null;
 
                 Mock.Get(cache)
-                    .Setup(c => c.Retrieve<IEnumerable<Subscriber>>(AclConfiguration.SubscribersCacheKey))
-                    .Returns(new[]
+                    .Setup(c => c.RetrieveAsync<IEnumerable<Subscriber>>(AclConfiguration.SubscribersCacheKey))
+                    .Returns(Task.FromResult(new[]
                     {
                         GetSubscriber(secret: Secret)
-                    });
+                    }
+                    .AsEnumerable()));
 
                 SendAsync(
                     authorization: ValidAuthorizationHeader,

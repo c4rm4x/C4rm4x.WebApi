@@ -4,6 +4,7 @@ using C4rm4x.Tools.TestUtilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -16,17 +17,17 @@ namespace C4rm4x.WebApi.Monitoring.ServiceBus.Test
             AbstractCounterFixture
         {
             [TestMethod, IntegrationTest]
-            public void Monitor_Returns_0_When_No_Messages_Are_Pending_To_Be_Processed_In_The_Topic()
+            public async Task MonitorAsync_Returns_0_When_No_Messages_Are_Pending_To_Be_Processed_In_The_Topic()
             {
-                Assert.AreEqual(0, _sut.Monitor());
+                Assert.AreEqual(0, await _sut.MonitorAsync());
             }
 
             [TestMethod, IntegrationTest]
-            public void Monitor_Returns_The_Actual_Size_Of_The_Topic_In_Megabytes()
+            public async Task MonitorAsync_Returns_The_Actual_Size_Of_The_Topic_In_Megabytes()
             {
                 PushMessages(GetMessages());
 
-                Assert.IsTrue(_sut.Monitor() > 0);
+                Assert.IsTrue(await _sut.MonitorAsync() > 0);
             }
 
             private static IEnumerable<TestMessage> GetMessages()

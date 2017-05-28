@@ -4,6 +4,7 @@ using C4rm4x.Tools.Utilities;
 using C4rm4x.WebApi.Framework;
 using C4rm4x.WebApi.Framework.Cache;
 using System;
+using System.Threading.Tasks;
 using System.Web.Caching;
 
 #endregion
@@ -31,11 +32,11 @@ namespace C4rm4x.WebApi.Cache.HttpRuntime
         /// </summary>
         /// <param name="key">The key</param>
         /// <returns>The object based on specified key if exists. Otherwise null</returns>
-        public object Retrieve(string key)
+        public async Task<object> RetrieveAsync(string key)
         {
             key.NotNullOrEmpty(nameof(key));
 
-            return HttpCache.Get(key);
+            return await Task.FromResult(HttpCache.Get(key));
         }
 
         /// <summary>
@@ -48,7 +49,7 @@ namespace C4rm4x.WebApi.Cache.HttpRuntime
         /// If a previous object exists with the specified key
         /// it will be overwritten
         /// </remarks>
-        public void Store(
+        public async Task StoreAsync(
             string key,
             object objectToStore,
             int expirationTime = 60)
@@ -56,13 +57,13 @@ namespace C4rm4x.WebApi.Cache.HttpRuntime
             key.NotNullOrEmpty(nameof(key));
             objectToStore.NotNull(nameof(objectToStore));
 
-            HttpCache.Add(
+            await Task.FromResult(HttpCache.Add(
                 key,
                 objectToStore,
                 null,
                 GetExpirationTime(expirationTime),
                 NoSlidingExpiration,
-                CacheItemPriority.Normal, null);
+                CacheItemPriority.Normal, null));
         }
 
         private DateTime GetExpirationTime(int expirationTime)
@@ -80,9 +81,9 @@ namespace C4rm4x.WebApi.Cache.HttpRuntime
         /// <param name="key">The key</param>
         /// <returns>The object based on spefified key if exists. Otherwise null</returns>
         /// <exception cref="InvalidCastException">When object cannot be cast to specified type</exception>
-        public T Retrieve<T>(string key)
+        public async Task<T> RetrieveAsync<T>(string key)
         {
-            return (T)Retrieve(key);
+            return (T)await RetrieveAsync(key);
         }
 
         /// <summary>
@@ -90,18 +91,20 @@ namespace C4rm4x.WebApi.Cache.HttpRuntime
         /// </summary>
         /// <param name="key">The key</param>
         /// <returns>True when there is an entry stored with the given key; false, otherwise</returns>
-        public bool Exists(string key)
+        public async Task<bool> ExistsAsync(string key)
         {
-            return Retrieve(key).IsNotNull();
+            var result = await RetrieveAsync(key);
+
+            return result.IsNotNull();
         }
 
         /// <summary>
         /// Removes the entry cached associated with the given key (if any)
         /// </summary>
         /// <param name="key">The key</param>
-        public void Remove(string key)
+        public async Task RemoveAsync(string key)
         {
-            HttpCache.Remove(key);
+            await Task.FromResult(HttpCache.Remove(key));
         }
     }
 }

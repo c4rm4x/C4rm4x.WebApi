@@ -35,8 +35,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="C4rm4x.Tools.TestUtilities, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\C4rm4x.Tools.TestUtilities.1.1.0.0\lib\net452\C4rm4x.Tools.TestUtilities.dll</HintPath>
+    <Reference Include="C4rm4x.Tools.TestUtilities, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\C4rm4x.Tools.TestUtilities.1.2.0\lib\net452\C4rm4x.Tools.TestUtilities.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="C4rm4x.Tools.TestUtilities.Integration.Extensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -47,28 +47,28 @@
       <HintPath>..\packages\C4rm4x.Tools.Utilities.1.0.0.0\lib\net452\C4rm4x.Tools.Utilities.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="C4rm4x.WebApi.Framework, Version=2.3.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\C4rm4x.WebApi.Framework.2.3.0.0\lib\net452\C4rm4x.WebApi.Framework.dll</HintPath>
+    <Reference Include="C4rm4x.WebApi.Framework, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\C4rm4x.WebApi.Framework.3.0.0\lib\net452\C4rm4x.WebApi.Framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="C4rm4x.WebApi.Monitoring.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\C4rm4x.WebApi.Monitoring.Core.1.0.0.0\lib\net452\C4rm4x.WebApi.Monitoring.Core.dll</HintPath>
+    <Reference Include="C4rm4x.WebApi.Monitoring.Core, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\C4rm4x.WebApi.Monitoring.Core.2.0.0\lib\net452\C4rm4x.WebApi.Monitoring.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="C4rm4x.WebApi.Monitoring.Counter, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\C4rm4x.WebApi.Monitoring.Counter.1.0.0.0\lib\net452\C4rm4x.WebApi.Monitoring.Counter.dll</HintPath>
+    <Reference Include="C4rm4x.WebApi.Monitoring.Counter, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\C4rm4x.WebApi.Monitoring.Counter.2.0.0\lib\net452\C4rm4x.WebApi.Monitoring.Counter.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="C4rm4x.WebApi.Monitoring.ServiceStatus, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\C4rm4x.WebApi.Monitoring.ServiceStatus.3.0.0.0\lib\net452\C4rm4x.WebApi.Monitoring.ServiceStatus.dll</HintPath>
+    <Reference Include="C4rm4x.WebApi.Monitoring.ServiceStatus, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\C4rm4x.WebApi.Monitoring.ServiceStatus.4.0.0\lib\net452\C4rm4x.WebApi.Monitoring.ServiceStatus.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="C4rm4x.WebApi.Validation, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\C4rm4x.WebApi.Validation.2.0.0.0\lib\net452\C4rm4x.WebApi.Validation.dll</HintPath>
+    <Reference Include="C4rm4x.WebApi.Validation, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\C4rm4x.WebApi.Validation.3.0.0\lib\net452\C4rm4x.WebApi.Validation.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.ServiceBus, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\WindowsAzure.ServiceBus.3.2.4\lib\net45-full\Microsoft.ServiceBus.dll</HintPath>
+      <HintPath>..\packages\WindowsAzure.ServiceBus.3.3.2\lib\net45-full\Microsoft.ServiceBus.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Moq, Version=4.2.1510.2205, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
@@ -125,7 +125,7 @@
     <Compile Include="Infrastructure\TestMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceStatus\AbstractServiceStatusRetrieverTest.cs" />
-    <Compile Include="ServiceStatus\AbstractServiceStatusRetrieverTest.Monitor.cs" />
+    <Compile Include="ServiceStatus\AbstractServiceStatusRetrieverTest.MonitorAsync.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\C4rm4x.WebApi.Monitoring.ServiceBus.Extensions\C4rm4x.WebApi.Monitoring.ServiceBus.Extensions.csproj">

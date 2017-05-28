@@ -26,9 +26,9 @@ namespace C4rm4x.WebApi.Security.Jwt.Test.Controllers
             {
                 base.Setup();
 
-                Returns<IClaimsIdentityRetriever, ClaimsIdentity>(
-                    r => r.Retrieve(It.IsAny<string>(), It.IsAny<string>()), 
-                    new ClaimsIdentity());
+                Returns<IClaimsIdentityRetriever, Task<ClaimsIdentity>>(
+                    r => r.RetrieveAsync(It.IsAny<string>(), It.IsAny<string>()), 
+                    Task.FromResult(new ClaimsIdentity()));
 
                 Returns<IJwtSecurityTokenGenerator, string>(
                     g => g.Generate(It.IsAny<ClaimsIdentity>(), It.IsAny<JwtGenerationOptions>()), 
@@ -60,19 +60,20 @@ namespace C4rm4x.WebApi.Security.Jwt.Test.Controllers
                 var result = GenerateToken(request).Result;
 
                 Verify<IClaimsIdentityRetriever>(
-                    r => r.Retrieve(request.UserIdentifier, request.Secret), Times.Once());
+                    r => r.RetrieveAsync(request.UserIdentifier, request.Secret), Times.Once());
             }
 
             [TestMethod, UnitTest]
-            public void GenerateToken_Returns_InternalServerError_Response_When_ClaimsIdentity_For_Specified_User_Cannot_Be_Found()
+            public void GenerateToken_Returns_BadRequest_Response_When_ClaimsIdentity_For_Specified_User_Cannot_Be_Found()
             {
                 var request = new GenerateTokenRequestBuilder().Build();
 
-                Returns<IClaimsIdentityRetriever, ClaimsIdentity>(
-                    r => r.Retrieve(request.UserIdentifier, request.Secret), null);
+                Returns<IClaimsIdentityRetriever, Task<ClaimsIdentity>>(
+                    r => r.RetrieveAsync(request.UserIdentifier, request.Secret), 
+                    Task.FromResult(null as ClaimsIdentity));
 
                 Assert.AreEqual(
-                    HttpStatusCode.InternalServerError,
+                    HttpStatusCode.BadRequest,
                     GenerateToken(request).Result.StatusCode);
             }
 
@@ -96,8 +97,9 @@ namespace C4rm4x.WebApi.Security.Jwt.Test.Controllers
                 Returns<IJwtGenerationOptionsFactory, JwtGenerationOptions>(
                     f => f.GetOptions(), options);
 
-                Returns<IClaimsIdentityRetriever, ClaimsIdentity>(
-                    r => r.Retrieve(request.UserIdentifier, request.Secret), claimsIdentity);
+                Returns<IClaimsIdentityRetriever, Task<ClaimsIdentity>>(
+                    r => r.RetrieveAsync(request.UserIdentifier, request.Secret), 
+                    Task.FromResult(claimsIdentity));
 
                 var result = GenerateToken(request).Result;
 
@@ -133,6 +135,7 @@ namespace C4rm4x.WebApi.Security.Jwt.Test.Controllers
             private Task<HttpResponseMessage> GenerateToken(GenerateTokenRequest generateTokenRequest)
             {
                 return _sut.GenerateToken(generateTokenRequest)
+                    .Result
                     .ExecuteAsync(It.IsAny<CancellationToken>());
             }
         }

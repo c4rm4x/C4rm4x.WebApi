@@ -11,6 +11,7 @@ using System.Net;
 using System.Net.Http;
 using System.Security.Principal;
 using System.Threading;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -60,7 +61,7 @@ namespace C4rm4x.WebApi.Security.Acl
         /// </summary>
         /// <param name="request">The current HTTP request</param>
         /// <returns>True if the current HTTP request is allowed; false, otherwise</returns>
-        protected override bool IsRequestAllowed(
+        protected override async Task<bool> IsRequestAllowedAsync(
             HttpRequestMessage request)
         {
             request.NotNull(nameof(request));
@@ -69,7 +70,7 @@ namespace C4rm4x.WebApi.Security.Acl
             if (!TryRetrieveApiCredentials(request, out credentials))
                 return !ForceAuthentication;
 
-            return ValidateApiCredentials(request, credentials);
+            return await ValidateApiCredentialsAsync(request, credentials);
         }
 
         private static bool TryRetrieveApiCredentials(
@@ -80,11 +81,11 @@ namespace C4rm4x.WebApi.Security.Acl
                 .TryParse(request, out credentials);
         }
 
-        private bool ValidateApiCredentials(
+        private async Task<bool> ValidateApiCredentialsAsync(
             HttpRequestMessage request,
             AclClientCredentials credentials)
         {
-            var subscribers = GetSubscribers(request);
+            var subscribers = await GetSubscribersAsync(request);
 
             if (subscribers.IsNullOrEmpty()) return false;
 
@@ -106,30 +107,30 @@ namespace C4rm4x.WebApi.Security.Acl
             return result;
         }
 
-        private IEnumerable<Subscriber> GetSubscribers(
+        private async Task<IEnumerable<Subscriber>> GetSubscribersAsync(
             HttpRequestMessage request)
         {
-            var subscribers = RetrieveFromCache(request);
+            var subscribers = await RetrieveFromCacheAsync(request);
 
             if (!subscribers.IsNullOrEmpty()) return subscribers;
 
-            return RetrieveFromRepository(request);
+            return await RetrieveFromRepositoryAsync(request);
         }
 
-        private IEnumerable<Subscriber> RetrieveFromCache(
+        private async Task<IEnumerable<Subscriber>> RetrieveFromCacheAsync(
             HttpRequestMessage request)
         {
-            return GetCache(request)
-                .Retrieve<IEnumerable<Subscriber>>(AclConfiguration.SubscribersCacheKey);
+            return await GetCache(request)
+                .RetrieveAsync<IEnumerable<Subscriber>>(AclConfiguration.SubscribersCacheKey);
         }
 
-        private IEnumerable<Subscriber> RetrieveFromRepository(
+        private async Task<IEnumerable<Subscriber>> RetrieveFromRepositoryAsync(
             HttpRequestMessage request)
         {
-            var subscribers = GetSubscriberRepository(request).GetAll();
+            var subscribers = await GetSubscriberRepository(request).GetAllAsync();
 
             if (!subscribers.IsNullOrEmpty())
-                StoreInCache(request, subscribers);
+                await StoreInCacheAsync(request, subscribers);
 
             return subscribers;
         }
@@ -142,12 +143,12 @@ namespace C4rm4x.WebApi.Security.Acl
                 request);
         }
 
-        private void StoreInCache(
+        private async Task StoreInCacheAsync(
             HttpRequestMessage request, 
             IEnumerable<Subscriber> subscribers)
         {
-            GetCache(request)
-                .Store(AclConfiguration.SubscribersCacheKey, subscribers, OneHour);
+            await GetCache(request)
+                .StoreAsync(AclConfiguration.SubscribersCacheKey, subscribers, OneHour);
         }
 
         private ICache GetCache(HttpRequestMessage request)

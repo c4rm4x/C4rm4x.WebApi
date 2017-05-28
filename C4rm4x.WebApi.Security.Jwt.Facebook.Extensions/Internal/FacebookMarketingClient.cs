@@ -2,6 +2,7 @@
 
 using C4rm4x.Tools.Utilities;
 using Facebook;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -18,13 +19,13 @@ namespace C4rm4x.WebApi.Security.Jwt.Facebook
             _client = new FacebookClient(token);
         }
 
-        public dynamic Retrieve(
+        public async Task<dynamic> Retrieve(
             string me,
             params string[] fields)
         {
             try
             {
-                return _client.Get(BuildQueryUrl(me, fields));
+                return await _client.GetTaskAsync(BuildQueryUrl(me, fields));
             }
             catch // If anything happens.... return null
             {

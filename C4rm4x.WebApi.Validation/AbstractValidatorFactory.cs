@@ -2,6 +2,7 @@
 
 using C4rm4x.Tools.Utilities;
 using C4rm4x.WebApi.Framework.Validation;
+using C4rm4x.WebApi.Validation.Validators;
 using System;
 
 #endregion
@@ -37,7 +38,7 @@ namespace C4rm4x.WebApi.Validation
             }
             while (validator.IsNull() && (type = type.BaseType).IsNotNull() && type != typeof(object));
 
-            return validator;
+            return validator ?? new EmptyValidator();
         }
 
         /// <summary>

@@ -28,7 +28,7 @@ namespace C4rm4x.WebApi.Framework.Test.RequestHandling.Results
             {
                 Assert.AreEqual(
                     HttpStatusCode.BadRequest,
-                    ExecuteAsync().Result.StatusCode);
+                    ExecuteAsync(GetValidationErrors().ToArray()).Result.StatusCode);
             }
 
             [TestMethod, UnitTest]
@@ -36,14 +36,14 @@ namespace C4rm4x.WebApi.Framework.Test.RequestHandling.Results
             {
                 Assert.AreEqual(
                     "application/json",
-                    ExecuteAsync().Result.Content.Headers.ContentType.MediaType);
+                    ExecuteAsync(GetValidationErrors().ToArray()).Result.Content.Headers.ContentType.MediaType);
             }
 
             [TestMethod, UnitTest]
             public void ExecuteAsync_Returns_Content_As_BadRequest()
             {
                 Assert.IsInstanceOfType(
-                    ExecuteAsync().Result.Content,
+                    ExecuteAsync(GetValidationErrors().ToArray()).Result.Content,
                     typeof(ObjectContent<BadRequest>));
             }
             
@@ -68,8 +68,7 @@ namespace C4rm4x.WebApi.Framework.Test.RequestHandling.Results
             private static BadRequestResult CreateSubjectUnderTest(
                 params ValidationError[] validationErrors)
             {
-                return new BadRequestResult(
-                    new ValidationException(validationErrors));
+                return new BadRequestResult(validationErrors.ToList());
             }
 
             private static Task<HttpResponseMessage> ExecuteAsync(

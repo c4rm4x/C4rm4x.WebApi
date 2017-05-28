@@ -1,4 +1,10 @@
-﻿namespace C4rm4x.WebApi.Monitoring.Core
+﻿#region Using
+
+using System.Threading.Tasks;
+
+#endregion
+
+namespace C4rm4x.WebApi.Monitoring.Core
 {
     /// <summary>
     /// Interface of a generic monitor service
@@ -20,6 +26,6 @@
         /// Performs the operation to monitor your service and returns the result of it
         /// </summary>
         /// <returns>The monitor response</returns>
-        TMonitor Monitor();
+        Task<TMonitor> MonitorAsync();
     }
 }

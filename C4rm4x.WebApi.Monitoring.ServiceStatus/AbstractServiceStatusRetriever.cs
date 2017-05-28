@@ -2,6 +2,7 @@
 
 using C4rm4x.WebApi.Monitoring.Core;
 using System;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -29,11 +30,11 @@ namespace C4rm4x.WebApi.Monitoring.ServiceStatus
         /// Is component working as expected?
         /// </summary>
         /// <returns>True if component is working as expected; false, otherwise</returns>
-        public override bool Monitor()
+        public override async Task<bool> MonitorAsync()
         {            
             try
             {
-                CheckComponentResponsiveness();
+                await CheckComponentResponsivenessAsync();
             }
             catch (Exception)
             {
@@ -47,6 +48,6 @@ namespace C4rm4x.WebApi.Monitoring.ServiceStatus
         /// Checks whether or not the component is responding as expected
         /// </summary>
         /// <remarks>DO THROW an exception when the component is not working as expected</remarks>
-        protected abstract void CheckComponentResponsiveness();
+        protected abstract Task CheckComponentResponsivenessAsync();
     }
 }

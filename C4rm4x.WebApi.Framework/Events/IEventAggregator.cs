@@ -1,4 +1,10 @@
-﻿namespace C4rm4x.WebApi.Framework.Events
+﻿#region Using
+
+using System.Threading.Tasks;
+
+#endregion
+
+namespace C4rm4x.WebApi.Framework.Events
 {
     /// <summary>
     /// An Event Aggregator acts as a single source of events for many objects. 
@@ -21,19 +27,22 @@
         /// </summary>
         /// <typeparam name="TEvent">Type of the event</typeparam>
         /// <param name="eventData">The event data</param>
-        void Publish<TEvent>(TEvent eventData)
+        /// <returns>The task</returns>
+        Task PublishAsync<TEvent>(TEvent eventData)
             where TEvent : ApiEventData;
 
         /// <summary>
         /// Publishs all the event of type TEvent ready to be broadcasted (previously queued up)
         /// </summary>
         /// <typeparam name="TEvent">Type of event</typeparam>
-        void PublishAll<TEvent>()
+        /// <returns>The task</returns>
+        Task PublishAllAsync<TEvent>()
             where TEvent : ApiEventData;
 
         /// <summary>
         /// Publishes all the events ready to be broadcasted (previously queued up)
         /// </summary>
-        void PublishAll();
+        /// <returns>The task</returns>
+        Task PublishAllAsync();
     }
 }

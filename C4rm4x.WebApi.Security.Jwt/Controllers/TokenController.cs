@@ -6,6 +6,9 @@ using C4rm4x.WebApi.Framework.Log;
 using C4rm4x.WebApi.Framework.RequestHandling.Results;
 using C4rm4x.WebApi.Framework.Validation;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 #endregion
@@ -52,13 +55,16 @@ namespace C4rm4x.WebApi.Security.Jwt.Controllers
         /// <param name="request">The request</param>
         /// <returns>An instance of GenerateTokenResponse with the token generated (if successfully)</returns>
         [HttpPost]
-        public IHttpActionResult GenerateToken(GenerateTokenRequest request)
+        public async Task<IHttpActionResult> GenerateToken(GenerateTokenRequest request)
         {
             try
             {
-                Validate(request);
+                var errors = Validate(request);
 
-                return Handle(request);
+                if (errors.Any())
+                    return BadRequest(errors);
+
+                return await HandleAsync(request);
             }
             catch (Exception e)
             {
@@ -70,11 +76,9 @@ namespace C4rm4x.WebApi.Security.Jwt.Controllers
         /// Validates the request
         /// </summary>
         /// <param name="request">The request to validate</param>
-        /// <exception cref="ValidationException">If request is not valid</exception>
-        protected virtual void Validate(GenerateTokenRequest request)
+        protected virtual List<ValidationError> Validate(GenerateTokenRequest request)
         {
-            GetValidator()
-                .ThrowIf(request);
+            return GetValidator().Validate(request);
         }
 
         private GenerateTokenRequestValidator GetValidator()
@@ -82,13 +86,17 @@ namespace C4rm4x.WebApi.Security.Jwt.Controllers
             return new GenerateTokenRequestValidator();
         }
 
-        private IHttpActionResult Handle(GenerateTokenRequest request)
+        private async Task<IHttpActionResult> HandleAsync(GenerateTokenRequest request)
         {
-            var claimsIdentity = _claimsIdentityRetriever
-                .Retrieve(request.UserIdentifier, request.Secret);
+            var claimsIdentity = await _claimsIdentityRetriever
+                .RetrieveAsync(request.UserIdentifier, request.Secret);
 
             if (claimsIdentity.IsNull())
-                throw new UserCredentialsException();
+                return BadRequest(new[]
+                {
+                    new ValidationError("AUTH_001", null, "Unrecognized userIdentifier or secret.")
+                }
+                .ToList());
 
             var response = new GenerateTokenResponse(
                 _jwtSecurityTokenGenerator.Generate(claimsIdentity, GetOptions()));
@@ -113,12 +121,6 @@ namespace C4rm4x.WebApi.Security.Jwt.Controllers
         /// <returns></returns>
         protected virtual IHttpActionResult HandleException(Exception exception)
         {
-            if (exception is ValidationException)
-                return BadRequest(exception as ValidationException);
-
-            if (exception is UserCredentialsException)
-                return InternalServerError(exception);
-
             return HandleUnexpectedException(exception);
         }
 
@@ -130,9 +132,9 @@ namespace C4rm4x.WebApi.Security.Jwt.Controllers
                 new Exception("Unexpected server error. Please try again."));
         }
 
-        private static IHttpActionResult BadRequest(ValidationException exception)
+        private static IHttpActionResult BadRequest(List<ValidationError> errors)
         {
-            return new BadRequestResult(exception);
+            return new BadRequestResult(errors);
         }
 
         private new static IHttpActionResult InternalServerError(Exception exception)

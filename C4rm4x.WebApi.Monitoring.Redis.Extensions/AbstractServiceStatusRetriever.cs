@@ -4,6 +4,7 @@ using C4rm4x.Tools.Utilities;
 using C4rm4x.WebApi.Cache.Redis;
 using C4rm4x.WebApi.Framework.Cache;
 using System;
+using System.Threading.Tasks;
 using BaseAbstractServiceStatusRetriever = C4rm4x.WebApi.Monitoring.ServiceStatus.AbstractServiceStatusRetriever;
 
 #endregion
@@ -40,13 +41,13 @@ namespace C4rm4x.WebApi.Monitoring.Redis
         /// <summary>
         /// Checks whether or not the Redis instance is up and running
         /// </summary>
-        protected override void CheckComponentResponsiveness()
+        protected override async Task CheckComponentResponsivenessAsync()
         {
             var Key = GenerateKey();
             var Value = "Test";
 
-            Store(Key, Value);
-            Retrieve(Key, Value);
+            await StoreAsync(Key, Value);
+            await RetrieveAsync(Key, Value);
         }
 
         private static string GenerateKey()
@@ -54,18 +55,18 @@ namespace C4rm4x.WebApi.Monitoring.Redis
             return DateTime.UtcNow.ToString();
         }
 
-        private void Store(
+        private async Task StoreAsync(
             string key,
             string value)
         {
-            _cache.Store(key, value, 5);
+            await _cache.StoreAsync(key, value, 5);
         }
 
-        private void Retrieve(
+        private async Task RetrieveAsync(
             string key, 
             string value)
         {
-            var retrievedValue = _cache.Retrieve(key) as string;
+            var retrievedValue = await _cache.RetrieveAsync(key) as string;
 
             value.Must(
                 s => s.Equals(retrievedValue), 

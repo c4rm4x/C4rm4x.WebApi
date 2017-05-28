@@ -35,16 +35,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="C4rm4x.Tools.HttpUtilities, Version=2.0.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\C4rm4x.Tools.HttpUtilities.2.0.0.1\lib\net452\C4rm4x.Tools.HttpUtilities.dll</HintPath>
+    <Reference Include="C4rm4x.Tools.HttpUtilities, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\C4rm4x.Tools.HttpUtilities.4.0.0\lib\net452\C4rm4x.Tools.HttpUtilities.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="C4rm4x.Tools.Security.Jwt, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\C4rm4x.Tools.Security.Jwt.1.0.0.0\lib\net452\C4rm4x.Tools.Security.Jwt.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="C4rm4x.Tools.TestUtilities, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\C4rm4x.Tools.TestUtilities.1.1.0.0\lib\net452\C4rm4x.Tools.TestUtilities.dll</HintPath>
+    <Reference Include="C4rm4x.Tools.TestUtilities, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\C4rm4x.Tools.TestUtilities.1.2.0\lib\net452\C4rm4x.Tools.TestUtilities.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="C4rm4x.Tools.TestUtilities.Integration.Extensions, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -55,20 +55,20 @@
       <HintPath>..\packages\C4rm4x.Tools.Utilities.1.0.0.0\lib\net452\C4rm4x.Tools.Utilities.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="C4rm4x.WebApi.Framework, Version=2.5.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\C4rm4x.WebApi.Framework.2.5.0.0\lib\net452\C4rm4x.WebApi.Framework.dll</HintPath>
+    <Reference Include="C4rm4x.WebApi.Framework, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\C4rm4x.WebApi.Framework.3.0.0\lib\net452\C4rm4x.WebApi.Framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="C4rm4x.WebApi.Security, Version=3.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\C4rm4x.WebApi.Security.3.1.0.0\lib\net452\C4rm4x.WebApi.Security.dll</HintPath>
+    <Reference Include="C4rm4x.WebApi.Security, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\C4rm4x.WebApi.Security.4.0.0\lib\net452\C4rm4x.WebApi.Security.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="C4rm4x.WebApi.Security.Jwt, Version=4.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\C4rm4x.WebApi.Security.Jwt.4.2.0.0\lib\net452\C4rm4x.WebApi.Security.Jwt.dll</HintPath>
+    <Reference Include="C4rm4x.WebApi.Security.Jwt, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\C4rm4x.WebApi.Security.Jwt.5.0.0\lib\net452\C4rm4x.WebApi.Security.Jwt.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="C4rm4x.WebApi.Validation, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\C4rm4x.WebApi.Validation.2.0.0.0\lib\net452\C4rm4x.WebApi.Validation.dll</HintPath>
+    <Reference Include="C4rm4x.WebApi.Validation, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\C4rm4x.WebApi.Validation.3.0.0\lib\net452\C4rm4x.WebApi.Validation.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Moq, Version=4.2.1510.2205, Culture=neutral, PublicKeyToken=69f491c39445e920, processorArchitecture=MSIL">
@@ -120,8 +120,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="ClaimsIdentityRetrieverTest.Retrieve.cs" />
-    <Compile Include="Internal\FacebookMarketingUserInfoClientTest.GetUser.cs" />
+    <Compile Include="ClaimsIdentityRetrieverTest.RetrieveAsync.cs" />
+    <Compile Include="Internal\FacebookMarketingUserInfoClientTest.GetUserAsync.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

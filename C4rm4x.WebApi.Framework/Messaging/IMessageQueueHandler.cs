@@ -1,4 +1,10 @@
-﻿namespace C4rm4x.WebApi.Framework.Messaging
+﻿#region Using
+
+using System.Threading.Tasks;
+
+#endregion
+
+namespace C4rm4x.WebApi.Framework.Messaging
 {
     /// <summary>
     /// Service responsible to handler messaging between modules
@@ -9,7 +15,8 @@
         /// Sends a new item into the message queue
         /// </summary>
         /// <param name="item">The new item</param>
-        void Send<TItem>(TItem item)
+        /// <returns>The task</returns>
+        Task SendAsync<TItem>(TItem item)
             where TItem : class;
     }
 }

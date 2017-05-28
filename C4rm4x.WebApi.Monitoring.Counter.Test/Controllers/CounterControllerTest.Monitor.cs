@@ -58,7 +58,7 @@ namespace C4rm4x.WebApi.Monitoring.Counter.Test.Controllers
 
                 foreach (var counter in _counters)
                     Mock.Get(counter)
-                        .Verify(s => s.Monitor(), Times.Once());
+                        .Verify(s => s.MonitorAsync(), Times.Once());
             }
 
             [TestMethod, UnitTest]
@@ -101,7 +101,7 @@ namespace C4rm4x.WebApi.Monitoring.Counter.Test.Controllers
 
                 foreach (var counter in _counters)
                     Mock.Get(counter)
-                        .Verify(s => s.Monitor(), Times.Never());
+                        .Verify(s => s.MonitorAsync(), Times.Never());
             }
 
             [TestMethod, UnitTest]
@@ -115,7 +115,7 @@ namespace C4rm4x.WebApi.Monitoring.Counter.Test.Controllers
 
                 foreach (var counter in _counters)
                     Mock.Get(counter)
-                        .Verify(s => s.Monitor(), Times.Once());
+                        .Verify(s => s.MonitorAsync(), Times.Once());
             }
 
             [TestMethod, UnitTest]
@@ -177,8 +177,8 @@ namespace C4rm4x.WebApi.Monitoring.Counter.Test.Controllers
                     .Returns(ObjectMother.Create(50));
 
                 Mock.Get(counter)
-                    .Setup(s => s.Monitor())
-                    .Returns(ObjectMother.Create<long>());
+                    .Setup(s => s.MonitorAsync())
+                    .Returns(Task.FromResult(ObjectMother.Create<long>()));
 
                 return counter;
             }
@@ -205,6 +205,7 @@ namespace C4rm4x.WebApi.Monitoring.Counter.Test.Controllers
             private Task<HttpResponseMessage> Monitor(MonitorRequest request)
             {
                 return _sut.Monitor(request)
+                    .Result
                     .ExecuteAsync(It.IsAny<CancellationToken>());
             }
         }

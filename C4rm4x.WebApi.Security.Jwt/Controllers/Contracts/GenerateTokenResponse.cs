@@ -1,7 +1,6 @@
 ﻿#region Using
 
 using C4rm4x.Tools.Utilities;
-using C4rm4x.WebApi.Framework;
 using System.Runtime.Serialization;
 
 #endregion
@@ -12,7 +11,7 @@ namespace C4rm4x.WebApi.Security.Jwt.Controllers
     /// Generate token response
     /// </summary>
     [DataContract]
-    public class GenerateTokenResponse : ApiResponse
+    public class GenerateTokenResponse
     {
         /// <summary>
         /// Parameterless constructor for serialization/deserialization

@@ -1,4 +1,10 @@
-﻿namespace C4rm4x.WebApi.Framework.Runtime
+﻿#region Using
+
+using System.Threading.Tasks;
+
+#endregion
+
+namespace C4rm4x.WebApi.Framework.Runtime
 {
     /// <summary>
     /// Interface responsible to initialise the current execution context
@@ -10,7 +16,8 @@
         /// </summary>
         /// <typeparam name="TRequest">Type of request</typeparam>
         /// <param name="request">The request</param>
-        void PerRequest<TRequest>(TRequest request)
+        /// <returns>The task</returns>
+        Task PerRequestAsync<TRequest>(TRequest request)
             where TRequest : ApiRequest;
     }
 }

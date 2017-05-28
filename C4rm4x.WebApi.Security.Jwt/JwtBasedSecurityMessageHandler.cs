@@ -11,6 +11,7 @@ using System.Net.Http;
 using System.Security.Principal;
 using System.Threading;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -59,7 +60,7 @@ namespace C4rm4x.WebApi.Security.Jwt
         /// </summary>
         /// <param name="request">The current HTTP request</param>
         /// <returns>True if the current HTTP request is allowed; false, otherwise</returns>
-        protected override bool IsRequestAllowed(HttpRequestMessage request)
+        protected override async Task<bool> IsRequestAllowedAsync(HttpRequestMessage request)
         {
             request.NotNull(nameof(request));
 
@@ -67,7 +68,7 @@ namespace C4rm4x.WebApi.Security.Jwt
             if (!TryRetrieveToken(request, out securityToken))
                 return !ForceAuthentication;
 
-            return ValidateToken(request, securityToken);
+            return await ValidateTokenAsync(request, securityToken);
         }
 
         private bool TryRetrieveToken(
@@ -87,14 +88,14 @@ namespace C4rm4x.WebApi.Security.Jwt
             return authorizationHeaderValue.GetBearerToken();
         }
 
-        private bool ValidateToken(HttpRequestMessage request, string securityToken)
+        private async Task<bool> ValidateTokenAsync(HttpRequestMessage request, string securityToken)
         {
             var handler = _securityTokenHandlerFactory();
 
             try
             {
                 IPrincipal principal;
-                var result = handler.TryValidateToken(securityToken, Options, out principal);
+                var result = await Task.FromResult(handler.TryValidateToken(securityToken, Options, out principal));
 
                 if (result) // Do nothing if validation fails
                 {

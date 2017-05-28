@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Filters;
 
@@ -35,7 +36,7 @@ namespace C4rm4x.WebApi.Cache.OutputCache
         /// for all the get-methods for all POST, PUT and DELETE http methods successfully processed
         /// </summary>
         /// <param name="actionExecutedContext">The context</param>
-        protected override void InvalidateOutputCache(
+        protected override async Task InvalidateOutputCacheAsync(
             HttpActionExecutedContext actionExecutedContext)
         {
             if (!actionExecutedContext.MayRequestModifyResult()) return;
@@ -45,7 +46,7 @@ namespace C4rm4x.WebApi.Cache.OutputCache
             if (allGetActionNames.IsNullOrEmpty()) return;
 
             foreach (var actionName in allGetActionNames)
-                RemoveIfExists(actionExecutedContext, actionName);
+                await RemoveIfExistsAsync(actionExecutedContext, actionName);
         }
 
         private static IEnumerable<string> FindAllGetActionNames(

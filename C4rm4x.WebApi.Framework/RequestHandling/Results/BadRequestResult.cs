@@ -21,19 +21,19 @@ namespace C4rm4x.WebApi.Framework.RequestHandling.Results
     public class BadRequestResult : IHttpActionResult
     {
         /// <summary>
-        /// Gets the ValidationException instance that makes the request fail
+        /// Gets the errors that make the request fail
         /// </summary>
-        public ValidationException Exception { get; private set; }
+        public List<ValidationError> Errors { get; private set; }
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="exception">The validation exception</param>
-        public BadRequestResult(ValidationException exception)
+        /// <param name="errors">The validation errors</param>
+        public BadRequestResult(List<ValidationError> errors)
         {
-            exception.NotNull(nameof(exception));
+            errors.NotNullOrEmpty(nameof(errors));
 
-            Exception = exception;
+            Errors = errors;
         }
 
         /// <summary>
@@ -57,9 +57,8 @@ namespace C4rm4x.WebApi.Framework.RequestHandling.Results
         private BadRequest GetBadRequest()
         {
             return new BadRequest(
-                Exception.ValidationErrors
-                    .Select(e => new SerializableValidationError(
-                        e.PropertyName, e.ErrorDescription)));
+                Errors.Select(e => new SerializableValidationError(
+                    e.PropertyName, e.ErrorDescription)));
         }
     }
 

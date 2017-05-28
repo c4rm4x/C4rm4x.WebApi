@@ -21,19 +21,6 @@ namespace C4rm4x.WebApi.Framework.Test.RequestHandling.Results
         {
             private const string TestApiCode = "Code";
             
-            #region Helper classes
-            
-            private class TestApiException : ApiException
-            {
-                public TestApiException()
-                    : base(TestApiCode, "ErrorMessage")
-                {
-
-                }
-            }
-            
-            #endregion
-            
             [TestMethod, UnitTest]
             public void ExecuteAsync_Returns_InternalServerError_Response()
             {
@@ -66,16 +53,6 @@ namespace C4rm4x.WebApi.Framework.Test.RequestHandling.Results
                 var internalServerError = value.Value as InternalServerError;
 
                 Assert.AreEqual("UNKNOWN", internalServerError.Code);
-            }
-            
-            [TestMethod, UnitTest]
-            public void ExecuteAsync_Returns_Content_As_InternalServerError_With_Exception_Code_When_Exception_Inherits_From_ApiException()
-            {
-                var content = ExecuteAsync<TestApiException>().Result.Content;
-                var value = content as ObjectContent<InternalServerError>;
-                var internalServerError = value.Value as InternalServerError;
-
-                Assert.AreEqual(TestApiCode, internalServerError.Code);
             }
 
             private static InternalServerErrorResult CreateSubjectUnderTest<TException>(

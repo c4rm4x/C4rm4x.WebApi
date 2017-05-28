@@ -1,6 +1,7 @@
 ﻿#region Using
 
 using C4rm4x.Tools.Utilities;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 #endregion
@@ -12,18 +13,17 @@ namespace C4rm4x.WebApi.Framework.RequestHandling
     /// </summary>
     public abstract class AbstractApiController : ApiController
     {
-        private readonly IHandlerFactory _handlerFactory;
+        private readonly IHandlerShell _shell;
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="handlerFactory">The request handler factory</param>
-        public AbstractApiController(
-            IHandlerFactory handlerFactory)
+        /// <param name="shell">The handler shell</param>
+        public AbstractApiController(IHandlerShell shell)
         {
-            handlerFactory.NotNull(nameof(handlerFactory));
+            shell.NotNull(nameof(shell));
 
-            _handlerFactory = handlerFactory;
+            _shell = shell;
         }
 
         /// <summary>
@@ -32,12 +32,11 @@ namespace C4rm4x.WebApi.Framework.RequestHandling
         /// <typeparam name="TRequest">The type of the request</typeparam>
         /// <param name="request">The request to be handled</param>
         /// <returns>Returns an instance of IHttpActionResult</returns>
-        protected IHttpActionResult Handle<TRequest>(TRequest request)
+        protected async Task<IHttpActionResult> HandleAsync<TRequest>(
+            TRequest request)
             where TRequest : ApiRequest
         {
-            return _handlerFactory
-                .GetHandler<TRequest>()
-                .Handle(request);
-        }
+            return await _shell.HandleAsync(request);            
+        }        
     }
 }

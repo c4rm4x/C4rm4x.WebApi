@@ -4,6 +4,7 @@ using C4rm4x.Tools.ServiceBus;
 using C4rm4x.Tools.Utilities;
 using C4rm4x.WebApi.Framework.Messaging;
 using Microsoft.ServiceBus.Messaging;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -33,10 +34,10 @@ namespace C4rm4x.WebApi.Messaging.ServiceBus
         /// </summary>
         /// <typeparam name="TItem">Type of the item</typeparam>
         /// <param name="item">The new item</param>
-        public void Send<TItem>(TItem item) 
+        public async Task SendAsync<TItem>(TItem item) 
             where TItem : class
         {
-            _sender.Send(item.BuildBrokeredMessage());
+            await _sender.SendAsync(item.BuildBrokeredMessage());
         }
     }
 }

@@ -4,8 +4,7 @@ using C4rm4x.Tools.Utilities;
 using C4rm4x.WebApi.Framework.Persistance;
 using System;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
-using System.Linq;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -39,34 +38,20 @@ namespace C4rm4x.WebApi.Persistance.EF
         /// Saves all pending changes into persistence layer
         /// </summary>
         /// <returns>Returns the number of changes persisted</returns>
-        public int Commit()
+        public async Task<int> CommitAsync()
         {
-            return _entities.SaveChanges();
+            return await _entities.SaveChangesAsync();
         }
 
         /// <summary>
         /// Undoes all changes pending to avoid to persist them 
         /// </summary>
-        public void Rollback()
+        public async Task RollbackAsync()
         {
-            Rollback(EntityState.Added, EntityState.Detached);
-            Rollback(EntityState.Deleted, EntityState.Unchanged);
-            Rollback(EntityState.Modified, EntityState.Unchanged,
-                e => e.CurrentValues.SetValues(e.OriginalValues));
-        }
-
-        private void Rollback(
-            EntityState currentState,
-            EntityState newState,
-            Action<DbEntityEntry> action = null)
-        {
-            foreach (var entry in _entities.ChangeTracker.Entries()
-                .Where(e => e.State == currentState))
+            await Task.Run(() =>
             {
-                if (action != null) action(entry);
-
-                entry.State = newState;
-            }
+                throw new NotImplementedException();
+            });
         }
 
         /// <summary>

@@ -3,6 +3,7 @@
 using C4rm4x.Tools.Utilities;
 using C4rm4x.WebApi.Persistance.EF;
 using System.Data.Entity;
+using System.Threading.Tasks;
 using BaseAbstractServiceStatusRetriever = C4rm4x.WebApi.Monitoring.ServiceStatus.AbstractServiceStatusRetriever;
 
 #endregion
@@ -39,10 +40,13 @@ namespace C4rm4x.WebApi.Monitoring.EF
         /// <summary>
         /// Checks whether or not the db is up and running
         /// </summary>
-        protected override void CheckComponentResponsiveness()
+        protected override async Task CheckComponentResponsivenessAsync()
         {
-            _entities.Database.Connection.Open();
-            _entities.Database.Connection.Close();
+            await Task.Run(() =>
+            {
+                _entities.Database.Connection.Open();
+                _entities.Database.Connection.Close();
+            });            
         }
     }
 }

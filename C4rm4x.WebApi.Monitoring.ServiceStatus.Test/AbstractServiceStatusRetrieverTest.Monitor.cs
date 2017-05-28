@@ -3,6 +3,7 @@
 using C4rm4x.Tools.TestUtilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -25,10 +26,13 @@ namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Test
                     IsWorking = isWorking;
                 }
 
-                protected override void CheckComponentResponsiveness()
+                protected override async Task CheckComponentResponsivenessAsync()
                 {
-                    if (!IsWorking)
-                        throw new Exception();
+                    await Task.Run(() =>
+                    {
+                        if (!IsWorking)
+                            throw new Exception();
+                    });
                 }
             }
 
@@ -39,7 +43,7 @@ namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Test
             {
                 Assert.IsTrue(
                     CreateSubjectUnderTest(true)
-                        .Monitor());
+                        .MonitorAsync().Result);
             }
 
             [TestMethod, UnitTest]
@@ -47,7 +51,7 @@ namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Test
             {
                 Assert.IsFalse(
                     CreateSubjectUnderTest(false)
-                        .Monitor());
+                        .MonitorAsync().Result);
             }
 
             private IServiceStatusRetriever CreateSubjectUnderTest(bool isComponentWorking)

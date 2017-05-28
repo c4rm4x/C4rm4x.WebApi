@@ -6,6 +6,9 @@ using C4rm4x.WebApi.Framework.RequestHandling.Results;
 using C4rm4x.WebApi.Framework.Runtime;
 using C4rm4x.WebApi.Framework.Validation;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 #endregion
@@ -20,35 +23,18 @@ namespace C4rm4x.WebApi.Framework.RequestHandling
     public interface IHandlerShell
     {
         /// <summary>
-        /// Sets the policy name for this request
+        /// Gets the policy name for ExceptionPolicy
         /// </summary>
-        string PolicyName { set; }
+        string PolicyName { get; }
 
         /// <summary>
         /// Runs the code of the actual handler after all the common operations that are 
         /// performed for each request regardless of its type
         /// </summary>
         /// <typeparam name="TRequest">Type of the request</typeparam>
-        /// <typeparam name="TResponse">Type of the response</typeparam>
         /// <param name="request">The request to be handled</param>
-        /// <param name="processor">The processor responsible of actually handling the request</param>
-        IHttpActionResult Process<TRequest, TResponse>(
-            TRequest request,
-            Func<TRequest, TResponse> processor)
-            where TRequest : ApiRequest
-            where TResponse : ApiResponse;
-
-        /// <summary>
-        /// Runs the code of the actual handler after all the common operations that are
-        /// performed for each request regardless of its type
-        /// </summary>
-        /// <typeparam name="TRequest">Type of the request</typeparam>
-        /// <param name="request">The request to be handled</param>
-        /// <param name="processor">The processor responsible of actually handling the request</param>
-        IHttpActionResult Process<TRequest>(
-            TRequest request,
-            Func<TRequest, IHttpActionResult> processor)
-            where TRequest : ApiRequest;        
+        Task<IHttpActionResult> HandleAsync<TRequest>(TRequest request)
+            where TRequest : ApiRequest;     
     }
 
     #endregion
@@ -57,48 +43,43 @@ namespace C4rm4x.WebApi.Framework.RequestHandling
     /// Implementation of IHandlerShell which performs request validator and 
     /// initialises the execution context before the actual handler gets executed
     /// </summary>
-    [DomainService(typeof(IHandlerShell))]
     public class HandlerShell : IHandlerShell
     {
         private readonly IValidatorFactory _validators;
+        private readonly IPolicyNameFactory _policyNames;
         private readonly IExecutionContextInitialiser _executionContextInitialiser;
+        private readonly IHandlerFactory _handlerFactory;
 
         /// <summary>
-        /// Sets the policy name for ExceptionPolicy
+        /// Gets the policy name for ExceptionPolicy
         /// </summary>
-        public string PolicyName { private get; set; }
+        public string PolicyName
+        {
+            get { return _policyNames.Get(); }
+        }
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="validators">Validator factory</param>
+        /// <param name="policyNames">Policy name factory</param>
         /// <param name="executionContextInitialiser">Execution context initialiser</param>
+        /// <param name="handlerFactory">The request handler factory</param>
         public HandlerShell(
             IValidatorFactory validators,
-            IExecutionContextInitialiser executionContextInitialiser)
+            IPolicyNameFactory policyNames,
+            IExecutionContextInitialiser executionContextInitialiser,
+            IHandlerFactory handlerFactory)
         {
             validators.NotNull(nameof(validators));
+            policyNames.NotNull(nameof(policyNames));
             executionContextInitialiser.NotNull(nameof(executionContextInitialiser));
+            handlerFactory.NotNull(nameof(handlerFactory));
 
             _validators = validators;
+            _policyNames = policyNames;
             _executionContextInitialiser = executionContextInitialiser;
-        }
-
-        /// <summary>
-        /// Runs the code of the actual handler after all the common operations that are 
-        /// performed for each request regardless of its type
-        /// </summary>
-        /// <typeparam name="TRequest">Type of the request</typeparam>
-        /// <typeparam name="TResponse">Type of the response</typeparam>
-        /// <param name="request">The request to be handled</param>
-        /// <param name="processor">The processor responsible of actually handling the request</param>
-        public IHttpActionResult Process<TRequest, TResponse>(
-            TRequest request,
-            Func<TRequest, TResponse> processor)
-            where TRequest : ApiRequest
-            where TResponse : ApiResponse
-        {
-            return Process(request, r => Ok(processor(r)));
+            _handlerFactory = handlerFactory;
         }
 
         /// <summary>
@@ -106,22 +87,24 @@ namespace C4rm4x.WebApi.Framework.RequestHandling
         /// performed for each request regardless of its type
         /// </summary>
         /// <typeparam name="TRequest">Type of the request</typeparam>
-        /// <param name="request">The request to be handled</param>
-        /// <param name="processor">The processor responsible of actually handling the request</param>
-        public IHttpActionResult Process<TRequest>(
-            TRequest request,
-            Func<TRequest, IHttpActionResult> processor)
+        /// <param name="request">The request to be handled</param>        
+        public async Task<IHttpActionResult> HandleAsync<TRequest>(TRequest request)
             where TRequest : ApiRequest
         {
-            processor.NotNull(nameof(processor));
-
             try
             {
-                Validate(request);
+                var errors = Validate(request);
 
-                InitialiseContext(request);
+                if (errors.Any())
+                    return ResultFactory.BadRequest(errors);
 
-                return processor(request);
+                await InitialiseContext(request);
+
+                return await GetHandler<TRequest>().HandleAsync(request);
+            }
+            catch (AggregateException e)
+            {
+                return HandleException(e.Flatten());
             }
             catch (Exception e)
             {
@@ -129,18 +112,24 @@ namespace C4rm4x.WebApi.Framework.RequestHandling
             }
         }
 
-        private void Validate<TRequest>(TRequest request)
+        private List<ValidationError> Validate<TRequest>(TRequest request)
             where TRequest : ApiRequest
         {
-            _validators
+            return _validators
                 .GetValidator(request.GetType())
-                .ThrowIf(request);
+                .Validate(request);
         }
 
-        private void InitialiseContext<TRequest>(TRequest request)
+        private async Task InitialiseContext<TRequest>(TRequest request)
             where TRequest : ApiRequest
         {
-            _executionContextInitialiser.PerRequest(request);
+            await _executionContextInitialiser.PerRequestAsync(request);
+        }
+
+        private IHandler<TRequest> GetHandler<TRequest>()
+            where TRequest : ApiRequest
+        {
+            return _handlerFactory.GetHandler<TRequest>();
         }
 
         private IHttpActionResult HandleException(Exception exceptionToHandle)
@@ -148,48 +137,10 @@ namespace C4rm4x.WebApi.Framework.RequestHandling
             Exception exceptionToThrow;
 
             if (ExceptionPolicy.HandleException(exceptionToHandle, PolicyName, out exceptionToThrow))
-                return Error(exceptionToThrow ?? exceptionToHandle);
+                return ResultFactory.InternalServerError<Exception>(
+                    exceptionToThrow ?? exceptionToHandle);
 
-            return GenericError();
-        }
-
-        private static IHttpActionResult Error(Exception exception)
-        {
-            return (exception is ValidationException)
-                ? BadRequest(exception as ValidationException)
-                : InternalServerError(exception);
-        }
-
-        /// <summary>
-        /// Swallows exception and returns generic error with no information provided
-        /// </summary>
-        /// <remarks>
-        /// Ideally this should never happen but depends on exception handling configuration...
-        /// </remarks>
-        private static IHttpActionResult GenericError()
-        {
-            return InternalServerError();
-        }
-
-        private static IHttpActionResult Ok<TResponse>(TResponse response)
-            where TResponse : ApiResponse
-        {
-            return new OkResult<TResponse>(response);
-        }
-
-        private static IHttpActionResult BadRequest(ValidationException exception)
-        {
-            return new BadRequestResult(exception);
-        }
-
-        private static IHttpActionResult InternalServerError(Exception exception)
-        {
-            return new InternalServerErrorResult<Exception>(exception);
-        }
-
-        private static IHttpActionResult InternalServerError()
-        {
-            return new InternalServerErrorResult();
+            return ResultFactory.InternalServerError();
         }
     }
 }

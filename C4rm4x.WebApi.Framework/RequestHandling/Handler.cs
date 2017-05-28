@@ -1,6 +1,9 @@
 ﻿#region Using
 
-using C4rm4x.Tools.Utilities;
+using C4rm4x.WebApi.Framework.RequestHandling.Results;
+using C4rm4x.WebApi.Framework.Validation;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 #endregion
@@ -21,7 +24,7 @@ namespace C4rm4x.WebApi.Framework.RequestHandling
         /// </summary>
         /// <param name="request">The request</param>
         /// <returns>Returns an instance of IHttpActionResult</returns>
-        IHttpActionResult Handle(TRequest request);
+        Task<IHttpActionResult> HandleAsync(TRequest request);
     }
 
     #endregion
@@ -30,99 +33,89 @@ namespace C4rm4x.WebApi.Framework.RequestHandling
     /// Base class that implements IHandler for an specific type of request
     /// </summary>
     /// <typeparam name="TRequest">Type of request</typeparam>
-    /// <typeparam name="TResponse">Type of response</typeparam>
-    public abstract class Handler<TRequest, TResponse> : IHandler<TRequest>
-        where TRequest : ApiRequest
-        where TResponse : ApiResponse
-    {
-        private readonly IHandlerShell _shell;
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="shell">The handler shell</param>
-        public Handler(IHandlerShell shell)
-        {
-            shell.NotNull(nameof(shell));
-
-            (_shell = shell).PolicyName = PolicyName;
-        }
-
-        /// <summary>
-        /// Handles a request of the specified type
-        /// </summary>
-        /// <param name="request">The request</param>
-        /// <returns>Returns an instance of IHttpActionResult</returns>
-        public IHttpActionResult Handle(TRequest request)
-        {
-            return _shell.Process<TRequest, TResponse>(request, Process);
-        }
-
-        /// <summary>
-        /// Processes the request and returns the value when everything goes Ok
-        /// </summary>
-        /// <param name="request">Request to handle</param>
-        /// <returns>ApiResponse to return as part of the Ok response</returns>
-        protected abstract TResponse Process(TRequest request);
-
-        /// <summary>
-        /// Policy name which handles exceptions for each handler
-        /// </summary>
-        /// <remarks>
-        /// This value is meant to be the same for all handlers (but if for some reason needs to have a different value....)
-        /// </remarks>
-        protected virtual string PolicyName
-        {
-            get { return "default"; }
-        }
-    }
-
-    /// <summary>
-    /// Base class that implements IHandler for an specific type of request
-    /// </summary>
-    /// <typeparam name="TRequest">Type of request</typeparam>
     public abstract class Handler<TRequest> : IHandler<TRequest>
         where TRequest : ApiRequest
     {
-        private readonly IHandlerShell _shell;
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="shell">The handler shell</param>
-        public Handler(IHandlerShell shell)
-        {
-            shell.NotNull(nameof(shell));
-
-            (_shell = shell).PolicyName = PolicyName;
-        }
-
         /// <summary>
         /// Handles a request of the specified type
         /// </summary>
         /// <param name="request">The request</param>
         /// <returns>Returns an instance of IHttpActionResult</returns>
-        public IHttpActionResult Handle(TRequest request)
+        public abstract Task<IHttpActionResult> HandleAsync(TRequest request);
+        
+        /// <summary>
+        /// Returns an instance of IHttpActionResult with Code 200
+        /// </summary>
+        /// <typeparam name="TContent">Type of the content</typeparam>
+        /// <param name="content">The content</param>
+        /// <returns>An IHttpActionResult with status code 200</returns>
+        protected IHttpActionResult Ok<TContent>(TContent content)
+            where TContent : class
         {
-            return _shell.Process(request, Process);
+            return ResultFactory.Ok(content);
         }
 
         /// <summary>
-        /// Processes the request and returns the value when everything goes Ok
+        /// Returns an instance of IHttpActionResult with Code 201
         /// </summary>
-        /// <param name="request">Request to handle</param>
-        /// <returns>Result</returns>
-        protected abstract IHttpActionResult Process(TRequest request);
+        /// <typeparam name="TContent">Type of the content</typeparam>
+        /// <param name="content">The content</param>
+        /// <returns>An IHttpActionResult with status code 201</returns>
+        protected IHttpActionResult Created<TContent>(
+            TContent content)
+            where TContent : class
+        {
+            return ResultFactory.Created(content);
+        }
 
         /// <summary>
-        /// Policy name which handles exceptions for each handler
+        /// Returns an instance of IHttpActionResult with Code 202
         /// </summary>
-        /// <remarks>
-        /// This value is meant to be the same for all handlers (but if for some reason needs to have a different value....)
-        /// </remarks>
-        protected virtual string PolicyName
+        /// <returns>An IHttpActionResult with status code 202</returns>
+        protected IHttpActionResult Accepted()
         {
-            get { return "default"; }
+            return ResultFactory.Accepted();
+        }
+
+        /// <summary>
+        /// Returns an instance of IHttpActionResult with Code 204
+        /// </summary>
+        /// <returns>An IHttpActionResult with status code 204</returns>
+        protected IHttpActionResult NoContent()
+        {
+            return ResultFactory.NoContent();
+        }
+
+        /// <summary>
+        /// Returns an instance of IHttpActionResult with Code 302
+        /// </summary>
+        /// <param name="url">The url to redirect to</param>
+        /// <param name="query">The optional query string</param>
+        /// <returns>An IHttpActionResult with status code 302</returns>
+        protected IHttpActionResult Redirect(
+            string url,
+            params KeyValuePair<string, object>[] query)
+        {
+            return ResultFactory.Redirect(url, query);
+        }
+
+        /// <summary>
+        /// Returns an instance of IHttpActionResult with Code 400
+        /// </summary>
+        /// <param name="errors">The errors</param>
+        /// <returns>An IHttpActionResult with status code 400</returns>
+        protected IHttpActionResult BadRequest(List<ValidationError> errors)
+        {
+            return ResultFactory.BadRequest(errors);
+        }
+
+        /// <summary>
+        /// Returns an instance of IHttpActionResult with Code 404
+        /// </summary>
+        /// <returns>An IHttpActionResult with status code 404</returns>
+        protected IHttpActionResult NotFound()
+        {
+            return ResultFactory.NotFound();
         }
     }
 }

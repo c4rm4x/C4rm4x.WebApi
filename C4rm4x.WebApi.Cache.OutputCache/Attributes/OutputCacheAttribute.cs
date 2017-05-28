@@ -6,6 +6,8 @@ using C4rm4x.WebApi.Framework.Cache;
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 
@@ -64,14 +66,16 @@ namespace C4rm4x.WebApi.Cache.OutputCache
         /// Action to occur before the actual action method is invoked
         /// </summary>
         /// <param name="actionContext">The action context</param>
-        public override void OnActionExecuting(
-            HttpActionContext actionContext)
+        /// <param name="cancellationToken">The cancellation token</param>
+        public override async Task OnActionExecutingAsync(
+            HttpActionContext actionContext, 
+            CancellationToken cancellationToken)
         {
             actionContext.NotNull(nameof(actionContext));
 
             if (!IsCachingAllowed(actionContext)) return;
 
-            var content = GetCachedContent(actionContext);
+            var content = await GetCachedContentAsync(actionContext);
 
             if (content.IsNullOrEmpty()) return;
 
@@ -80,11 +84,11 @@ namespace C4rm4x.WebApi.Cache.OutputCache
             ApplyCacheHeaders(actionContext.Response);
         }
 
-        private byte[] GetCachedContent(
+        private async Task<byte[]> GetCachedContentAsync(
             HttpActionContext actionContext)
         {
-            return GetCache(actionContext)
-                .Retrieve<byte[]>(GetCacheKey(actionContext));
+            return await GetCache(actionContext)
+                .RetrieveAsync<byte[]>(GetCacheKey(actionContext));
         }
 
         private static void CreateResponse(
@@ -102,8 +106,10 @@ namespace C4rm4x.WebApi.Cache.OutputCache
         /// Action to occur after the action method is invoked
         /// </summary>
         /// <param name="actionExecutedContext">The action executed context</param>
-        public override void OnActionExecuted(
-            HttpActionExecutedContext actionExecutedContext)
+        /// <param name="cancellationToken">The cancellation token</param>
+        public override async Task OnActionExecutedAsync(
+            HttpActionExecutedContext actionExecutedContext, 
+            CancellationToken cancellationToken)
         {
             actionExecutedContext.NotNull(nameof(actionExecutedContext));
 
@@ -116,24 +122,24 @@ namespace C4rm4x.WebApi.Cache.OutputCache
             var cacheKey = GetCacheKey(actionExecutedContext.ActionContext);
 
             if (cacheKey.IsNullOrEmpty() ||
-                ExistsItemInCache(actionExecutedContext, cacheKey) ||
+                await ExistsItemInCacheAsync(actionExecutedContext, cacheKey) ||
                 actionExecutedContext.Response.Content.IsNull())
                 return;
 
-            StoreContent(actionExecutedContext, cacheKey);
+            await StoreContentAsync(actionExecutedContext, cacheKey);
 
             ApplyCacheHeaders(actionExecutedContext.Response);
         }
 
-        private bool ExistsItemInCache(
+        private async Task<bool> ExistsItemInCacheAsync(
             HttpActionExecutedContext actionExecutedContext, 
             string cacheKey)
         {
-            return GetCache(actionExecutedContext.ActionContext)
-                .Exists(cacheKey);
+            return await GetCache(actionExecutedContext.ActionContext)
+                .ExistsAsync(cacheKey);
         }
 
-        private void StoreContent(
+        private async Task StoreContentAsync(
             HttpActionExecutedContext actionExecutedContext,
             string cacheKey)
         {
@@ -141,7 +147,7 @@ namespace C4rm4x.WebApi.Cache.OutputCache
             var content = actionExecutedContext
                 .Response.Content.ReadAsByteArrayAsync().Result;
 
-            GetCache(actionContext).Store(cacheKey, content, ServerTimeSpan);
+            await GetCache(actionContext).StoreAsync(cacheKey, content, ServerTimeSpan);
         }
 
         /// <summary>

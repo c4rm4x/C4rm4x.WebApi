@@ -1,6 +1,7 @@
 ﻿#region Using
 
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -17,7 +18,7 @@ namespace C4rm4x.WebApi.Security.Jwt.Controllers
         /// <param name="userIdentifier">User identifier</param>
         /// <param name="secret">User's secret</param>
         /// <returns></returns>
-        ClaimsIdentity Retrieve(
+        Task<ClaimsIdentity> RetrieveAsync(
             string userIdentifier, 
             string secret = null);
     }

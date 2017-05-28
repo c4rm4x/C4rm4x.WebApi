@@ -1,4 +1,10 @@
-﻿namespace C4rm4x.WebApi.Framework.Cache
+﻿#region Using
+
+using System.Threading.Tasks;
+
+#endregion
+
+namespace C4rm4x.WebApi.Framework.Cache
 {
     /// <summary>
     /// Service to cache information for a Web Application
@@ -10,7 +16,7 @@
         /// </summary>
         /// <param name="key">The key</param>
         /// <returns>The object based on specified key if exists. Otherwise null</returns>
-        object Retrieve(string key);
+        Task<object> RetrieveAsync(string key);
 
         /// <summary>
         /// Stores an object in the cache linked to specified key for a period of time
@@ -22,7 +28,7 @@
         /// If a previous object exists with the specified key
         /// it will be overwritten
         /// </remarks>
-        void Store(
+        Task StoreAsync(
             string key,
             object objectToStore,
             int expirationTime = 60);
@@ -34,19 +40,19 @@
         /// <typeparam name="T">The type of the object to retrieve</typeparam>
         /// <param name="key">The key</param>
         /// <returns>The object based on spefified key if exists. Otherwise null</returns>
-        T Retrieve<T>(string key);
+        Task<T> RetrieveAsync<T>(string key);
 
         /// <summary>
         /// Retrieves whether or not there is an entry cached with the given key
         /// </summary>
         /// <param name="key">The key</param>
         /// <returns>True when there is an entry stored with the given key; false, otherwise</returns>
-        bool Exists(string key);
+        Task<bool> ExistsAsync(string key);
 
         /// <summary>
         /// Removes the entry cached associated with the given key (if any)
         /// </summary>
         /// <param name="key">The key</param>
-        void Remove(string key);
+        Task RemoveAsync(string key);
     }
 }

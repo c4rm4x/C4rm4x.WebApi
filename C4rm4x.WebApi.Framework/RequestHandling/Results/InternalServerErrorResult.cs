@@ -79,11 +79,7 @@ namespace C4rm4x.WebApi.Framework.RequestHandling.Results
         {
             const string UnknonwErrorCode = "UNKNOWN";
 
-            var exceptionAsApiException = Exception as ApiException;
-            
-            return (exceptionAsApiException.IsNotNull())
-                ? new InternalServerError(exceptionAsApiException.Code, Exception.Message)
-                : new InternalServerError(UnknonwErrorCode, Exception.Message);
+            return new InternalServerError(UnknonwErrorCode, Exception.Message);
         }
     }
 

@@ -1,7 +1,7 @@
 ﻿#region Using
 
 using C4rm4x.Tools.Utilities;
-using System;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -12,15 +12,22 @@ namespace C4rm4x.WebApi.Framework.Specification
     /// </summary>
     /// <typeparam name="TEntity">Type of the entity to validate</typeparam>
     public abstract class NotNullSpecification<TEntity> : 
-        AbstractSpecification<TEntity>
-    {
+        ISpecification<TEntity>
+    { 
+        /// <summary>
+        /// Gets the rule descriptor
+        /// </summary>
+        public IRule Rule { get; private set; }
+
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="exceptionToThrow">Exception to be thrown when entity does not fulfill the business rule</param>
-        public NotNullSpecification(Func<TEntity, Exception> exceptionToThrow)
-            : base(exceptionToThrow)
+        /// <param name="rule">The rule descriptor</param>
+        public NotNullSpecification(IRule rule)
         {
+            rule.NotNull(nameof(rule));
+
+            Rule = rule;
         }
 
         /// <summary>
@@ -28,9 +35,9 @@ namespace C4rm4x.WebApi.Framework.Specification
         /// </summary>
         /// <param name="entity">Entity to validate</param>
         /// <returns>True when entity is not null; false otherwise</returns>
-        public override bool IsSatisfiedBy(TEntity entity)
+        public async Task<bool> IsSatisfiedByAsync(TEntity entity)
         {
-            return entity.IsNotNull();
+            return await Task.FromResult(entity.IsNotNull());
         }
     }
 }

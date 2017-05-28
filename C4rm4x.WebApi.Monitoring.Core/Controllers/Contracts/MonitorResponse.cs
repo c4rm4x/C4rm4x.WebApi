@@ -1,7 +1,6 @@
 ﻿#region Using
 
 using C4rm4x.Tools.Utilities;
-using C4rm4x.WebApi.Framework;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 
@@ -15,7 +14,7 @@ namespace C4rm4x.WebApi.Monitoring.Core.Controllers
     /// </summary>
     /// <typeparam name="T">Type of the component monitor response</typeparam>
     [DataContract]
-    public class MonitorResponse<T> : ApiResponse
+    public class MonitorResponse<T>
         where T : MonitorResultDto
     {
         /// <summary>

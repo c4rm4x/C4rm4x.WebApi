@@ -1,7 +1,7 @@
 ﻿#region Using
 
 using C4rm4x.WebApi.Framework.Specification;
-using System;
+using C4rm4x.WebApi.Framework.Test.Builders;
 
 #endregion
 
@@ -17,8 +17,8 @@ namespace C4rm4x.WebApi.Framework.Test.Specification
         {
             public TestExpressionSpecification(
                 bool isSatisfiedBy) : base(
-                    (entity) => isSatisfiedBy, 
-                    (entity) => new Exception())
+                    new RuleBuilder().Build(),
+                    (entity) => isSatisfiedBy)
             {
             }
         }

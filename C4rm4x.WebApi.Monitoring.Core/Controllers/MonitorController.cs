@@ -7,6 +7,7 @@ using C4rm4x.WebApi.Framework.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Http;
 
 #endregion
@@ -54,13 +55,16 @@ namespace C4rm4x.WebApi.Monitoring.Core.Controllers
         /// <param name="request">The request</param>
         /// <returns>An instance of MonitorResponse with result of monitoring your system (or a collection of specific components within)</returns>
         [HttpGet]
-        public IHttpActionResult Monitor([FromUri]MonitorRequest request)
+        public async Task<IHttpActionResult> Monitor([FromUri]MonitorRequest request)
         {
             try
             {
-                Validate(request);
+                var errors = Validate(request);
 
-                return Handle(request);
+                if (errors.Any())
+                    return BadRequest(errors);
+
+                return await HandleAsync(request);
             }
             catch (Exception e)
             {
@@ -72,11 +76,9 @@ namespace C4rm4x.WebApi.Monitoring.Core.Controllers
         /// Validates the request
         /// </summary>
         /// <param name="request">The request</param>
-        /// <exception cref="ValidationException">If request is not valid</exception>
-        protected virtual void Validate(MonitorRequest request)
+        protected virtual List<ValidationError> Validate(MonitorRequest request)
         {
-            GetValidator()
-                .ThrowIf(request);
+            return GetValidator().Validate(request);
         }
 
         private static IValidator<MonitorRequest> GetValidator()
@@ -84,37 +86,45 @@ namespace C4rm4x.WebApi.Monitoring.Core.Controllers
             return new MonitorRequestValidator();
         }
 
-        private IHttpActionResult Handle(MonitorRequest request)
+        private async Task<IHttpActionResult> HandleAsync(MonitorRequest request)
         {
             var results = request.Components.IsNullOrEmpty()
-                    ? HandleOverallSystem(request)
-                    : HandleByComponent(request);
+                    ? await HandleOverallSystemAsync(request)
+                    : await HandleByComponentAsync(request);
 
             return Ok(new MonitorResponse<TResult>(results.ToList()));
         }
 
-        private IEnumerable<TResult> HandleByComponent(MonitorRequest request)
+        private async Task<IEnumerable<TResult>> HandleByComponentAsync(MonitorRequest request)
         {
+            var result = new List<TResult>();
+
             foreach (var component in request.Components)
-                yield return GetMonitorResult(component);
+                result.Add(await GetMonitorResultAsync(component));
+
+            return result;
         }
 
-        private TResult GetMonitorResult(ComponentDto component)
+        private async Task<TResult> GetMonitorResultAsync(ComponentDto component)
         {
             var monitorService = _monitorServices
                 .FirstOrDefault(r => r.ComponentIdentifier.Equals(component.Identifier));
 
             if (monitorService.IsNotNull())
-                return GetMonitorResult(component, monitorService);
+                return await GetMonitorResultAsync(component, monitorService);
 
             return new TResult { Component = component };
         }
 
-        private IEnumerable<TResult> HandleOverallSystem(MonitorRequest request)
+        private async Task<IEnumerable<TResult>> HandleOverallSystemAsync(MonitorRequest request)
         {
+            var result = new List<TResult>();
+
             foreach (var monitorService in _monitorServices)
-                yield return GetMonitorResult(
-                    GetComponent(monitorService), monitorService);
+                result.Add(await GetMonitorResultAsync(
+                    GetComponent(monitorService), monitorService));
+
+            return result;
         }
 
         private static ComponentDto GetComponent(
@@ -125,11 +135,11 @@ namespace C4rm4x.WebApi.Monitoring.Core.Controllers
                 monitorService.ComponentName);
         }
 
-        private TResult GetMonitorResult(
+        private async Task<TResult> GetMonitorResultAsync(
             ComponentDto component,
             IMonitorService<TMonitor> monitorService)
         {
-            return _transformer(component, monitorService.Monitor());
+            return _transformer(component, await monitorService.MonitorAsync());
         }
 
         private static IHttpActionResult Ok(MonitorResponse<TResult> response)
@@ -144,9 +154,6 @@ namespace C4rm4x.WebApi.Monitoring.Core.Controllers
         /// <returns></returns>
         protected virtual IHttpActionResult HandleException(Exception exception)
         {
-            if (exception is ValidationException)
-                return BadRequest(exception as ValidationException);
-
             return HandleUnexpectedException(exception);
         }
 
@@ -158,9 +165,9 @@ namespace C4rm4x.WebApi.Monitoring.Core.Controllers
                 new Exception("Unexpected server error. Please try again."));
         }
 
-        private static IHttpActionResult BadRequest(ValidationException exception)
+        private static IHttpActionResult BadRequest(List<ValidationError> errors)
         {
-            return new BadRequestResult(exception);
+            return new BadRequestResult(errors);
         }
 
         private new static IHttpActionResult InternalServerError(Exception exception)

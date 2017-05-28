@@ -4,6 +4,8 @@ using C4rm4x.WebApi.Cache.OutputCache.Internals;
 using C4rm4x.WebApi.Framework.Cache;
 using System;
 using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web.Http.Filters;
 
 #endregion
@@ -36,19 +38,21 @@ namespace C4rm4x.WebApi.Cache.OutputCache
         /// Action to occur after the action method is invoked
         /// </summary>
         /// <param name="actionExecutedContext">The action executed context</param>
-        public override void OnActionExecuted(
-            HttpActionExecutedContext actionExecutedContext)
+        /// <param name="cancellationToken">The cancellation token</param>
+        public override async Task OnActionExecutedAsync(
+            HttpActionExecutedContext actionExecutedContext,
+            CancellationToken cancellationToken)
         {
             if (!actionExecutedContext.IsASuccessfulResponse()) return;
 
-            InvalidateOutputCache(actionExecutedContext);
+            await InvalidateOutputCacheAsync(actionExecutedContext);
         }
 
         /// <summary>
         /// Invalidate the output cache using the given action executed context
         /// </summary>
         /// <param name="actionExecutedContext">The context</param>
-        protected abstract void InvalidateOutputCache(
+        protected abstract Task InvalidateOutputCacheAsync(
             HttpActionExecutedContext actionExecutedContext);
 
         /// <summary>
@@ -56,16 +60,16 @@ namespace C4rm4x.WebApi.Cache.OutputCache
         /// </summary>
         /// <param name="actionExecutedContext">The context</param>
         /// <param name="actionName">The action name</param>
-        protected void RemoveIfExists(
+        protected async Task RemoveIfExistsAsync(
             HttpActionExecutedContext actionExecutedContext,
             string actionName)
         {
             var cache = GetCache(actionExecutedContext);
             var cacheKey = GetCacheKey(actionExecutedContext, actionName);
 
-            if (!cache.Exists(cacheKey)) return;
+            if (!await cache.ExistsAsync(cacheKey)) return;
 
-            cache.Remove(cacheKey);
+            await cache.RemoveAsync(cacheKey);
         }
 
         private ICache GetCache(HttpActionExecutedContext actionExecutedContext)

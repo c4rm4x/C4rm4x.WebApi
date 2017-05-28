@@ -55,36 +55,7 @@ namespace C4rm4x.WebApi.Validation
             var context = new ValidationContext<T>(objectToValidate, validatorSelector);
 
             return _nestedValidators.SelectMany(x => x.Validate(context)).ToList();
-        }
-
-        /// <summary>
-        /// Validates an instance of type T using default ruleSet and throws an exception if validation fails
-        /// </summary>
-        /// <param name="objectToValidate">Object to validate</param>
-        /// <exception cref="ValidationException">If validation fails</exception>
-        public void ThrowIf(T objectToValidate)
-        {
-            var validationErrors = Validate(objectToValidate);
-
-            if (validationErrors.Any())
-                throw new ValidationException(validationErrors);
-        }
-
-        /// <summary>
-        /// Validates an instance of type T using a given ruleSet and throws an exception if validation fails
-        /// </summary>
-        /// <param name="objectToValidate">Object to validate</param>
-        /// <param name="ruleSetName">The name of the ruleset</param>
-        /// <exception cref="ValidationException">If validation fails</exception>
-        public void ThrowIf(
-            T objectToValidate,
-            string ruleSetName)
-        {
-            var validationErrors = Validate(objectToValidate, ruleSetName);
-
-            if (validationErrors.Any())
-                throw new ValidationException(validationErrors);
-        }
+        }        
 
         /// <summary>
         /// Validates an object using default ruleSet
@@ -124,45 +95,7 @@ namespace C4rm4x.WebApi.Validation
                     objectToValidate.GetType().FullName, this.GetType().FullName));
 
             return Validate((T)objectToValidate, ruleSetName);
-        }
-
-        /// <summary>
-        /// Validates an object using default ruleSet and throws an exception if validation fails
-        /// </summary>
-        /// <param name="objectToValidate">Object to validate</param>
-        /// <exception cref="ValidationException">If validation fails</exception>
-        /// <exception cref="ArgumentException">If validator cannot validate an instance of given type</exception>
-        public void ThrowIf(object objectToValidate)
-        {
-            objectToValidate.NotNull(nameof(objectToValidate));
-
-            if (!this.CanBeValidated(objectToValidate))
-                throw new ArgumentException(
-                    string.Format("And object of type {0} cannot be validated against this validator {1}",
-                    objectToValidate.GetType().FullName, this.GetType().FullName));
-
-            ThrowIf((T)objectToValidate);
-        }
-
-        /// <summary>
-        /// Validates an object using a given ruleSet and throws an exception if validation fails
-        /// </summary>
-        /// <param name="objectToValidate">Object to validate</param>
-        /// <param name="ruleSetName">The name of the ruleset</param>
-        /// <exception cref="ValidationException">If validation fails</exception>
-        /// <exception cref="ArgumentException">If validator cannot validate an instance of given type</exception>
-        public void ThrowIf(object objectToValidate, string ruleSetName)
-        {
-            objectToValidate.NotNull(nameof(objectToValidate));
-            ruleSetName.NotNullOrEmpty(nameof(ruleSetName));
-
-            if (!this.CanBeValidated(objectToValidate))
-                throw new ArgumentException(
-                    string.Format("And object of type {0} cannot be validated against this validator {1}",
-                    objectToValidate.GetType().FullName, this.GetType().FullName));
-
-            ThrowIf((T)objectToValidate, ruleSetName);
-        }
+        }        
 
         /// <summary>
         /// Checks to see whether the validator can validate objects of the specified type

@@ -22,14 +22,14 @@ namespace C4rm4x.WebApi.Security
         /// </summary>
         /// <param name="request">The current HTTP request</param>
         /// <param name="cancellationToken">The cancellation token</param>
-        protected override Task<HttpResponseMessage> SendAsync(
+        protected override async Task<HttpResponseMessage> SendAsync(
             HttpRequestMessage request,
             CancellationToken cancellationToken)
         {
-            if (IsRequestAllowed(request))
-                return Handle(request, cancellationToken);
+            if (await IsRequestAllowedAsync(request))
+                return await HandleAsync(request, cancellationToken);
             else
-                return ForbiddenResponse();
+                return await ForbiddenResponseAsync();
         }
 
         /// <summary>
@@ -40,16 +40,16 @@ namespace C4rm4x.WebApi.Security
         /// <param name="cancellationToken">A cancellation token to cancel operation</param>
         /// <returns>Returns a task to produce the HTTP response</returns>
         /// <remarks>ALWAYS return base implementation to invoke inner handlers</remarks>
-        protected virtual Task<HttpResponseMessage> Handle(
+        protected virtual async Task<HttpResponseMessage> HandleAsync(
             HttpRequestMessage request,
             CancellationToken cancellationToken)
         {
-            return base.SendAsync(request, cancellationToken);
+            return await base.SendAsync(request, cancellationToken);
         }
 
-        private Task<HttpResponseMessage> ForbiddenResponse()
+        private async Task<HttpResponseMessage> ForbiddenResponseAsync()
         {
-            return Task.FromResult(
+            return await Task.FromResult(
                 new HttpResponseMessage(ForbiddenErrorCode));
         }
 
@@ -66,7 +66,7 @@ namespace C4rm4x.WebApi.Security
         /// </summary>
         /// <param name="request">The current HTTP request</param>
         /// <returns>True if the current HTTP request is allowed; false, otherwise</returns>
-        protected abstract bool IsRequestAllowed(
+        protected abstract Task<bool> IsRequestAllowedAsync(
             HttpRequestMessage request);
     }
 }

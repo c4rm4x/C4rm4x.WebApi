@@ -2,6 +2,7 @@
 
 using C4rm4x.Tools.Utilities;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -32,12 +33,12 @@ namespace C4rm4x.WebApi.Framework.Runtime
         /// </summary>
         /// <typeparam name="TRequest">Type of request</typeparam>
         /// <param name="request">The request</param>
-        public void PerRequest<TRequest>(TRequest request)
+        public async Task PerRequestAsync<TRequest>(TRequest request)
             where TRequest : ApiRequest
         {
             foreach (var executionContextExtensionInitialiser in GetInitialisersPerRequest<TRequest>())
-                _executionContext.AddExtension(
-                    executionContextExtensionInitialiser.Append(request));
+                _executionContext.Add(
+                    await executionContextExtensionInitialiser.AppendAsync(request));
         }
 
         /// <summary>

@@ -4,6 +4,7 @@ using C4rm4x.Tools.Utilities;
 using C4rm4x.WebApi.Framework.Messaging;
 using System.Messaging;
 using System.Threading;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -33,13 +34,16 @@ namespace C4rm4x.WebApi.Messaging.MSMQ
         /// Sends a new item into the message queue
         /// </summary>
         /// <param name="item">The new item</param>
-        public void Send<TItem>(TItem item)
+        public async Task SendAsync<TItem>(TItem item)
             where TItem : class
         {
-            using (var transaction = _transactionFactory.Create() as MessageQueueTransaction)
+            await Task.Run(() =>
             {
-                Queue.Send(item, transaction);
-            }
+                using (var transaction = _transactionFactory.Create() as MessageQueueTransaction)
+                {
+                    Queue.Send(item, transaction);
+                }
+            });
         }
 
         private MessageQueue Queue

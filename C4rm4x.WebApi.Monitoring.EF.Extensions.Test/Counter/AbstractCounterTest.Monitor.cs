@@ -14,9 +14,9 @@ namespace C4rm4x.WebApi.Monitoring.EF.Test
             AbstractCounterFixture
         {
             [TestMethod, IntegrationTest]
-            public void Monitor_Returns_The_Total_Number_Of_Instances_Stored()
+            public void MonitorAsync_Returns_The_Total_Number_Of_Instances_Stored()
             {
-                Assert.AreEqual(10, _sut.Monitor());
+                Assert.AreEqual(10, _sut.MonitorAsync().Result);
             }
         }
     }

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -48,13 +49,14 @@ namespace C4rm4x.WebApi.Framework.Events
         /// </summary>
         /// <typeparam name="TEvent">Type of the event</typeparam>
         /// <param name="eventData">The event data</param>
-        public void Publish<TEvent>(TEvent eventData)
+        /// <returns>The task</returns>
+        public async Task PublishAsync<TEvent>(TEvent eventData)
             where TEvent : ApiEventData
         {
             eventData.NotNull(nameof(eventData));
 
             foreach (var handler in GetHandlers<TEvent>())
-                handler.OnEventHandler(eventData);
+                await handler.OnEventHandlerAsync(eventData);
         }
 
         /// <summary>
@@ -70,19 +72,20 @@ namespace C4rm4x.WebApi.Framework.Events
         /// Publishs all the event of type TEvent ready to be broadcasted (previously queued up)
         /// </summary>
         /// <typeparam name="TEvent">Type of event</typeparam>
-        public void PublishAll<TEvent>()
+        /// <returns>The task</returns>
+        public async Task PublishAllAsync<TEvent>()
             where TEvent : ApiEventData
         {
-            PublishAll(Queue.OfType<TEvent>());
+            await PublishAllAsync(Queue.OfType<TEvent>());
             CleanQueue(e => e.GetType() == typeof(TEvent));
         }
 
-        private void PublishAll<TEvent>(
+        private async Task PublishAllAsync<TEvent>(
             IEnumerable<TEvent> eventDatas)
             where TEvent : ApiEventData
         {
             foreach (var eventData in eventDatas)
-                Publish(eventData);
+                await PublishAsync(eventData);
         }
 
         private static void CleanQueue(
@@ -95,9 +98,10 @@ namespace C4rm4x.WebApi.Framework.Events
         /// <summary>
         /// Publishes all the events ready to be broadcasted (previously queued up)
         /// </summary>
-        public void PublishAll()
+        /// <returns>The task</returns>
+        public async Task PublishAllAsync()
         {
-            throw new NotImplementedException();
+            await Task.FromResult(false);
         }
     }
 }

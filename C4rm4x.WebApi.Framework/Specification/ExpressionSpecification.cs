@@ -2,6 +2,7 @@
 
 using C4rm4x.Tools.Utilities;
 using System;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -13,22 +14,28 @@ namespace C4rm4x.WebApi.Framework.Specification
     /// </summary>
     /// <typeparam name="TEntity">Type of the entity to validate</typeparam>
     public abstract class ExpressionSpecification<TEntity> :
-        AbstractSpecification<TEntity>,
         ISpecification<TEntity>
     {
         private readonly Func<TEntity, bool> _expression;
 
         /// <summary>
+        /// The rule descriptor
+        /// </summary>
+        public IRule Rule { get; private set; }
+
+        /// <summary>
         /// Constructor
         /// </summary>
+        /// <param name="rule">The rule descriptor</param>
         /// <param name="expression">Expression that must return true in order to fulfill this specification</param>
-        /// <param name="exceptioToThrow">Exception to be thrown when entity does not fulfill the business rule</param>
         public ExpressionSpecification(
-            Func<TEntity, bool> expression,
-            Func<TEntity, Exception> exceptioToThrow) : base(exceptioToThrow)
+            IRule rule,
+            Func<TEntity, bool> expression)
         {
+            rule.NotNull(nameof(rule));
             expression.NotNull(nameof(expression));
 
+            Rule = rule;
             _expression = expression;
         }
 
@@ -37,9 +44,9 @@ namespace C4rm4x.WebApi.Framework.Specification
         /// </summary>
         /// <param name="entity">Entity to validate</param>
         /// <returns>True when entity satisfies expression; false otherwise</returns>
-        public override bool IsSatisfiedBy(TEntity entity)
+        public async Task<bool> IsSatisfiedByAsync(TEntity entity)
         {
-            return _expression(entity);
+            return await Task.FromResult(_expression(entity));
         }
     }
 }

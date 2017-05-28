@@ -5,6 +5,8 @@ using C4rm4x.WebApi.Cache.OutputCache.Internals;
 using C4rm4x.WebApi.Framework.Cache;
 using System;
 using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Filters;
 
@@ -60,23 +62,25 @@ namespace C4rm4x.WebApi.Cache.OutputCache
         /// Action to occur after the action method is invoked
         /// </summary>
         /// <param name="actionExecutedContext">The action executed context</param>
-        public override void OnActionExecuted(
-            HttpActionExecutedContext actionExecutedContext)
+        /// <param name="cancellationToken">The cancellation token</param>
+        public override async Task OnActionExecutedAsync(
+            HttpActionExecutedContext actionExecutedContext, 
+            CancellationToken cancellationToken)
         {
             if (!actionExecutedContext.IsASuccessfulResponse()) return;
 
-            RemoveIfExists(actionExecutedContext);
+            await RemoveIfExistsAsync(actionExecutedContext);
         }
 
-        private void RemoveIfExists(
+        private async Task RemoveIfExistsAsync(
             HttpActionExecutedContext actionExecutedContext)
         {
             var cache = GetCache(actionExecutedContext);
             var cacheKey = GetCacheKey(actionExecutedContext);
 
-            if (!cache.Exists(cacheKey)) return;
+            if (!await cache.ExistsAsync(cacheKey)) return;
 
-            cache.Remove(cacheKey);
+            await cache.RemoveAsync(cacheKey);
         }
 
         private ICache GetCache(HttpActionExecutedContext actionExecutedContext)

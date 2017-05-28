@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -36,31 +37,27 @@ namespace C4rm4x.WebApi.Persistance.Mongo
         /// Adds a new entity into persistance layer
         /// </summary>
         /// <param name="entityToAdd">Entity to add</param>
-        public void Add(T entityToAdd)
+        public async Task AddAsync(T entityToAdd)
         {
-            _collection.InsertOne(entityToAdd);
+            await _collection.InsertOneAsync(entityToAdd);
         }
 
         /// <summary>
         /// Deletes a given entity
         /// </summary>
         /// <param name="entityToDelete">Entity to delete</param>
-        /// <exception cref="PersistenceException">If there is no entity</exception>
-        public void Delete(T entityToDelete)
+        public async Task DeleteAsync(T entityToDelete)
         {
-            Delete(entityToDelete.Id);
+            await DeleteAsync(entityToDelete.Id);
         }
 
         /// <summary>
         /// Deletes an entity by id
         /// </summary>
         /// <param name="id">Entity's id to be removed</param>
-        /// <exception cref="PersistenceException">If there is no entity with given Id</exception>
-        public void Delete(string id)
+        public async Task DeleteAsync(string id)
         {
-            Get(id); // Force entity to exists
-
-            _collection.DeleteOne(GetFilter(id));
+            await _collection.DeleteOneAsync(GetFilter(id));
         }
 
         /// <summary>
@@ -68,9 +65,11 @@ namespace C4rm4x.WebApi.Persistance.Mongo
         /// </summary>
         /// <param name="predicate">Predicate</param>
         /// <returns>The first ocurrence if at least one entity fulfills a given predicate. Null otherwise</returns>
-        public T Get(Expression<Func<T, bool>> predicate)
+        public async Task<T> GetAsync(Expression<Func<T, bool>> predicate)
         {
-            return _collection.AsQueryable().FirstOrDefault(predicate);
+            var response = await _collection.FindAsync(predicate);
+
+            return response.FirstOrDefault();
         }
 
         /// <summary>
@@ -78,25 +77,18 @@ namespace C4rm4x.WebApi.Persistance.Mongo
         /// </summary>
         /// <param name="id">Entity's id to be retrieved</param>
         /// <returns>Entity with given Id</returns>
-        /// <exception cref="PersistenceException">If there is no entity with given Id</exception>
-        public T Get(string id)
+        public async Task<T> GetAsync(string id)
         {
-            var entity = Get(GetFilter(id));
-
-            if (entity.IsNull())
-                throw new PersistenceException(
-                    "Entity with id {0} does not exist".AsFormat(id));
-
-            return entity;
+            return await GetAsync(GetFilter(id));
         }
 
         /// <summary>
         /// Retrieves all the entities of type T
         /// </summary>
         /// <returns>All the entities of type T</returns>
-        public List<T> GetAll()
+        public async Task<List<T>> GetAllAsync()
         {
-            return _collection.AsQueryable().ToList();
+            return await _collection.AsQueryable().ToListAsync();
         }
 
         /// <summary>
@@ -104,18 +96,18 @@ namespace C4rm4x.WebApi.Persistance.Mongo
         /// </summary>
         /// <param name="predicate">Predicate</param>
         /// <returns>The list of all entities that fulfill a given predicate. Empty list if none of them does</returns>
-        public List<T> GetAll(Expression<Func<T, bool>> predicate)
+        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>> predicate)
         {
-            return _collection.Find(predicate).ToList();
+            return await _collection.Find(predicate).ToListAsync();
         }
 
         /// <summary>
         /// Updates a given entity in persistence layer
         /// </summary>
         /// <param name="entityToUpdate">Entity to update</param>
-        public void Update(T entityToUpdate)
+        public async Task UpdateAsync(T entityToUpdate)
         {
-            _collection.ReplaceOne(
+            await _collection.ReplaceOneAsync(
                 GetFilter(entityToUpdate.Id), 
                 entityToUpdate);
         }
@@ -124,9 +116,9 @@ namespace C4rm4x.WebApi.Persistance.Mongo
         /// Returns the total number of entities of type T
         /// </summary>
         /// <returns>The number of entities</returns>
-        public long Count()
+        public async Task<long> CountAsync()
         {
-            return _collection.AsQueryable().LongCount();
+            return await Task.FromResult(_collection.AsQueryable().LongCount());
         }
 
         /// <summary>
@@ -134,9 +126,9 @@ namespace C4rm4x.WebApi.Persistance.Mongo
         /// </summary>
         /// <param name="predicate">Predicate</param>
         /// <returns>The number of all entities that fulfill a given predicate</returns>
-        public long Count(Expression<Func<T, bool>> predicate)
+        public async Task<long> CountAsync(Expression<Func<T, bool>> predicate)
         {
-            return _collection.Count(predicate);
+            return await _collection.CountAsync(predicate);
         }
 
         private static Expression<Func<T, bool>> GetFilter(string entityId)

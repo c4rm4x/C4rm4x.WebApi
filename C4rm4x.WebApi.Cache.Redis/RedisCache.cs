@@ -4,6 +4,7 @@ using C4rm4x.Tools.Utilities;
 using C4rm4x.WebApi.Framework.Cache;
 using StackExchange.Redis;
 using System;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -47,13 +48,13 @@ namespace C4rm4x.WebApi.Cache.Redis
         /// </summary>
         /// <param name="key">The key</param>
         /// <returns>The object based on specified key if exists. Otherwise null</returns>
-        public object Retrieve(string key)
+        public async Task<object> RetrieveAsync(string key)
         {
             key.NotNullOrEmpty(nameof(key));
 
-            string value = Cache.StringGet(key);
+            string result = await Cache.StringGetAsync(key);
 
-            return value;
+            return result;
         }
 
         /// <summary>
@@ -64,9 +65,9 @@ namespace C4rm4x.WebApi.Cache.Redis
         /// <param name="key">The key</param>
         /// <returns>The object based on spefified key if exists. Otherwise null</returns>
         /// <exception cref="InvalidCastException">When object cannot be cast to specified type</exception>
-        public T Retrieve<T>(string key)
+        public async Task<T> RetrieveAsync<T>(string key)
         {
-            var valueCached = Retrieve(key) as string; // It is always string
+            var valueCached = await RetrieveAsync(key) as string; // It is always string
 
             if (valueCached.IsNullOrEmpty()) return default(T);
 
@@ -83,7 +84,7 @@ namespace C4rm4x.WebApi.Cache.Redis
         /// If a previous object exists with the specified key
         /// it will be overwritten
         /// </remarks>
-        public void Store(
+        public async Task StoreAsync(
             string key, 
             object objectToStore, 
             int expirationTime = 60)
@@ -91,7 +92,7 @@ namespace C4rm4x.WebApi.Cache.Redis
             key.NotNullOrEmpty(nameof(key));
             objectToStore.NotNull(nameof(objectToStore));
 
-            Cache.StringSet(key, objectToStore.SerializeAsString(), GetExpirationTime(expirationTime));
+            await Cache.StringSetAsync(key, objectToStore.SerializeAsString(), GetExpirationTime(expirationTime));
         }
 
         private static TimeSpan? GetExpirationTime(int expirationTime)
@@ -106,18 +107,18 @@ namespace C4rm4x.WebApi.Cache.Redis
         /// </summary>
         /// <param name="key">The key</param>
         /// <returns>True when there is an entry stored with the given key; false, otherwise</returns>
-        public bool Exists(string key)
+        public async Task<bool> ExistsAsync(string key)
         {
-            return Cache.KeyExists(key);
+            return await Cache.KeyExistsAsync(key);
         }
 
         /// <summary>
         /// Removes the entry cached associated with the given key (if any)
         /// </summary>
         /// <param name="key">They key</param>
-        public void Remove(string key)
+        public async Task RemoveAsync(string key)
         {
-            Cache.KeyDelete(key);
+            await Cache.KeyDeleteAsync(key);
         }
     }
 }

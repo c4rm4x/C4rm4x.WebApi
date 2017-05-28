@@ -59,7 +59,7 @@ namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Test.Controllers
 
                 foreach (var serviceStatusRetriever in _serviceStatusRetrievers)
                     Mock.Get(serviceStatusRetriever)
-                        .Verify(s => s.Monitor(), Times.Once());
+                        .Verify(s => s.MonitorAsync(), Times.Once());
             }
 
             [TestMethod, UnitTest]
@@ -102,7 +102,7 @@ namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Test.Controllers
 
                 foreach (var serviceStatusRetriever in _serviceStatusRetrievers)
                     Mock.Get(serviceStatusRetriever)
-                        .Verify(s => s.Monitor(), Times.Never());
+                        .Verify(s => s.MonitorAsync(), Times.Never());
             }
 
             [TestMethod, UnitTest]
@@ -116,7 +116,7 @@ namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Test.Controllers
 
                 foreach (var serviceStatusRetriever in _serviceStatusRetrievers)
                     Mock.Get(serviceStatusRetriever)
-                        .Verify(s => s.Monitor(), Times.Once());
+                        .Verify(s => s.MonitorAsync(), Times.Once());
             }
 
             [TestMethod, UnitTest]
@@ -178,8 +178,8 @@ namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Test.Controllers
                     .Returns(ObjectMother.Create(50));
 
                 Mock.Get(serviceStatusRetriever)
-                    .Setup(s => s.Monitor())
-                    .Returns(ObjectMother.Create<bool>());
+                    .Setup(s => s.MonitorAsync())
+                    .Returns(Task.FromResult(ObjectMother.Create<bool>()));
 
                 return serviceStatusRetriever;
             }
@@ -206,6 +206,7 @@ namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Test.Controllers
             private Task<HttpResponseMessage> Monitor(MonitorRequest request)
             {
                 return _sut.Monitor(request)
+                    .Result
                     .ExecuteAsync(It.IsAny<CancellationToken>());
             }
         }
