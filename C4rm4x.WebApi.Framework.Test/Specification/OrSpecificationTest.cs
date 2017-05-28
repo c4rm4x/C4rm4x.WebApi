@@ -1,7 +1,9 @@
 ﻿#region Using
 
 using C4rm4x.WebApi.Framework.Specification;
-using C4rm4x.WebApi.Framework.Test.Builders;
+using C4rm4x.WebApi.Framework.Validation;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -13,13 +15,20 @@ namespace C4rm4x.WebApi.Framework.Test.Specification
 
         public class TestEntity { }
 
-        class TestSpecification : ExpressionSpecification<TestEntity>
+        class TestSpecification : ISpecification<TestEntity>
         {
-            public TestSpecification(bool isSatisfiedBy)
-                : base(
-                      new RuleBuilder().Build(),
-                      (entity) => isSatisfiedBy)
+            public bool IsValid { get; private set; }
+
+            public TestSpecification(bool isValid)
             {
+                IsValid = isValid;
+            }
+
+            public async Task<bool> IsSatisfiedByAsync(
+                TestEntity entity, 
+                ICollection<ValidationError> errors)
+            {
+                return await Task.FromResult(IsValid);
             }
         }
 
@@ -29,7 +38,6 @@ namespace C4rm4x.WebApi.Framework.Test.Specification
                 bool isLeftSatisfiedBy,
                 bool isRightSatisfiedBy)
                 : base(
-                      new RuleBuilder().Build(),
                       new TestSpecification(isLeftSatisfiedBy),
                       new TestSpecification(isRightSatisfiedBy))
             {

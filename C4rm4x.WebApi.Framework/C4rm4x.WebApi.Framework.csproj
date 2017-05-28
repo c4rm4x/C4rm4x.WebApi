@@ -111,12 +111,9 @@
     <Compile Include="Settings\AbstractSettingsManager.cs" />
     <Compile Include="Settings\ISettingsManager.cs" />
     <Compile Include="Settings\SettingsManagerExtensions.cs" />
-    <Compile Include="Specification\ExpressionSpecification.cs" />
-    <Compile Include="Specification\NotNullSpecification.cs" />
     <Compile Include="Specification\OrSpecification.cs" />
     <Compile Include="Specification\AndSpecification.cs" />
     <Compile Include="Specification\ISpecification.cs" />
-    <Compile Include="Specification\Rule.cs" />
     <Compile Include="Transformation\AbstractCollectionTransformer.cs" />
     <Compile Include="Transformation\ICollectionTransformer.cs" />
     <Compile Include="Transformation\ITransformer.cs" />

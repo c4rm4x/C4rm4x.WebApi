@@ -1,6 +1,8 @@
 ﻿#region Using
 
 using C4rm4x.Tools.Utilities;
+using C4rm4x.WebApi.Framework.Validation;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 #endregion
@@ -19,26 +21,17 @@ namespace C4rm4x.WebApi.Framework.Specification
         private readonly ISpecification<TEntity> _right;
 
         /// <summary>
-        /// The rule descriptor
-        /// </summary>
-        public IRule Rule { get; private set; }
-
-        /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="rule">The rule descriptor</param>
         /// <param name="left">First specification</param>
         /// <param name="right">Second sepcification</param>
         public OrSpecification(
-            IRule rule,
             ISpecification<TEntity> left,
             ISpecification<TEntity> right)
         {
-            rule.NotNull(nameof(rule));
             left.NotNull(nameof(left));
             right.NotNull(nameof(right));
 
-            Rule = rule;
             _left = left;
             _right = right;
         }
@@ -47,12 +40,15 @@ namespace C4rm4x.WebApi.Framework.Specification
         /// Checks whether the specified entity satisfies at least one of the specifications
         /// </summary>
         /// <param name="entity">Entity to validate</param>
+        /// <param name="errors">The errors</param>
         /// <returns>True when entity satisfies at least one of the speficications; false otherwise</returns>
-        public async Task<bool> IsSatisfiedByAsync(TEntity entity)
+        public async Task<bool> IsSatisfiedByAsync(
+            TEntity entity,
+            ICollection<ValidationError> errors)
         {
             return 
-                await _left.IsSatisfiedByAsync(entity) ||
-                await _right.IsSatisfiedByAsync(entity);
+                await _left.IsSatisfiedByAsync(entity, errors) ||
+                await _right.IsSatisfiedByAsync(entity, errors);
         }
     }
 }
