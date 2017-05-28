@@ -1,8 +1,6 @@
 ﻿#region Using
 
 using C4rm4x.Tools.Utilities;
-using C4rm4x.WebApi.Framework.Validation;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 #endregion
@@ -40,15 +38,12 @@ namespace C4rm4x.WebApi.Framework.Specification
         /// Checks whether the specified entity satisfies both specifications
         /// </summary>
         /// <param name="entity">Entity to validate</param>
-        /// <param name="errors">The errors</param>
         /// <returns>True when entity satisfies boths specifications; false otherwise</returns>
-        public async Task<bool> IsSatisfiedByAsync(
-            TEntity entity,
-            ICollection<ValidationError> errors)
+        public async Task<bool> IsSatisfiedByAsync(TEntity entity)
         {
             return 
-                await _left.IsSatisfiedByAsync(entity, errors) &&
-                await _right.IsSatisfiedByAsync(entity, errors);            
+                await _left.IsSatisfiedByAsync(entity) &&
+                await _right.IsSatisfiedByAsync(entity);            
         }
     }
 }

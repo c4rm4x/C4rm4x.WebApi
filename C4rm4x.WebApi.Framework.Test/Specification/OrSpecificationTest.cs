@@ -1,8 +1,6 @@
 ﻿#region Using
 
 using C4rm4x.WebApi.Framework.Specification;
-using C4rm4x.WebApi.Framework.Validation;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 #endregion
@@ -24,9 +22,7 @@ namespace C4rm4x.WebApi.Framework.Test.Specification
                 IsValid = isValid;
             }
 
-            public async Task<bool> IsSatisfiedByAsync(
-                TestEntity entity, 
-                ICollection<ValidationError> errors)
+            public async Task<bool> IsSatisfiedByAsync(TestEntity entity)
             {
                 return await Task.FromResult(IsValid);
             }
