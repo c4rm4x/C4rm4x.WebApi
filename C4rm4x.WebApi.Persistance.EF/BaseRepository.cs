@@ -50,18 +50,18 @@ namespace C4rm4x.WebApi.Persistance.EF
         /// Adds a new entity into persistence layer
         /// </summary>
         /// <param name="entityToAdd">Entity to add</param>
-        public async Task AddAsync(T entityToAdd)
+        public Task AddAsync(T entityToAdd)
         {
-            await Task.FromResult(_set.Add(entityToAdd));
+            return Task.FromResult(_set.Add(entityToAdd));
         }
 
         /// <summary>
         /// Updates a given entity in persistence layer
         /// </summary>
         /// <param name="entityToUpdate">Entity to update</param>
-        public async Task UpdateAsync(T entityToUpdate)
+        public Task UpdateAsync(T entityToUpdate)
         {
-            await Task.FromResult(_entities.Entry(entityToUpdate).State = EntityState.Modified);
+            return Task.FromResult(_entities.Entry(entityToUpdate).State = EntityState.Modified);
         }
 
         /// <summary>
@@ -79,9 +79,9 @@ namespace C4rm4x.WebApi.Persistance.EF
         /// Deletes a given entity
         /// </summary>
         /// <param name="entityToDelete">Entity to delete</param>
-        public async Task DeleteAsync(T entityToDelete)
+        public Task DeleteAsync(T entityToDelete)
         {
-            await Task.FromResult(_set.Remove(entityToDelete));
+            return Task.FromResult(_set.Remove(entityToDelete));
         }
 
         /// <summary>

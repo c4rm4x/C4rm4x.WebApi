@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -17,7 +18,7 @@ namespace C4rm4x.WebApi.Framework.Validation
         /// </summary>
         /// <param name="objectToValidate">Object to validate</param>
         /// <returns>List with all validation error. Empty list if no validation error is found</returns>
-        List<ValidationError> Validate(object objectToValidate);
+        Task<List<ValidationError>> ValidateAsync(object objectToValidate);
 
         /// <summary>
         /// Validates an object for a given ruleSet
@@ -25,7 +26,9 @@ namespace C4rm4x.WebApi.Framework.Validation
         /// <param name="objectToValidate">Object to validate</param>
         /// <param name="ruleSetName">The name of the ruleset</param>
         /// <returns>List with all validation error. Empty list if no validation error is found</returns>
-        List<ValidationError> Validate(object objectToValidate, string ruleSetName);
+        Task<List<ValidationError>> ValidateAsync(
+            object objectToValidate, 
+            string ruleSetName);
 
         /// <summary>
         /// Checks to see whether the validator can validate objects of the specified type
@@ -45,7 +48,7 @@ namespace C4rm4x.WebApi.Framework.Validation
         /// </summary>
         /// <param name="objectToValidate">Object to validate</param>
         /// <returns>List with all validation error. Empty list if no validation error is found</returns>
-        List<ValidationError> Validate(T objectToValidate);
+        Task<List<ValidationError>> ValidateAsync(T objectToValidate);
 
         /// <summary>
         /// Validates an instance of type T for a given ruleSet
@@ -53,6 +56,8 @@ namespace C4rm4x.WebApi.Framework.Validation
         /// <param name="objectToValidate">Object to validate</param>
         /// <param name="ruleSetName">The name of the ruleset</param>
         /// <returns>List with all validation error. Empty list if no validation error is found</returns>
-        List<ValidationError> Validate(T objectToValidate, string ruleSetName);
+        Task<List<ValidationError>> ValidateAsync(
+            T objectToValidate, 
+            string ruleSetName);
     }
 }

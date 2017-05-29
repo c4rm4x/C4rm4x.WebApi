@@ -1,8 +1,8 @@
 ﻿#region Using
 
-using C4rm4x.Tools.Utilities;
 using C4rm4x.WebApi.Validation.Core;
 using System;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -54,13 +54,9 @@ namespace C4rm4x.WebApi.Validation.Validators
         /// </summary>
         /// <param name="context">The context</param>
         /// <returns>True if property value is valid; false, otherwise</returns>
-        protected override bool IsValid(PropertyValidatorContext context)
+        protected override Task<bool> IsValidAsync(PropertyValidatorContext context)
         {
-            // If we're working with a nullable type then this rule should not be applied.
-            if (context.PropertyValue.IsNull())
-                return true;
-
-            return IsValid((IComparable)context.PropertyValue, ValueToCompare);
+            return IsValidAsync((IComparable)context.PropertyValue, ValueToCompare);
         }
 
         /// <summary>
@@ -70,7 +66,7 @@ namespace C4rm4x.WebApi.Validation.Validators
         /// <param name="value">The property value</param>
         /// <param name="valueToCompare">Value to compare against</param>
         /// <returns>True if property value is valid; false, otherwise</returns>
-        protected abstract bool IsValid(
+        protected abstract Task<bool> IsValidAsync(
             IComparable value,
             IComparable valueToCompare);
     }

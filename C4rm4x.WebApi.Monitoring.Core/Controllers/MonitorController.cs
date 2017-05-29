@@ -59,7 +59,7 @@ namespace C4rm4x.WebApi.Monitoring.Core.Controllers
         {
             try
             {
-                var errors = Validate(request);
+                var errors = await ValidateAsync(request);
 
                 if (errors.Any())
                     return BadRequest(errors);
@@ -76,9 +76,9 @@ namespace C4rm4x.WebApi.Monitoring.Core.Controllers
         /// Validates the request
         /// </summary>
         /// <param name="request">The request</param>
-        protected virtual List<ValidationError> Validate(MonitorRequest request)
+        protected virtual async Task<List<ValidationError>> ValidateAsync(MonitorRequest request)
         {
-            return GetValidator().Validate(request);
+            return await GetValidator().ValidateAsync(request);
         }
 
         private static IValidator<MonitorRequest> GetValidator()
@@ -97,12 +97,9 @@ namespace C4rm4x.WebApi.Monitoring.Core.Controllers
 
         private async Task<IEnumerable<TResult>> HandleByComponentAsync(MonitorRequest request)
         {
-            var result = new List<TResult>();
+            var tasks = request.Components.Select(component => GetMonitorResultAsync(component));
 
-            foreach (var component in request.Components)
-                result.Add(await GetMonitorResultAsync(component));
-
-            return result;
+            return await Task.WhenAll(tasks);
         }
 
         private async Task<TResult> GetMonitorResultAsync(ComponentDto component)
@@ -118,13 +115,11 @@ namespace C4rm4x.WebApi.Monitoring.Core.Controllers
 
         private async Task<IEnumerable<TResult>> HandleOverallSystemAsync(MonitorRequest request)
         {
-            var result = new List<TResult>();
-
-            foreach (var monitorService in _monitorServices)
-                result.Add(await GetMonitorResultAsync(
+            var tasks = _monitorServices
+                .Select(monitorService => GetMonitorResultAsync(
                     GetComponent(monitorService), monitorService));
 
-            return result;
+            return await Task.WhenAll(tasks);
         }
 
         private static ComponentDto GetComponent(

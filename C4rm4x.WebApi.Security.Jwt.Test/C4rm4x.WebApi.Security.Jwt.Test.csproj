@@ -107,7 +107,7 @@
   <ItemGroup>
     <Compile Include="Controllers\Builders\GenerateTokenRequestBuilder.cs" />
     <Compile Include="Controllers\TokenControllerTest.GenerateToken.cs" />
-    <Compile Include="Controllers\Validators\GenerateTokenRequestValidatorTest.Validate.cs" />
+    <Compile Include="Controllers\Validators\GenerateTokenRequestValidatorTest.ValidateAsync.cs" />
     <Compile Include="JwtBasedSecurityMessageHandlerTest.SendAsync.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -4,6 +4,7 @@ using C4rm4x.Tools.Utilities;
 using C4rm4x.WebApi.Validation.Core;
 using System.Collections;
 using System.Linq;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -37,14 +38,13 @@ namespace C4rm4x.WebApi.Validation.Validators
         /// </summary>
         /// <param name="context">The context</param>
         /// <returns>True when property value is not empty; false, otherwise</returns>
-        protected override bool IsValid(PropertyValidatorContext context)
+        protected override Task<bool> IsValidAsync(PropertyValidatorContext context)
         {
-            if (context.PropertyValue.IsNull() ||
+            var result = context.PropertyValue.IsNull() ||
                 IsEmptyString(context) ||
-                IsEmptyCollection(context))
-                return false;
+                IsEmptyCollection(context);
 
-            return true;
+            return Task.FromResult(!result);
         }
 
         private bool IsEmptyString(PropertyValidatorContext context)

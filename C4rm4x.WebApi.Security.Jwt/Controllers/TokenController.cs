@@ -59,7 +59,7 @@ namespace C4rm4x.WebApi.Security.Jwt.Controllers
         {
             try
             {
-                var errors = Validate(request);
+                var errors = await ValidateAsync(request);
 
                 if (errors.Any())
                     return BadRequest(errors);
@@ -76,9 +76,9 @@ namespace C4rm4x.WebApi.Security.Jwt.Controllers
         /// Validates the request
         /// </summary>
         /// <param name="request">The request to validate</param>
-        protected virtual List<ValidationError> Validate(GenerateTokenRequest request)
+        protected virtual async Task<List<ValidationError>> ValidateAsync(GenerateTokenRequest request)
         {
-            return GetValidator().Validate(request);
+            return await GetValidator().ValidateAsync(request);
         }
 
         private GenerateTokenRequestValidator GetValidator()

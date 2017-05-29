@@ -3,6 +3,8 @@
 using C4rm4x.WebApi.Framework.Validation;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -15,16 +17,16 @@ namespace C4rm4x.WebApi.Validation
             return true;
         }
 
-        public List<ValidationError> Validate(object objectToValidate)
+        public Task<List<ValidationError>> ValidateAsync(object objectToValidate)
         {
-            return new List<ValidationError>();
+            return Task.FromResult(Enumerable.Empty<ValidationError>().ToList());
         }
 
-        public List<ValidationError> Validate(
+        public Task<List<ValidationError>> ValidateAsync(
             object objectToValidate, 
             string ruleSetName)
         {
-            return Validate(objectToValidate);
+            return ValidateAsync(objectToValidate);
         }
     }
 }

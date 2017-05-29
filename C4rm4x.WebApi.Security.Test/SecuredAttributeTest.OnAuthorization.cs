@@ -24,81 +24,77 @@ namespace C4rm4x.WebApi.Security.Test
     public partial class SecuredAttributeTest
     {
         [TestClass]
-        public class SecuredAttributeOnAuthorizationAsyncTest
+        public class SecuredAttributeOnAuthorizationTest
         {
             [TestMethod, UnitTest]
-            public async Task OnAuthorizationAsync_Returns_Empty_Response_When_Method_Is_Decorated_With_AllowAnonymousAttribute_Even_Principal_Is_Not_Authenticated()
+            public void OnAuthorization_Returns_Empty_Response_When_Method_Is_Decorated_With_AllowAnonymousAttribute_Even_Principal_Is_Not_Authenticated()
             {
                 var actionContext = GetActionContext(allowsAnonymous: true, isAuthenticated: false);
 
-                await CreateSubjectUnderTest()
-                    .OnAuthorizationAsync(actionContext, It.IsAny<CancellationToken>());
+                CreateSubjectUnderTest().OnAuthorization(actionContext);
 
                 Assert.IsNull(actionContext.Response);
             }
 
             [TestMethod, UnitTest]
-            public async Task OnAuthorizationAsync_Returns_HttpStatusCode_Unauthorized_When_Principal_Is_Not_Authenticated()
+            public void OnAuthorization_Returns_HttpStatusCode_Unauthorized_When_Principal_Is_Not_Authenticated()
             {
                 var actionContext = GetActionContext(isAuthenticated: false);
 
-                await CreateSubjectUnderTest()
-                    .OnAuthorizationAsync(actionContext, It.IsAny<CancellationToken>());
+                CreateSubjectUnderTest().OnAuthorization(actionContext);
 
                 Assert.AreEqual(HttpStatusCode.Unauthorized, actionContext.Response.StatusCode);
             }
 
             [TestMethod, UnitTest]
-            public async Task OnAuthorizationAsync_Returns_Empty_Response_When_Principal_Is_Authenticated()
+            public void OnAuthorization_Returns_Empty_Response_When_Principal_Is_Authenticated()
             {
                 var actionContext = GetActionContext(isAuthenticated: true);
 
-                await CreateSubjectUnderTest()
-                    .OnAuthorizationAsync(actionContext, It.IsAny<CancellationToken>());
+                CreateSubjectUnderTest().OnAuthorization(actionContext);
 
                 Assert.IsNull(actionContext.Response);
             }
 
             [TestMethod, UnitTest]
-            public async Task OnAuthorizationAsync_Returns_HttpStatusCode_Forbidden_When_Principal_Is_Not_In_Specified_Role()
+            public void OnAuthorization_Returns_HttpStatusCode_Forbidden_When_Principal_Is_Not_In_Specified_Role()
             {
                 var actionContext = GetActionContext(role: "Role");
 
-                await CreateSubjectUnderTest(role: "OtherRole")
-                    .OnAuthorizationAsync(actionContext, It.IsAny<CancellationToken>());
+                CreateSubjectUnderTest(role: "OtherRole")
+                    .OnAuthorization(actionContext);
 
                 Assert.AreEqual(HttpStatusCode.Forbidden, actionContext.Response.StatusCode);
             }
 
             [TestMethod, UnitTest]
-            public async Task OnAuthorizationAsync_Returns_Empty_Response_When_Principal_Is_In_Specified_Role()
+            public void OnAuthorization_Returns_Empty_Response_When_Principal_Is_In_Specified_Role()
             {
                 var actionContext = GetActionContext(role: "Role");
 
-                await CreateSubjectUnderTest("Role")
-                    .OnAuthorizationAsync(actionContext, It.IsAny<CancellationToken>());
+                CreateSubjectUnderTest("Role").OnAuthorization(actionContext);
 
                 Assert.IsNull(actionContext.Response);
             }
 
             [TestMethod, UnitTest]
-            public async Task OnAuthorizationAsync_Returns_HttpStatusCode_Forbidden_When_Principal_Does_Not_Have_Specified_Claim()
+            public void OnAuthorization_Returns_HttpStatusCode_Forbidden_When_Principal_Does_Not_Have_Specified_Claim()
             {
                 var actionContext = GetActionContext(claim: new Claim("ClaimType", "ClaimValue"));
 
-                await CreateSubjectUnderTest(claim: new Claim("OtherClaimType", "OtherClaimValue"))
-                    .OnAuthorizationAsync(actionContext, It.IsAny<CancellationToken>());
+                CreateSubjectUnderTest(claim: new Claim("OtherClaimType", "OtherClaimValue"))
+                    .OnAuthorization(actionContext);
 
                 Assert.AreEqual(HttpStatusCode.Forbidden, actionContext.Response.StatusCode);
             }
 
             [TestMethod, UnitTest]
-            public async Task OnAuthorizationAsync_Returns_Empty_Response_When_Principal_Has_Specified_Claim()
+            public void OnAuthorization_Returns_Empty_Response_When_Principal_Has_Specified_Claim()
             {
                 var actionContext = GetActionContext(claim: new Claim("ClaimType", "ClaimValue"));
 
-                await CreateSubjectUnderTest(claim: new Claim("ClaimType", "ClaimValue"))
-                    .OnAuthorizationAsync(actionContext, It.IsAny<CancellationToken>());
+                CreateSubjectUnderTest(claim: new Claim("ClaimType", "ClaimValue"))
+                    .OnAuthorization(actionContext);
 
                 Assert.IsNull(actionContext.Response);
             }

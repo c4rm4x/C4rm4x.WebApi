@@ -2,6 +2,7 @@
 
 using C4rm4x.Tools.Utilities;
 using C4rm4x.WebApi.Validation.Core;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -72,15 +73,15 @@ namespace C4rm4x.WebApi.Validation.Validators
         /// <returns>
         /// True when property value length is between minimum length and maximum length;
         /// false, otherwise</returns>
-        protected override bool IsValid(PropertyValidatorContext context)
+        protected override Task<bool> IsValidAsync(PropertyValidatorContext context)
         {
-            if (context.PropertyValue.IsNull() || !(context.PropertyValue is string))
-                return true;
+            if (!(context.PropertyValue is string))
+                return Task.FromResult(true);
 
-            var length = context.PropertyValue.ToString().Length;
+            var length = (context.PropertyValue ?? string.Empty).ToString().Length;
 
-            return length >= MinimunLength &&
-                (MaximumLength == -1 || length <= MaximumLength);
+            return Task.FromResult(length >= MinimunLength &&
+                (MaximumLength == -1 || length <= MaximumLength));
         }
     }
 }

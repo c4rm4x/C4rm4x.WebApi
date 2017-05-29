@@ -82,7 +82,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ValidatorExtensions.cs" />
     <Compile Include="Validators\AbstractComparisonValidator.cs" />
-    <Compile Include="Validators\CollectionValidator.cs" />
     <Compile Include="Validators\EqualValidator.cs" />
     <Compile Include="Validators\ExactLengthValidator.cs" />
     <Compile Include="Validators\GreaterThanOrEqualValidator.cs" />
@@ -94,6 +93,7 @@
     <Compile Include="Validators\MinimumLengthValidator.cs" />
     <Compile Include="Validators\NotEmptyValidator.cs" />
     <Compile Include="Validators\NotNullValidator.cs" />
+    <Compile Include="Validators\PredicateValidator.cs" />
     <Compile Include="Validators\PropertyValidator.cs" />
     <Compile Include="Validators\RegularExpressionValidator.cs" />
   </ItemGroup>

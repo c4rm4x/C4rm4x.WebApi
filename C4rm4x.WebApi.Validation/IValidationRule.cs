@@ -4,6 +4,7 @@ using C4rm4x.WebApi.Framework.Validation;
 using C4rm4x.WebApi.Validation.Core;
 using C4rm4x.WebApi.Validation.Validators;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -29,6 +30,6 @@ namespace C4rm4x.WebApi.Validation
         /// </summary>
         /// <param name="context">Validation context</param>
         /// <returns>A collection of validation errors</returns>
-        IEnumerable<ValidationError> Validate(ValidationContext context);
+        Task<IEnumerable<ValidationError>> ValidateAsync(ValidationContext context);
     }
 }

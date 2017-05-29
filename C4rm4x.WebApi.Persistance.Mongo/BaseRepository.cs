@@ -116,9 +116,9 @@ namespace C4rm4x.WebApi.Persistance.Mongo
         /// Returns the total number of entities of type T
         /// </summary>
         /// <returns>The number of entities</returns>
-        public async Task<long> CountAsync()
+        public Task<long> CountAsync()
         {
-            return await Task.FromResult(_collection.AsQueryable().LongCount());
+            return Task.FromResult(_collection.AsQueryable().LongCount());
         }
 
         /// <summary>

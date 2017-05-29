@@ -4,6 +4,7 @@ using C4rm4x.WebApi.Framework.Validation;
 using C4rm4x.WebApi.Validation.Core;
 using C4rm4x.WebApi.Validation.Validators;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -12,11 +13,11 @@ namespace C4rm4x.WebApi.Validation.Test.Validators
     public abstract class AbstractValidatorTest<T>
             where T : IPropertyValidator
     {
-        protected IEnumerable<ValidationError> Validate(object value)
+        protected async Task<IEnumerable<ValidationError>> ValidateAsync(object value)
         {
             var sut = CreateSubjectUnderTest();
 
-            return sut.Validate(new PropertyValidatorContext(
+            return await sut.ValidateAsync(new PropertyValidatorContext(
                 new ValidationContext(new TestClass
                 {
                     TestProperty = value,

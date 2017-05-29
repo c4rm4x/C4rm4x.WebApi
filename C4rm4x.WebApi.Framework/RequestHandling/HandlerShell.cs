@@ -93,13 +93,20 @@ namespace C4rm4x.WebApi.Framework.RequestHandling
         {
             try
             {
-                var errors = Validate(request);
+                // Initialise context first so every piece of information required to 
+                // proces the request is fetched beforehand
+                await InitialiseContextAsync(request);
+
+                // Validate the request (sintax and domain validation)
+                // Wikipedia: Bad request when this cannot be fulfilled due to bad syntax
+                // and / or would cause an invalid state
+                var errors = await ValidateAsync(request);
 
                 if (errors.Any())
                     return ResultFactory.BadRequest(errors);
 
-                await InitialiseContext(request);
-
+                // Handles the request with all needed data already fetched
+                // and ensuring it won't cause any invalid state
                 return await GetHandler<TRequest>().HandleAsync(request);
             }
             catch (AggregateException e)
@@ -112,18 +119,18 @@ namespace C4rm4x.WebApi.Framework.RequestHandling
             }
         }
 
-        private List<ValidationError> Validate<TRequest>(TRequest request)
-            where TRequest : ApiRequest
-        {
-            return _validators
-                .GetValidator(request.GetType())
-                .Validate(request);
-        }
-
-        private async Task InitialiseContext<TRequest>(TRequest request)
+        private async Task InitialiseContextAsync<TRequest>(TRequest request)
             where TRequest : ApiRequest
         {
             await _executionContextInitialiser.PerRequestAsync(request);
+        }
+
+        private async Task<List<ValidationError>> ValidateAsync<TRequest>(TRequest request)
+            where TRequest : ApiRequest
+        {
+            return await _validators
+                .GetValidator(request.GetType())
+                .ValidateAsync(request);
         }
 
         private IHandler<TRequest> GetHandler<TRequest>()

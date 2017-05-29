@@ -5,6 +5,7 @@ using C4rm4x.WebApi.Validation.Validators;
 using System;
 using System.Collections;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -454,6 +455,24 @@ namespace C4rm4x.WebApi.Validation
         {
             return ruleBuilder.SetValidator(
                 new EqualValidator(toCompare, comparer, errorMessage));
+        }
+
+        /// <summary>
+        /// Defines an 'predicate' validator on the current rule builder. 
+        /// Validation will fail if the value of the property does not fulfill the predicate
+        /// </summary>
+        /// <typeparam name="T">Type of object being validated</typeparam>
+        /// <typeparam name="TProperty">Type of property being validated</typeparam>
+        /// <param name="ruleBuilder">The rule builder on which the validator should be defined</param>
+        /// <param name="predicate">The predicate</param>
+        /// <param name="errorMessage">Error message</param>
+        public static IRuleBuilder<T, TProperty> Must<T, TProperty>(
+            this IRuleBuilder<T, TProperty> ruleBuilder,
+            Func<TProperty, Task<bool>> predicate,
+            string errorMessage)
+        {
+            return ruleBuilder.SetValidator(
+                new PredicateValidator<TProperty>(predicate, errorMessage));
         }
 
         /// <summary>

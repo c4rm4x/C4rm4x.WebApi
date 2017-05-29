@@ -47,9 +47,9 @@ namespace C4rm4x.WebApi.Security
             return await base.SendAsync(request, cancellationToken);
         }
 
-        private async Task<HttpResponseMessage> ForbiddenResponseAsync()
+        private Task<HttpResponseMessage> ForbiddenResponseAsync()
         {
-            return await Task.FromResult(
+            return Task.FromResult(
                 new HttpResponseMessage(ForbiddenErrorCode));
         }
 

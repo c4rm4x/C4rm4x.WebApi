@@ -3,6 +3,7 @@
 using C4rm4x.Tools.Utilities;
 using C4rm4x.WebApi.Validation.Core;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -80,10 +81,12 @@ namespace C4rm4x.WebApi.Validation.Validators
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        protected override bool IsValid(PropertyValidatorContext context)
+        protected override Task<bool> IsValidAsync(PropertyValidatorContext context)
         {
-            return context.PropertyValue.IsNull() ||
+            var result = context.PropertyValue.IsNull() ||
                 (context.PropertyValue is string && _regex.IsMatch(context.PropertyValue.ToString()));
+
+            return Task.FromResult(result);
         }
     }
 }

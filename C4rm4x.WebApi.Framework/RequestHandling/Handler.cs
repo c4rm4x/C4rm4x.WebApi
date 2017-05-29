@@ -3,6 +3,7 @@
 using C4rm4x.WebApi.Framework.RequestHandling.Results;
 using C4rm4x.WebApi.Framework.Validation;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -104,9 +105,10 @@ namespace C4rm4x.WebApi.Framework.RequestHandling
         /// </summary>
         /// <param name="errors">The errors</param>
         /// <returns>An IHttpActionResult with status code 400</returns>
-        protected IHttpActionResult BadRequest(List<ValidationError> errors)
+        protected IHttpActionResult BadRequest(
+            params ValidationError[] errors)
         {
-            return ResultFactory.BadRequest(errors);
+            return ResultFactory.BadRequest(errors.ToList());
         }
 
         /// <summary>

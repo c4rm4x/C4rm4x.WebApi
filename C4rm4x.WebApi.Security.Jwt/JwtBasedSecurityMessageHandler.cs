@@ -3,14 +3,12 @@
 using C4rm4x.Tools.Security.Jwt;
 using C4rm4x.Tools.Utilities;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Security.Principal;
 using System.Threading;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 #endregion
@@ -60,15 +58,15 @@ namespace C4rm4x.WebApi.Security.Jwt
         /// </summary>
         /// <param name="request">The current HTTP request</param>
         /// <returns>True if the current HTTP request is allowed; false, otherwise</returns>
-        protected override async Task<bool> IsRequestAllowedAsync(HttpRequestMessage request)
+        protected override Task<bool> IsRequestAllowedAsync(HttpRequestMessage request)
         {
             request.NotNull(nameof(request));
 
             string securityToken;
             if (!TryRetrieveToken(request, out securityToken))
-                return !ForceAuthentication;
+                return Task.FromResult(!ForceAuthentication);
 
-            return await ValidateTokenAsync(request, securityToken);
+            return Task.FromResult(ValidateToken(request, securityToken));
         }
 
         private bool TryRetrieveToken(
@@ -88,14 +86,14 @@ namespace C4rm4x.WebApi.Security.Jwt
             return authorizationHeaderValue.GetBearerToken();
         }
 
-        private async Task<bool> ValidateTokenAsync(HttpRequestMessage request, string securityToken)
+        private bool ValidateToken(HttpRequestMessage request, string securityToken)
         {
             var handler = _securityTokenHandlerFactory();
 
             try
             {
                 IPrincipal principal;
-                var result = await Task.FromResult(handler.TryValidateToken(securityToken, Options, out principal));
+                var result = handler.TryValidateToken(securityToken, Options, out principal);
 
                 if (result) // Do nothing if validation fails
                 {

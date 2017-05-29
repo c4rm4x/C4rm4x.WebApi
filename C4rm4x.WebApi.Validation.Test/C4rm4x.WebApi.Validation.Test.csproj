@@ -86,21 +86,20 @@
     <Compile Include="AbstractValidatorFactoryTest.GetValidator.cs" />
     <Compile Include="AbstractValidatorTest.CanValidateInstancesOf.cs" />
     <Compile Include="AbstractValidatorTest.cs" />
-    <Compile Include="AbstractValidatorTest.Validate.cs" />
+    <Compile Include="AbstractValidatorTest.ValidateAsync.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Validators\AbstractValidatorTest.cs" />
-    <Compile Include="Validators\CollectionValidatorTest.Validate.cs" />
-    <Compile Include="Validators\EqualValidatorTest.Validate.cs" />
-    <Compile Include="Validators\ExactLengthValidatorTest.Validate.cs" />
-    <Compile Include="Validators\GreaterThanOrEqualValidatorTest.Validate.cs" />
-    <Compile Include="Validators\LengthValidatorTest.Validate.cs" />
-    <Compile Include="Validators\LessThanOrEqualValidatorTest.Validate.cs" />
-    <Compile Include="Validators\LessThanValidatorTest.Validate.cs" />
-    <Compile Include="Validators\MaximumLengthValidatorTest.Validate.cs" />
-    <Compile Include="Validators\MinimumLengthValidatorTest.Validate.cs" />
-    <Compile Include="Validators\NotEmptyValidatorTest.Validate.cs" />
-    <Compile Include="Validators\NotNullValidatorTest.Validate.cs" />
-    <Compile Include="Validators\RegularExpressionValidatorTest.Validate.cs" />
+    <Compile Include="Validators\EqualValidatorTest.ValidateAsync.cs" />
+    <Compile Include="Validators\ExactLengthValidatorTest.ValidateAsync.cs" />
+    <Compile Include="Validators\GreaterThanOrEqualValidatorTest.ValidateAsync.cs" />
+    <Compile Include="Validators\LengthValidatorTest.ValidateAsync.cs" />
+    <Compile Include="Validators\LessThanOrEqualValidatorTest.ValidateAsync.cs" />
+    <Compile Include="Validators\LessThanValidatorTest.ValidateAsync.cs" />
+    <Compile Include="Validators\MaximumLengthValidatorTest.ValidateAsync.cs" />
+    <Compile Include="Validators\MinimumLengthValidatorTest.ValidateAsync.cs" />
+    <Compile Include="Validators\NotEmptyValidatorTest.ValidateAsync.cs" />
+    <Compile Include="Validators\NotNullValidatorTest.ValidateAsync.cs" />
+    <Compile Include="Validators\RegularExpressionValidatorTest.ValidateAsync.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\C4rm4x.WebApi.Validation\C4rm4x.WebApi.Validation.csproj">
@@ -111,7 +110,7 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-    <Compile Include="Validators\GreaterThanValidatorTest.Validate.cs" />
+    <Compile Include="Validators\GreaterThanValidatorTest.ValidateAsync.cs" />
   </ItemGroup>
   <ItemGroup />
   <Choose>

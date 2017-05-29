@@ -4,6 +4,7 @@ using C4rm4x.WebApi.Framework.Validation;
 using C4rm4x.WebApi.Validation.Core;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -21,7 +22,7 @@ namespace C4rm4x.WebApi.Validation.Validators
         /// </summary>
         /// <param name="context">Property validator context</param>
         /// <returns>A collection of validation errors</returns>
-        IEnumerable<ValidationError> Validate(PropertyValidatorContext context);
+        Task<IEnumerable<ValidationError>> ValidateAsync(PropertyValidatorContext context);
 
         /// <summary>
         /// Error message to show when validation fails
@@ -55,10 +56,10 @@ namespace C4rm4x.WebApi.Validation.Validators
         /// </summary>
         /// <param name="context">The context to validate</param>
         /// <returns>Lit of all validation errors</returns>
-        public IEnumerable<ValidationError> Validate(
+        public async Task<IEnumerable<ValidationError>> ValidateAsync(
             PropertyValidatorContext context)
         {
-            if (!IsValid(context))
+            if (!await IsValidAsync(context))
                 return new[] { CreateValidationError(context) };
 
             return Enumerable.Empty<ValidationError>();
@@ -69,7 +70,7 @@ namespace C4rm4x.WebApi.Validation.Validators
         /// </summary>
         /// <param name="context">The context</param>
         /// <returns>True if context is valid; false, otherwise</returns>
-        protected abstract bool IsValid(PropertyValidatorContext context);
+        protected abstract Task<bool> IsValidAsync(PropertyValidatorContext context);
 
         /// <summary>
         /// Returns an instance of ValidationError

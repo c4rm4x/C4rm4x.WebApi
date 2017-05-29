@@ -113,14 +113,14 @@ namespace C4rm4x.WebApi.Security.Cors
                 });
         }
 
-        private async Task<HttpResponseMessage> HandleCorsPreflightRequestAsync(
+        private Task<HttpResponseMessage> HandleCorsPreflightRequestAsync(
             CorsRequestContext corsRequestContext)
         {           
             var response = new HttpResponseMessage(HttpStatusCode.OK);
 
             WriteCorsHeaders(response, corsRequestContext);
 
-            return await Task.FromResult(response);
+            return Task.FromResult(response);
         }
 
         private void WriteCorsHeaders(

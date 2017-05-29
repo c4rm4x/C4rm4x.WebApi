@@ -2,6 +2,7 @@
 
 using C4rm4x.WebApi.Validation.Core;
 using System.Collections;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -68,19 +69,18 @@ namespace C4rm4x.WebApi.Validation.Validators
         /// </summary>
         /// <param name="context">The context</param>
         /// <returns>True if property value is equal to valueToCompare; false, otherwise</returns>
-        protected override bool IsValid(PropertyValidatorContext context)
+        protected override Task<bool> IsValidAsync(PropertyValidatorContext context)
         {
             return Compare(context.PropertyValue, ValueToCompare);
         }
 
-        private bool Compare(
+        private Task<bool> Compare(
             object value,
             object valueToCompare)
         {
-            if (_comparer != null)
-                return _comparer.Equals(value, valueToCompare);
-
-            return value == valueToCompare;
+            return _comparer != null
+                ? Task.FromResult(_comparer.Equals(value, valueToCompare))
+                : Task.FromResult(value == valueToCompare);
         }
     }
 }

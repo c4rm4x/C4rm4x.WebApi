@@ -1,6 +1,7 @@
 ﻿#region Using
 
 using System;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -29,11 +30,11 @@ namespace C4rm4x.WebApi.Validation.Validators
         /// <param name="value">The property value</param>
         /// <param name="valueToCompare">Value to compare against</param>
         /// <returns>True if value is less than or equal to valueToCompare; false, otherwise</returns>
-        protected override bool IsValid(
+        protected override Task<bool> IsValidAsync(
             IComparable value,
             IComparable valueToCompare)
         {
-            return value.CompareTo(valueToCompare) <= 0;
+            return Task.FromResult(value.CompareTo(valueToCompare) <= 0);
         }
     }
 }

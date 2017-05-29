@@ -5,6 +5,7 @@ using C4rm4x.WebApi.Validation.Validators;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -13,49 +14,49 @@ namespace C4rm4x.WebApi.Validation.Test.Validators
     public partial class LengthValidatorTest
     {
         [TestClass]
-        public class LengthValidatorValidateTest :
+        public class LengthValidatorValidateAsyncTest :
             AbstractValidatorTest<LengthValidator>
         {
             private const int MinimumLength = 5;
             private const int MaximumLength = 20;
 
             [TestMethod, UnitTest]
-            public void Validate_Returns_No_ValidationErrors_When_Value_Is_Null()
+            public async Task ValidateAsync_Returns_No_ValidationErrors_When_Value_Is_Null()
             {
-                var errors = Validate(null);
+                var errors = await ValidateAsync(null);
 
                 Assert.IsFalse(errors.Any());
             }
 
             [TestMethod, UnitTest]
-            public void Validate_Returns_No_ValidationErrors_When_Value_Lenght_Is_Equal_To_MinimunLength()
+            public async Task ValidateAsync_Returns_No_ValidationErrors_When_Value_Lenght_Is_Equal_To_MinimunLength()
             {
-                var errors = Validate(ObjectMother.Create(MinimumLength));
+                var errors = await ValidateAsync(ObjectMother.Create(MinimumLength));
 
                 Assert.IsFalse(errors.Any());
             }
 
             [TestMethod, UnitTest]
-            public void Validate_Returns_No_ValidationErrors_When_Value_Lenght_Is_Equal_To_MaximunLength()
+            public async Task ValidateAsync_Returns_No_ValidationErrors_When_Value_Lenght_Is_Equal_To_MaximunLength()
             {
-                var errors = Validate(ObjectMother.Create(MaximumLength));
+                var errors = await ValidateAsync(ObjectMother.Create(MaximumLength));
 
                 Assert.IsFalse(errors.Any());
             }
 
             [TestMethod, UnitTest]
-            public void Validate_Returns_No_ValidationErrors_When_Value_Lenght_Is_Between_MinimumLength_And_MaximunLength()
+            public async Task ValidateAsync_Returns_No_ValidationErrors_When_Value_Lenght_Is_Between_MinimumLength_And_MaximunLength()
             {
-                var errors = Validate(ObjectMother.Create(MinimumLength + GetRand(MaximumLength - MinimumLength)));
+                var errors = await ValidateAsync(ObjectMother.Create(MinimumLength + GetRand(MaximumLength - MinimumLength)));
 
                 Assert.IsFalse(errors.Any());
             }
 
             [TestMethod, UnitTest]
-            public void Validate_Returns_A_ValidationError_When_Value_Lenght_Is_Less_Than_MinimunLength()
+            public async Task ValidateAsync_Returns_A_ValidationError_When_Value_Lenght_Is_Less_Than_MinimunLength()
             {
                 var value = ObjectMother.Create(MinimumLength - GetRand(MinimumLength));
-                var errors = Validate(value);
+                var errors = await ValidateAsync(value);
 
                 Assert.IsTrue(errors.Any());
 
@@ -68,10 +69,10 @@ namespace C4rm4x.WebApi.Validation.Test.Validators
             }
 
             [TestMethod, UnitTest]
-            public void Validate_Returns_A_ValidationError_When_Value_Lenght_Is_Greater_Than_MinimunLength()
+            public async Task ValidateAsync_Returns_A_ValidationError_When_Value_Lenght_Is_Greater_Than_MinimunLength()
             {
                 var value = ObjectMother.Create(MaximumLength + GetRand(MaximumLength));
-                var errors = Validate(value);
+                var errors = await ValidateAsync(value);
 
                 Assert.IsTrue(errors.Any());
 

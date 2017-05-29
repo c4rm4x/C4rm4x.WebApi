@@ -4,6 +4,7 @@ using C4rm4x.Tools.TestUtilities;
 using C4rm4x.WebApi.Security.Jwt.Controllers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -12,13 +13,13 @@ namespace C4rm4x.WebApi.Security.Jwt.Test.Controllers
     public partial class GenerateTokenRequestValidatorTest
     {
         [TestClass]
-        public class GenerateTokenRequestValidatorValidateTest
+        public class GenerateTokenRequestValidatorValidateAsyncTest
             : AutoMockFixture<GenerateTokenRequestValidator>
         {
             [TestMethod, UnitTest]
-            public void Validate_Returns_1_ValidationError_When_UserIdentifier_Is_Null()
+            public async Task ValidateAsync_Returns_1_ValidationError_When_UserIdentifier_Is_Null()
             {
-                var errors = _sut.Validate(
+                var errors = await _sut.ValidateAsync(
                     new GenerateTokenRequestBuilder()
                         .WithoutUserIdentifier()
                         .Build());
@@ -33,9 +34,9 @@ namespace C4rm4x.WebApi.Security.Jwt.Test.Controllers
             }
 
             [TestMethod, UnitTest]
-            public void Validate_Returns_1_ValidationError_When_UserIdentifier_Is_Empty_String()
+            public async Task ValidateAsync_Returns_1_ValidationError_When_UserIdentifier_Is_Empty_String()
             {
-                var errors = _sut.Validate(
+                var errors = await _sut.ValidateAsync(
                     new GenerateTokenRequestBuilder()
                         .WithUserIdentifier(string.Empty)
                         .Build());
@@ -50,12 +51,12 @@ namespace C4rm4x.WebApi.Security.Jwt.Test.Controllers
             }
 
             [TestMethod, UnitTest]
-            public void Validate_Returns_No_ValidationErrors_When_UserIdentifier_Is_Neither_Null_Nor_Empty_String()
+            public async Task ValidateAsync_Returns_No_ValidationErrors_When_UserIdentifier_Is_Neither_Null_Nor_Empty_String()
             {
-                Assert.IsFalse(
-                    _sut.Validate(
-                        new GenerateTokenRequestBuilder().Build())
-                    .Any());
+                var errors = await _sut.ValidateAsync(                
+                    new GenerateTokenRequestBuilder().Build());
+
+                Assert.IsFalse(errors.Any());
             }
         }
     }

@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -26,9 +27,9 @@ namespace C4rm4x.WebApi.Validation
         /// </summary>
         /// <param name="objectToValidate">Object to validate</param>
         /// <returns>List with all validation error. Empty list if no validation error is found</returns>
-        public List<ValidationError> Validate(T objectToValidate)
+        public Task<List<ValidationError>> ValidateAsync(T objectToValidate)
         {
-            return Validate(objectToValidate, new DefaultValidatorSelector());
+            return ValidateAsync(objectToValidate, new DefaultValidatorSelector());
         }
 
         /// <summary>
@@ -37,24 +38,26 @@ namespace C4rm4x.WebApi.Validation
         /// <param name="objectToValidate">Object to validate</param>
         /// <param name="ruleSetName">The name of the ruleset</param>
         /// <returns>List with all validation error. Empty list if no validation error is found</returns>
-        public List<ValidationError> Validate(
+        public Task<List<ValidationError>> ValidateAsync(
             T objectToValidate,
             string ruleSetName)
         {
             ruleSetName.NotNullOrEmpty(nameof(ruleSetName));
 
-            return Validate(objectToValidate, new RulesetValidatorSelector(ruleSetName));
+            return ValidateAsync(objectToValidate, new RulesetValidatorSelector(ruleSetName));
         }
 
-        private List<ValidationError> Validate(
+        private async Task<List<ValidationError>> ValidateAsync(
             T objectToValidate,
             IValidatorSelector validatorSelector)
         {
             objectToValidate.NotNull(nameof(objectToValidate));
 
             var context = new ValidationContext<T>(objectToValidate, validatorSelector);
+            var tasks = _nestedValidators.Select(validator => validator.ValidateAsync(context));
+            var results = await Task.WhenAll(tasks);
 
-            return _nestedValidators.SelectMany(x => x.Validate(context)).ToList();
+            return results.SelectMany(r => r).ToList();
         }        
 
         /// <summary>
@@ -63,7 +66,7 @@ namespace C4rm4x.WebApi.Validation
         /// <param name="objectToValidate">Object to validate</param>
         /// <returns>List with all validation error. Empty list if no validation error is found</returns>
         /// <exception cref="ArgumentException">If validator cannot validate an instance of given type</exception>
-        public List<ValidationError> Validate(object objectToValidate)
+        public Task<List<ValidationError>> ValidateAsync(object objectToValidate)
         {
             objectToValidate.NotNull(nameof(objectToValidate));
 
@@ -72,7 +75,7 @@ namespace C4rm4x.WebApi.Validation
                     string.Format("And object of type {0} cannot be validated against this validator {1}",
                     objectToValidate.GetType().FullName, this.GetType().FullName));
 
-            return Validate((T)objectToValidate);
+            return ValidateAsync((T)objectToValidate);
         }
 
         /// <summary>
@@ -82,7 +85,7 @@ namespace C4rm4x.WebApi.Validation
         /// <param name="ruleSetName">The name of the ruleset</param>
         /// <returns>List with all validation error. Empty list if no validation error is found</returns>
         /// <exception cref="ArgumentException">If validator cannot validate an instance of given type</exception>
-        public List<ValidationError> Validate(
+        public Task<List<ValidationError>> ValidateAsync(
             object objectToValidate,
             string ruleSetName)
         {
@@ -94,7 +97,7 @@ namespace C4rm4x.WebApi.Validation
                     string.Format("And object of type {0} cannot be validated against this validator {1}",
                     objectToValidate.GetType().FullName, this.GetType().FullName));
 
-            return Validate((T)objectToValidate, ruleSetName);
+            return ValidateAsync((T)objectToValidate, ruleSetName);
         }        
 
         /// <summary>

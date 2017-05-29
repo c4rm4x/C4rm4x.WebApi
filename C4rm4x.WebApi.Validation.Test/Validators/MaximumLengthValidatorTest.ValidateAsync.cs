@@ -5,6 +5,7 @@ using C4rm4x.WebApi.Validation.Validators;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -13,48 +14,48 @@ namespace C4rm4x.WebApi.Validation.Test.Validators
     public partial class MaximumLengthValidatorTest
     {
         [TestClass]
-        public class MaximumLengthValidatorValidateTest :
+        public class MaximumLengthValidatorValidateAsyncTest :
             AbstractValidatorTest<MaximumLengthValidator>
         {
             private const int MaximumLength = 25;
 
             [TestMethod, UnitTest]
-            public void Validate_Returns_No_ValidationErrors_When_Value_Is_Null()
+            public async Task ValidateAsync_Returns_No_ValidationErrors_When_Value_Is_Null()
             {
-                var errors = Validate(null);
+                var errors = await ValidateAsync(null);
 
                 Assert.IsFalse(errors.Any());
             }
 
             [TestMethod, UnitTest]
-            public void Validate_Returns_No_ValidationErrors_When_Value_Length_Is_Zero()
+            public async Task ValidateAsync_Returns_No_ValidationErrors_When_Value_Length_Is_Zero()
             {
-                var errors = Validate(string.Empty);
+                var errors = await ValidateAsync(string.Empty);
 
                 Assert.IsFalse(errors.Any());
             }
 
             [TestMethod, UnitTest]
-            public void Validate_Returns_No_ValidationErrors_When_Value_Length_Is_The_Same_Than_Expected_One()
+            public async Task ValidateAsync_Returns_No_ValidationErrors_When_Value_Length_Is_The_Same_Than_Expected_One()
             {
-                var errors = Validate(ObjectMother.Create(MaximumLength));
+                var errors = await ValidateAsync(ObjectMother.Create(MaximumLength));
 
                 Assert.IsFalse(errors.Any());
             }
 
             [TestMethod, UnitTest]
-            public void Validate_Returns_No_ValidationErrors_When_Value_Length_Is_Less_Than_Expected_One()
+            public async Task ValidateAsync_Returns_No_ValidationErrors_When_Value_Length_Is_Less_Than_Expected_One()
             {
-                var errors = Validate(ObjectMother.Create(GetRand(MaximumLength)));
+                var errors = await ValidateAsync(ObjectMother.Create(GetRand(MaximumLength)));
 
                 Assert.IsFalse(errors.Any());
             }
 
             [TestMethod, UnitTest]
-            public void Validate_Returns_A_ValidationError_When_Value_Length_Is_Greater_Than_Expected_One()
+            public async Task ValidateAsync_Returns_A_ValidationError_When_Value_Length_Is_Greater_Than_Expected_One()
             {
                 var value = ObjectMother.Create(MaximumLength + GetRand());
-                var errors = Validate(value);
+                var errors = await ValidateAsync(value);
 
                 Assert.IsTrue(errors.Any());
 

@@ -7,8 +7,6 @@ using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Security.Principal;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
@@ -88,10 +86,7 @@ namespace C4rm4x.WebApi.Security
         ///   or the user does not have the authorized claim (if defined)
         /// </summary>
         /// <param name="actionContext">The context</param>
-        /// <param name="cancellationToken">The cancellation token</param>
-        public override async Task OnAuthorizationAsync(
-            HttpActionContext actionContext,
-            CancellationToken cancellationToken)
+        public override void OnAuthorization(HttpActionContext actionContext)
         {
             actionContext.NotNull(nameof(actionContext));
 
@@ -99,9 +94,9 @@ namespace C4rm4x.WebApi.Security
                 return;
 
             if (!IsAuthenticated(actionContext))
-                await HandleUnauthenticatedRequestAsync(actionContext);
+                HandleUnauthenticatedRequest(actionContext);
             else if (!IsAuthorized(actionContext))
-                await HandleUnauthorizedRequestAsync(actionContext);
+                HandleUnauthorizedRequest(actionContext);
         }
 
         private static bool SkipAuthorization(HttpActionContext actionContext)
@@ -133,12 +128,11 @@ namespace C4rm4x.WebApi.Security
         /// This default implementation creates a new response with the Unauthorized status code. 
         /// </summary>
         /// <param name="actionContext">The context</param>
-        protected virtual async Task HandleUnauthenticatedRequestAsync(HttpActionContext actionContext)
+        protected virtual void HandleUnauthenticatedRequest(HttpActionContext actionContext)
         {
             actionContext.NotNull(nameof(actionContext));
 
-            actionContext.Response = await Task.FromResult(
-                new HttpResponseMessage(HttpStatusCode.Unauthorized));
+            actionContext.Response = new HttpResponseMessage(HttpStatusCode.Unauthorized);
         }
 
         /// <summary>
@@ -177,12 +171,11 @@ namespace C4rm4x.WebApi.Security
         /// This default implementation creates a new response with the Forbidden status code. 
         /// </summary>
         /// <param name="actionContext">The context</param>
-        protected virtual async Task HandleUnauthorizedRequestAsync(HttpActionContext actionContext)
+        protected virtual void HandleUnauthorizedRequest(HttpActionContext actionContext)
         {
             actionContext.NotNull(nameof(actionContext));
 
-            actionContext.Response = await Task.FromResult(
-                new HttpResponseMessage(HttpStatusCode.Forbidden));
+            actionContext.Response = new HttpResponseMessage(HttpStatusCode.Forbidden);
         }
     }
 }

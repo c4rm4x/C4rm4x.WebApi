@@ -5,40 +5,33 @@ using C4rm4x.WebApi.Validation.Validators;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 #endregion
 
 namespace C4rm4x.WebApi.Validation.Test.Validators
 {
-    public partial class GreaterThanValidatorTest
+    public partial class LessThanValidatorTest
     {
         [TestClass]
-        public class GreaterThanValidatorValidateTest :
-            AbstractValidatorTest<GreaterThanValidator>
+        public class LessThanValidatorValidateAsyncTest :
+            AbstractValidatorTest<LessThanValidator>
         {
             private const int ValueToCompare = 5;
 
             [TestMethod, UnitTest]
-            public void Validate_Returns_No_ValidationErrors_When_Value_Is_Greater_Than_Expected()
+            public async Task ValidateAsync_Returns_No_ValidationErrors_When_Value_Is_Less_Than_Expected()
             {
-                var value = ValueToCompare + GetRand();
-                var errors = Validate(value);
+                var value = ValueToCompare - GetRand();
+                var errors = await ValidateAsync(value);
 
                 Assert.IsFalse(errors.Any());
             }
 
             [TestMethod, UnitTest]
-            public void Validate_Returns_No_ValidationErros_When_Value_Is_Null()
+            public async Task ValidateAsync_Returns_A_ValidationError_When_Value_Is_The_Same()
             {
-                var errors = Validate(null);
-
-                Assert.IsFalse(errors.Any());
-            }
-
-            [TestMethod, UnitTest]
-            public void Validate_Returns_A_ValidationError_When_Value_Is_The_Same()
-            {
-                var errors = Validate(ValueToCompare);
+                var errors = await ValidateAsync(ValueToCompare);
 
                 Assert.IsTrue(errors.Any());
 
@@ -51,10 +44,10 @@ namespace C4rm4x.WebApi.Validation.Test.Validators
             }
 
             [TestMethod, UnitTest]
-            public void Validate_Returns_A_ValidationError_When_Value_Is_Less_Than_Expected()
+            public async Task ValidateAsync_Returns_A_ValidationError_When_Value_Is_Greater_Than_Expected()
             {
-                var value = ValueToCompare - GetRand();
-                var errors = Validate(value);
+                var value = ValueToCompare + GetRand();
+                var errors = await ValidateAsync(value);
 
                 Assert.IsTrue(errors.Any());
 
@@ -66,9 +59,9 @@ namespace C4rm4x.WebApi.Validation.Test.Validators
                 Assert.AreEqual(value, error.PropertyValue);
             }
 
-            protected override GreaterThanValidator CreateSubjectUnderTest()
+            protected override LessThanValidator CreateSubjectUnderTest()
             {
-                return new GreaterThanValidator(ValueToCompare, "Error");
+                return new LessThanValidator(ValueToCompare, "Error");
             }
 
             private static int GetRand()

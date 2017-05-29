@@ -45,8 +45,8 @@ namespace C4rm4x.WebApi.Cache.OutputCache
 
             if (allGetActionNames.IsNullOrEmpty()) return;
 
-            foreach (var actionName in allGetActionNames)
-                await RemoveIfExistsAsync(actionExecutedContext, actionName);
+            var tasks = allGetActionNames.Select(actionName => RemoveIfExistsAsync(actionExecutedContext, actionName));
+            await Task.WhenAll(tasks);
         }
 
         private static IEnumerable<string> FindAllGetActionNames(

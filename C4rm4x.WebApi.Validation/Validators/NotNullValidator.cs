@@ -1,6 +1,7 @@
 ﻿#region Using
 
 using C4rm4x.WebApi.Validation.Core;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -34,9 +35,9 @@ namespace C4rm4x.WebApi.Validation.Validators
         /// </summary>
         /// <param name="context">The property context</param>
         /// <returns></returns>
-        protected override bool IsValid(PropertyValidatorContext context)
+        protected override Task<bool> IsValidAsync(PropertyValidatorContext context)
         {
-            return context.PropertyValue != null;
+            return Task.FromResult(context.PropertyValue != null);
         }
     }
 }

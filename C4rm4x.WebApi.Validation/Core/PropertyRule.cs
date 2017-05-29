@@ -4,8 +4,10 @@ using C4rm4x.WebApi.Framework.Validation;
 using C4rm4x.WebApi.Validation.Validators;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading.Tasks;
 
 #endregion
 
@@ -109,7 +111,7 @@ namespace C4rm4x.WebApi.Validation.Core
         /// </summary>
         /// <param name="context">Validation Context</param>
         /// <returns>A collection of validation failures</returns>
-        public IEnumerable<ValidationError> Validate(ValidationContext context)
+        public async Task<IEnumerable<ValidationError>> ValidateAsync(ValidationContext context)
         {
             if (string.IsNullOrEmpty(PropertyName))
                 throw new InvalidOperationException(
@@ -117,33 +119,32 @@ namespace C4rm4x.WebApi.Validation.Core
                         "Property name could not be automatically determined for expression {0}",
                         Expression));
 
+            var errors = new List<ValidationError>();
+
             // Ensure that this rule is allowed to run. 
-            if (!context.ValidatorSelector.CanExecute(this, PropertyName, context))
-                yield break;
-
-            // Ensure that this rule matches the condition to be run
-            if (!When(context.InstanceToValidate))
-                yield break;
-
-            // Invoke each validator and collect its results.
-            foreach (var validator in _validators)
+            if (context.ValidatorSelector.CanExecute(this, PropertyName, context) &&
+                When(context.InstanceToValidate))
             {
-                var results = InvokePropertyValidator(context, validator, PropertyName);
+                // Invoke each validator and collect its results.
+                var tasks = _validators
+                    .Select(validator => InvokePropertyValidatorAsync(context, validator, PropertyName));
+                var results = await Task.WhenAll(tasks);
 
-                foreach (var result in results)
-                    yield return result;
+                errors.AddRange(results.SelectMany(r => r));
             }
+
+            return errors;
         }
 
         /// <summary>
         /// Invokes a property validator using the specified validation context
         /// </summary>
-        protected virtual IEnumerable<ValidationError> InvokePropertyValidator(
+        protected virtual async Task<IEnumerable<ValidationError>> InvokePropertyValidatorAsync(
             ValidationContext context,
             IPropertyValidator validator,
             string propertyName)
         {
-            return validator.Validate(
+            return await validator.ValidateAsync(
                 new PropertyValidatorContext(context, this, propertyName));
         }
 

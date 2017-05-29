@@ -67,7 +67,6 @@
     <Compile Include="Attributes\DomainServiceAttribute.cs" />
     <Compile Include="Attributes\EventHandlerAttribute.cs" />
     <Compile Include="Attributes\ExecutionContextInitialiserAttribute.cs" />
-    <Compile Include="Attributes\JobAttribute.cs" />
     <Compile Include="Attributes\RepositoryAttribute.cs" />
     <Compile Include="Attributes\RequestHandlerAttribute.cs" />
     <Compile Include="Attributes\SpecificationAttribute.cs" />
@@ -111,9 +110,7 @@
     <Compile Include="Settings\AbstractSettingsManager.cs" />
     <Compile Include="Settings\ISettingsManager.cs" />
     <Compile Include="Settings\SettingsManagerExtensions.cs" />
-    <Compile Include="Specification\OrSpecification.cs" />
-    <Compile Include="Specification\AndSpecification.cs" />
-    <Compile Include="Specification\ISpecification.cs" />
+    <Compile Include="Specifications\ISpecification.cs" />
     <Compile Include="Transformation\AbstractCollectionTransformer.cs" />
     <Compile Include="Transformation\ICollectionTransformer.cs" />
     <Compile Include="Transformation\ITransformer.cs" />

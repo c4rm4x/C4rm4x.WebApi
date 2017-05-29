@@ -103,10 +103,6 @@
     <Compile Include="Settings\SettingsManagerExtensionsTest.GetSettingAsInt32.cs" />
     <Compile Include="Settings\SettingsManagerExtensionsTest.GetSettingAsString.cs" />
     <Compile Include="Settings\SettingsManagerExtensionTest.GetAllSettingsAsString.cs" />
-    <Compile Include="Specification\OrSpecificationTest.cs" />
-    <Compile Include="Specification\AndSpecificationTest.cs" />
-    <Compile Include="Specification\OrSpecificationTest.IsSatisfiedByAsync.cs" />
-    <Compile Include="Specification\AndSpecificationTest.IsSatisfiedByAsync.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\C4rm4x.WebApi.Framework\C4rm4x.WebApi.Framework.csproj">

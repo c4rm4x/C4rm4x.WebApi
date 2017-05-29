@@ -55,8 +55,8 @@ namespace C4rm4x.WebApi.Framework.Events
         {
             eventData.NotNull(nameof(eventData));
 
-            foreach (var handler in GetHandlers<TEvent>())
-                await handler.OnEventHandlerAsync(eventData);
+            var tasks = GetHandlers<TEvent>().Select(handler => handler.OnEventHandlerAsync(eventData));
+            await Task.WhenAll(tasks);
         }
 
         /// <summary>
@@ -84,8 +84,8 @@ namespace C4rm4x.WebApi.Framework.Events
             IEnumerable<TEvent> eventDatas)
             where TEvent : ApiEventData
         {
-            foreach (var eventData in eventDatas)
-                await PublishAsync(eventData);
+            var tasks = eventDatas.Select(e => PublishAsync(e));
+            await Task.WhenAll(tasks);
         }
 
         private static void CleanQueue(
@@ -99,9 +99,9 @@ namespace C4rm4x.WebApi.Framework.Events
         /// Publishes all the events ready to be broadcasted (previously queued up)
         /// </summary>
         /// <returns>The task</returns>
-        public async Task PublishAllAsync()
+        public Task PublishAllAsync()
         {
-            await Task.FromResult(false);
+            return Task.FromResult(false);
         }
     }
 }
