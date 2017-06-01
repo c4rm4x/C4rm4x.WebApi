@@ -47,54 +47,6 @@ namespace C4rm4x.WebApi.Persistance.EF
         }
 
         /// <summary>
-        /// Adds a new entity into persistence layer
-        /// </summary>
-        /// <param name="entityToAdd">Entity to add</param>
-        public Task AddAsync(T entityToAdd)
-        {
-            return Task.FromResult(_set.Add(entityToAdd));
-        }
-
-        /// <summary>
-        /// Updates a given entity in persistence layer
-        /// </summary>
-        /// <param name="entityToUpdate">Entity to update</param>
-        public Task UpdateAsync(T entityToUpdate)
-        {
-            return Task.FromResult(_entities.Entry(entityToUpdate).State = EntityState.Modified);
-        }
-
-        /// <summary>
-        /// Deletes an entity by id
-        /// </summary>
-        /// <param name="id">Entity's id to be removed</param>
-        public async Task DeleteAsync(K id)
-        {
-            var entityToDelete = await GetAsync(id);
-
-            await DeleteAsync(entityToDelete);
-        }
-
-        /// <summary>
-        /// Deletes a given entity
-        /// </summary>
-        /// <param name="entityToDelete">Entity to delete</param>
-        public Task DeleteAsync(T entityToDelete)
-        {
-            return Task.FromResult(_set.Remove(entityToDelete));
-        }
-
-        /// <summary>
-        /// Retrieves the entity of type T with given Id
-        /// </summary>
-        /// <param name="id">Entity's id to be retrieved</param>
-        /// <returns>Entity with given Id</returns>
-        public async Task<T> GetAsync(K id)
-        {
-            return await _set.FindAsync(id);
-        }
-
-        /// <summary>
         /// Retrieves the first ocurrence of an entity of type T based on predicate
         /// </summary>
         /// <param name="predicate">Predicate</param>
@@ -108,9 +60,9 @@ namespace C4rm4x.WebApi.Persistance.EF
         /// Retrieves all the entities of type T
         /// </summary>
         /// <returns>All the entities of type T</returns>
-        public async Task<List<T>> GetAllAsync()
+        public Task<IQueryable<T>> GetAllAsync()
         {
-            return await _set.ToListAsync();
+            return Task.FromResult(_set.AsQueryable<T>());
         }
 
         /// <summary>
@@ -118,9 +70,9 @@ namespace C4rm4x.WebApi.Persistance.EF
         /// </summary>
         /// <param name="predicate">Predicate</param>
         /// <returns>The list of all entities that fulfill a given predicate. Empty list if none of them does</returns>
-        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>> predicate)
+        public Task<IQueryable<T>> GetAllAsync(Expression<Func<T, bool>> predicate)
         {
-            return await _set.Where(predicate).ToListAsync();
+            return Task.FromResult(_set.Where(predicate).AsQueryable());
         }
 
         /// <summary>

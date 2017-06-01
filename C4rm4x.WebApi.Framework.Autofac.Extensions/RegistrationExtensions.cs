@@ -138,21 +138,6 @@ namespace C4rm4x.WebApi.Framework.Autofac
         }
 
         /// <summary>
-        /// Registers all public classes decorated with attribute DataProvider within all specified assemblies
-        /// </summary>
-        /// <param name="container">Autofac container builder</param>
-        /// <param name="assemblies">List of assemblies</param>
-        public static void RegisterAllDataProviders(
-            this ContainerBuilder container,
-            params Assembly[] assemblies)
-        {
-            container.NotNull(nameof(container));
-            assemblies.NotNullOrEmpty(nameof(assemblies));
-
-            container.RegisterTypeByAttribute<DataProviderAttribute>(assemblies);
-        }
-
-        /// <summary>
         /// Registers all public classes decorated with attribute Specification within all specified assemblies
         /// </summary>
         /// <param name="container">Autofac container builder</param>
@@ -187,7 +172,6 @@ namespace C4rm4x.WebApi.Framework.Autofac
             container.RegisterAllValidators(assemblies);
             container.RegisterAllRequestHandlers(assemblies);
             container.RegisterAllEventHandlers(assemblies);
-            container.RegisterAllDataProviders(assemblies);
             container.RegisterAllExecutionContextInitialisers(assemblies);
             container.RegisterAllSpecifications(assemblies);
         }
@@ -334,24 +318,6 @@ namespace C4rm4x.WebApi.Framework.Autofac
         }
 
         /// <summary>
-        /// Registers tenant-specific all public classes decorated with attribute DataProvider within all specified assemblies
-        /// </summary>
-        /// <param name="container">Autofac multitenant container</param>
-        /// <param name="tenantId">Tenant Id</param>
-        /// <param name="assemblies">List of assemblies</param>
-        public static void RegisterAllDataProviders(
-            this MultitenantContainer container,
-            object tenantId,
-            params Assembly[] assemblies)
-        {
-            container.NotNull(nameof(container));
-            tenantId.NotNull(nameof(tenantId));
-            assemblies.NotNullOrEmpty(nameof(assemblies));
-
-            container.RegisterTypeByAttribute<DataProviderAttribute>(tenantId, assemblies);
-        }
-
-        /// <summary>
         /// Registers tenant-specific all public classes decorated with attribute Specification within all specified assemblies
         /// </summary>
         /// <param name="container">Autofac multitenant container</param>
@@ -395,7 +361,6 @@ namespace C4rm4x.WebApi.Framework.Autofac
                     b.RegisterAllValidators(assemblies);
                     b.RegisterAllRequestHandlers(assemblies);
                     b.RegisterAllEventHandlers(assemblies);
-                    b.RegisterAllDataProviders(assemblies);
                     b.RegisterAllExecutionContextInitialisers(assemblies);
                     b.RegisterAllSpecifications(assemblies);
                 });

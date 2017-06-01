@@ -23,11 +23,6 @@ namespace C4rm4x.WebApi.Validation.Validators
         /// <param name="context">Property validator context</param>
         /// <returns>A collection of validation errors</returns>
         Task<IEnumerable<ValidationError>> ValidateAsync(PropertyValidatorContext context);
-
-        /// <summary>
-        /// Error message to show when validation fails
-        /// </summary>
-        string ErrorMessage { get; }
     }
 
     #endregion
@@ -55,7 +50,7 @@ namespace C4rm4x.WebApi.Validation.Validators
         /// Returns all the validation errors for the specified context
         /// </summary>
         /// <param name="context">The context to validate</param>
-        /// <returns>Lit of all validation errors</returns>
+        /// <returns>List of all validation errors</returns>
         public async Task<IEnumerable<ValidationError>> ValidateAsync(
             PropertyValidatorContext context)
         {

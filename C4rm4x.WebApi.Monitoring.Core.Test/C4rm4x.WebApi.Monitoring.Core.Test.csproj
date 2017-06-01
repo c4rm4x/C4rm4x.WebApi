@@ -89,8 +89,8 @@
   <ItemGroup>
     <Compile Include="Controllers\Builders\ComponentDtoBuilder.cs" />
     <Compile Include="Controllers\Builders\MonitorRequestBuilder.cs" />
-    <Compile Include="Controllers\Validators\ComponentDtoValidatorTest.Validate.cs" />
-    <Compile Include="Controllers\Validators\MonitorRequestValidatorTest.Validate.cs" />
+    <Compile Include="Controllers\Validators\ComponentDtoValidatorTest.ValidateAsync.cs" />
+    <Compile Include="Controllers\Validators\MonitorRequestValidatorTest.ValidateAsync.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

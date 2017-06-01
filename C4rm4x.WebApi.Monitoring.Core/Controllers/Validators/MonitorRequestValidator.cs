@@ -27,8 +27,7 @@ namespace C4rm4x.WebApi.Monitoring.Core.Controllers
         private static IPropertyValidator GetComponentsCollectionValidator()
         {
             return new CollectionValidator<ComponentDto>(
-                () => new ComponentDtoValidator(),
-                "Components is not a collection of valid ComponentDto's");
+                () => new ComponentDtoValidator());
         }
     }
 }

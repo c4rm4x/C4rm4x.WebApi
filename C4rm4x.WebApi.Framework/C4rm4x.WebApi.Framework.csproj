@@ -63,7 +63,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Attributes\DataProviderAttribute.cs" />
     <Compile Include="Attributes\DomainServiceAttribute.cs" />
     <Compile Include="Attributes\EventHandlerAttribute.cs" />
     <Compile Include="Attributes\ExecutionContextInitialiserAttribute.cs" />
@@ -73,17 +72,21 @@
     <Compile Include="Attributes\TransformerAttribute.cs" />
     <Compile Include="Attributes\ValidatorAttribute.cs" />
     <Compile Include="Cache\ICache.cs" />
-    <Compile Include="Events\AbstractEventAggregator.cs" />
+    <Compile Include="Events\AbstractEventHandler.cs" />
+    <Compile Include="Events\AbstractEventPublisher.cs" />
     <Compile Include="Events\ApiEventData.cs" />
-    <Compile Include="Events\IEventAggregator.cs" />
     <Compile Include="Events\IEventHandler.cs" />
+    <Compile Include="Events\IEventPublisher.cs" />
     <Compile Include="ExceptionShielding\ExceptionPolicy.cs" />
     <Compile Include="ExceptionShielding\IExceptionManager.cs" />
     <Compile Include="Log\ILog.cs" />
     <Compile Include="Messaging\IMessageQueueHandler.cs" />
     <Compile Include="Messaging\IMessageTransactionFactory.cs" />
+    <Compile Include="Persistance\AggregateRoot.cs" />
+    <Compile Include="Events\IEventStore.cs" />
     <Compile Include="Persistance\IRepository.cs" />
-    <Compile Include="Persistance\IUnitOfWork.cs" />
+    <Compile Include="Events\NoEventStore.cs" />
+    <Compile Include="Persistance\ISession.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestHandling\AbstractApiController.cs" />
     <Compile Include="RequestHandling\ApiRequest.cs" />

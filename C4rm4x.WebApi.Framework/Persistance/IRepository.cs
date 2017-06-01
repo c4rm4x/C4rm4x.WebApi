@@ -1,7 +1,7 @@
 ﻿#region Using
 
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -18,42 +18,6 @@ namespace C4rm4x.WebApi.Framework.Persistance
             where T : class
     {
         /// <summary>
-        /// Adds a new entity into persistence layer
-        /// </summary>
-        /// <param name="entityToAdd">Entity to add</param>
-        /// <returns>The task</returns>
-        Task AddAsync(T entityToAdd);
-
-        /// <summary>
-        /// Updates a given entity in persistence layer
-        /// </summary>
-        /// <param name="entityToUpdate">Entity to update</param>
-        /// <returns>The task</returns>
-        Task UpdateAsync(T entityToUpdate);
-
-        /// <summary>
-        /// Deletes an entity by id
-        /// </summary>
-        /// <param name="id">Entity's id to be removed</param>
-        /// <returns>The task</returns>
-        Task DeleteAsync(K id);
-
-        /// <summary>
-        /// Deletes a given entity
-        /// </summary>
-        /// <param name="entityToDelete">Entity to delete</param>
-        /// <returns>The task</returns>
-        Task DeleteAsync(T entityToDelete);
-
-        /// <summary>
-        /// Retrieves the entity of type T with given Id
-        /// </summary>
-        /// <param name="id">Entity's id to be retrieved</param>
-        /// <returns>Entity with given Id</returns>
-        /// <returns>The task with the entity</returns>
-        Task<T> GetAsync(K id);
-
-        /// <summary>
         /// Retrieves the first ocurrence of an entity of type T based on predicate
         /// </summary>
         /// <param name="predicate">Predicate</param>
@@ -65,14 +29,14 @@ namespace C4rm4x.WebApi.Framework.Persistance
         /// Retrieves all the entities of type T
         /// </summary>
         /// <returns>The task with all the entities</returns>
-        Task<List<T>> GetAllAsync();
+        Task<IQueryable<T>> GetAllAsync();
 
         /// <summary>
         /// Retrieves all the entities of type T based on predicate
         /// </summary>
         /// <param name="predicate">Predicate</param>
         /// <returns>The task with the list of all entities that fulfill a given predicate. Empty list if none of them does</returns>
-        Task<List<T>> GetAllAsync(Expression<Func<T, bool>> predicate);
+        Task<IQueryable<T>> GetAllAsync(Expression<Func<T, bool>> predicate);
 
         /// <summary>
         /// Returns the number of all entities of type T

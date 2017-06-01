@@ -32,9 +32,9 @@ namespace C4rm4x.WebApi.Security.Test
                     InnerHandler = new TestHandler(responseMessage);
                 }
 
-                protected override async Task<bool> IsRequestAllowedAsync(HttpRequestMessage request)
+                protected override Task<bool> IsRequestAllowedAsync(HttpRequestMessage request)
                 {
-                    return await Task.FromResult(IsAllowed);
+                    return Task.FromResult(IsAllowed);
                 }
             }
 

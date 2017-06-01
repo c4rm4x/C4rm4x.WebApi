@@ -11,7 +11,7 @@
             Value = value;
         }
 
-        public int Id { get; set; }
+        public int TableId { get; set; }
 
         public string Value { get; set; }
     }

@@ -22,7 +22,7 @@ namespace C4rm4x.WebApi.Persistance.EF.Test
 
                 Assert.IsNotNull(entities);
                 Assert.IsTrue(entities.Any());
-                Assert.AreEqual(10, entities.Count);
+                Assert.AreEqual(10, entities.Count());
 
                 foreach (var entity in entities)
                 {

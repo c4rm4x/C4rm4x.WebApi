@@ -82,7 +82,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Events\EventAggregator.cs" />
+    <Compile Include="Events\EventPublisher.cs" />
     <Compile Include="MultitenantApiModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RegistrationExtensions.cs" />

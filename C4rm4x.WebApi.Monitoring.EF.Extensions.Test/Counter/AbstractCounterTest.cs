@@ -12,7 +12,7 @@ namespace C4rm4x.WebApi.Monitoring.EF.Test
     {
         #region Helper classes
 
-        public class TestCounter :
+        public class TestCounter : 
             AbstractCounter<TestTable, TestEntities>
         {
             public TestCounter(IRepository<TestTable> repository) : 

@@ -119,7 +119,7 @@ namespace C4rm4x.WebApi.Security.Acl.Test
             {
                 var cache = Mock.Of<ICache>();
                 var repository = Mock.Of<ISubscriberRepository>();
-                var subscribers = GetSubscribers().ToList();
+                var subscribers = GetSubscribers().AsQueryable();
 
                 Mock.Get(repository)
                     .Setup(r => r.GetAllAsync())

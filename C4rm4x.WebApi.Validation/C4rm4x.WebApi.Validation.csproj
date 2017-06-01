@@ -82,6 +82,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ValidatorExtensions.cs" />
     <Compile Include="Validators\AbstractComparisonValidator.cs" />
+    <Compile Include="Validators\CollectionValidator.cs" />
     <Compile Include="Validators\EqualValidator.cs" />
     <Compile Include="Validators\ExactLengthValidator.cs" />
     <Compile Include="Validators\GreaterThanOrEqualValidator.cs" />

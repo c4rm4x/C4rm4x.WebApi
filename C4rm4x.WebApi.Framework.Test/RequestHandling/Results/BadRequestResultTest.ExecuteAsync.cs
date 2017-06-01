@@ -2,7 +2,6 @@
 
 using C4rm4x.Tools.TestUtilities;
 using C4rm4x.WebApi.Framework.RequestHandling.Results;
-using C4rm4x.WebApi.Framework.Test.Builders;
 using C4rm4x.WebApi.Framework.Validation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -83,7 +82,8 @@ namespace C4rm4x.WebApi.Framework.Test.RequestHandling.Results
                 var numberOfValidationErrors = GetRand(10);
 
                 for (var i = 0; i < numberOfValidationErrors; i++)
-                    yield return new ValidationErrorBuilder().Build();
+                    yield return new ValidationError(
+                        ObjectMother.Create(10), null, ObjectMother.Create(100));
             }
 
             private static int GetRand(int max)

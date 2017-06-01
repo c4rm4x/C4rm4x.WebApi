@@ -43,14 +43,14 @@ namespace C4rm4x.WebApi.Security.Cors
         /// </summary>
         /// <param name="request">The current HTTP request</param>
         /// <returns>True if the current HTTP request is allowed; false, otherwise</returns>
-        protected override async Task<bool> IsRequestAllowedAsync(HttpRequestMessage request)
+        protected override Task<bool> IsRequestAllowedAsync(HttpRequestMessage request)
         {
             var corsRequestContext = GetCorsRequestContext(request);
 
             if (corsRequestContext.IsNull()) // No CORS request -> Valid!
-                return true;
+                return Task.FromResult(true);
 
-            return await Task.FromResult(_corsEngineFactory()
+            return Task.FromResult(_corsEngineFactory()
                 .EvaluateCorsPolicy(corsRequestContext, Options));
         }
 

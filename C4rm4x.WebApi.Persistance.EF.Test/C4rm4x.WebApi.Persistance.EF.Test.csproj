@@ -105,12 +105,10 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="BaseRepositoryTest.AddAsync.cs" />
     <Compile Include="BaseRepositoryTest.CountAsync.cs" />
     <Compile Include="BaseRepositoryTest.cs" />
     <Compile Include="BaseRepositoryTest.GetAsync.cs" />
     <Compile Include="BaseRepositoryTest.GetAllAsync.cs" />
-    <Compile Include="BaseRepositoryTest.UpdateAsync.cs" />
     <Compile Include="Infrastructure\BasePersistanceFixture.cs" />
     <Compile Include="Infrastructure\Resource1.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -120,10 +118,7 @@
     <Compile Include="Infrastructure\TestEntities.cs" />
     <Compile Include="Infrastructure\TestTable.cs" />
     <Compile Include="Infrastructure\TestTableRepository.cs" />
-    <Compile Include="Infrastructure\TestUnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UnitOfWorkTest.CommitAsync.cs" />
-    <Compile Include="UnitOfWorkTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\C4rm4x.WebApi.Persistance.EF\C4rm4x.WebApi.Persistance.EF.csproj">
@@ -133,7 +128,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <Compile Include="BaseRepositoryTest.DeleteAsync.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
