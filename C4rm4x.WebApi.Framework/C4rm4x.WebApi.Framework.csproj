@@ -114,8 +114,8 @@
     <Compile Include="Settings\ISettingsManager.cs" />
     <Compile Include="Settings\SettingsManagerExtensions.cs" />
     <Compile Include="Specifications\ISpecification.cs" />
-    <Compile Include="Transformation\AbstractCollectionTransformer.cs" />
-    <Compile Include="Transformation\ICollectionTransformer.cs" />
+    <Compile Include="Transformation\AbstractQueryableTransformer.cs" />
+    <Compile Include="Transformation\IQueryableTransformer.cs" />
     <Compile Include="Transformation\ITransformer.cs" />
     <Compile Include="Validation\IValidator.cs" />
     <Compile Include="Validation\IValidatorFactory.cs" />

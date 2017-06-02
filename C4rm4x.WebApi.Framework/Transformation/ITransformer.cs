@@ -11,8 +11,8 @@
         /// Applies transformation logic from source to destination
         /// </summary>
         /// <param name="source">Source</param>
-        /// <param name="destination">Destination</param>
-        void Transform(S source, D destination);
+        /// <returns>Destination</returns>
+        D Transform(S source);
     }
 
     /// <summary>
@@ -28,8 +28,8 @@
         /// Applies transfromation logic from source to destination using an auxiliar element to pass extra pieces of information needed outside source
         /// </summary>
         /// <param name="source">Source</param>
-        /// <param name="destination">Destination</param>
         /// <param name="context">Context</param>
-        void Transform(S source, D destination, C context);
+        /// <returns>Destination</returns>
+        D Transform(S source, C context);
     }
 }
