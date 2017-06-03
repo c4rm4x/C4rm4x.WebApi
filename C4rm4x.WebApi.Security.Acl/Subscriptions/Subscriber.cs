@@ -22,18 +22,31 @@ namespace C4rm4x.WebApi.Security.Acl.Subscriptions
         /// <summary>
         /// Constructor
         /// </summary>
-        internal Subscriber()
+        protected Subscriber()
         { }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="identifier">The identifier</param>
+        /// <param name="secret">The secret</param>
+        public Subscriber(
+            string identifier,
+            string secret)
+        {
+            Identifier = identifier;
+            Secret = secret;
+        }
 
         /// <summary>
         /// What is the identifier of all their requests
         /// </summary>
-        public string Identifier { get; internal set; }
+        public string Identifier { get; private set; }
 
         /// <summary>
         /// What is the shared secret between them and this app
         /// </summary>
-        public string Secret { get; internal set; }        
+        public string Secret { get; private set; }        
 
         internal bool ValidateCredentials(
             AclClientCredentials credentials, 

@@ -59,10 +59,7 @@ namespace C4rm4x.WebApi.Security.Acl.Test.Subscriptions
             private static Subscriber CreateSubjectUnderTest(
                 string secret)
             {
-                return new Subscriber
-                {
-                    Secret = secret,
-                };
+                return new Subscriber(ObjectMother.Create<string>(), secret);
             }
         }
     }

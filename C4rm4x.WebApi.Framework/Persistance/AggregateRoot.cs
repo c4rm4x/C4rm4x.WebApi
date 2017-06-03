@@ -15,8 +15,14 @@ namespace C4rm4x.WebApi.Framework
     {        
         private ICollection<ApiEventData> _events;
 
+        /// <summary>
+        /// Gets th aggregate Id
+        /// </summary>
         public Guid Id { get; private set; }
 
+        /// <summary>
+        /// Gets the aggregate version
+        /// </summary>
         public int Version { get; private set; }
 
         /// <summary>

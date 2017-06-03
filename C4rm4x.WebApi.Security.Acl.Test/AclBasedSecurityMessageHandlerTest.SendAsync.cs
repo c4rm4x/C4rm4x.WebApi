@@ -338,11 +338,7 @@ namespace C4rm4x.WebApi.Security.Acl.Test
                 string identifier = Subscriber,
                 string secret = null)
             {
-                return new Subscriber
-                {
-                    Identifier = identifier,
-                    Secret = secret,
-                };
+                return new Subscriber(identifier, secret);
             }
         }
     }
