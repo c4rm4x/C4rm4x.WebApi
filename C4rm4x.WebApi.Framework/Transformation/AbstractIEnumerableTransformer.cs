@@ -8,12 +8,12 @@ using System.Linq;
 namespace C4rm4x.WebApi.Framework.Transformation
 {
     /// <summary>
-    /// Transform queryable of objects to the specified destination
+    /// Transform IEnumerable of objects to the specified destination
     /// </summary>
     /// <typeparam name="S">Type of the source objects</typeparam>
     /// <typeparam name="D">Type of the destination objects</typeparam>
-    public abstract class AbstractQueryableTransformer<S, D>
-        : IQueryableTransformer<S, D>
+    public abstract class AbstractEnumerableTransformer<S, D>
+        : IEnumerableTransformer<S, D>
     {
         /// <summary>
         /// Applies transformation logic from source to destination
@@ -27,7 +27,7 @@ namespace C4rm4x.WebApi.Framework.Transformation
         /// </summary>
         /// <param name="sources">Sources</param>        
         /// <returns>Destinations</returns>
-        public IEnumerable<D> Transform(IQueryable<S> sources)
+        public IEnumerable<D> Transform(IEnumerable<S> sources)
         {
             return sources.Select(Transform);
         }
