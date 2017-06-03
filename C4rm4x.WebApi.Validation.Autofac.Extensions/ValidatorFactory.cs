@@ -35,7 +35,7 @@ namespace C4rm4x.WebApi.Validation.Autofac
         /// <returns>The instance of validator of specified type (if any)</returns>
         protected override IValidator CreateInstance(Type type)
         {
-            return _context.Resolve(type) as IValidator;
+            return _context.ResolveOptional(type) as IValidator;
         }
     }
 }
