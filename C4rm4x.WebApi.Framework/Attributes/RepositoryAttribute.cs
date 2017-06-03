@@ -1,6 +1,5 @@
 ﻿#region Using
 
-using C4rm4x.Tools.Utilities;
 using System;
 
 #endregion
@@ -24,8 +23,6 @@ namespace C4rm4x.WebApi.Framework
         /// <param name="entityType">Type of the entity to handle access data of</param>
         public RepositoryAttribute(Type entityType)
         {
-            entityType.Is<AggregateRoot>();
-
             EntityType = entityType;
         }
     }
