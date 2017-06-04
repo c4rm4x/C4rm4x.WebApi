@@ -42,7 +42,7 @@ namespace C4rm4x.WebApi.Framework.Persistance
         /// </summary>
         /// <typeparam name="TEntity">Type of the entity</typeparam>
         /// <param name="entity">The entity to be added</param>
-        Task AddAsync<TEntity>(TEntity entity)
+        void Add<TEntity>(TEntity entity)
             where TEntity : AggregateRoot;
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace C4rm4x.WebApi.Framework.Persistance
         /// </summary>
         /// <typeparam name="TEntity">Type of the entity</typeparam>
         /// <param name="entity">The entity</param>
-        Task DeleteAsync<TEntity>(TEntity entity)
+        void Delete<TEntity>(TEntity entity)
             where TEntity : AggregateRoot; 
     }   
 }

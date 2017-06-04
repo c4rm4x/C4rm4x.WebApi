@@ -54,10 +54,10 @@ namespace C4rm4x.WebApi.Persistance.EF
         /// </summary>
         /// <typeparam name="TEntity">Type of the entity</typeparam>
         /// <param name="entity">The entity to be added</param>
-        public Task AddAsync<TEntity>(TEntity entity) 
+        public void Add<TEntity>(TEntity entity) 
             where TEntity : AggregateRoot
         {
-            return Task.FromResult(_entities.Set<TEntity>().Add(entity));
+            _entities.Set<TEntity>().Add(entity);
         }
 
         /// <summary>
@@ -65,10 +65,10 @@ namespace C4rm4x.WebApi.Persistance.EF
         /// </summary>
         /// <typeparam name="TEntity">Type of the entity</typeparam>
         /// <param name="entity">The entity to remove</param>
-        public Task DeleteAsync<TEntity>(TEntity entity) 
+        public void Delete<TEntity>(TEntity entity) 
             where TEntity : AggregateRoot
         {
-            return Task.FromResult(_entities.Set<TEntity>().Remove(entity));
+            _entities.Set<TEntity>().Remove(entity);
         }
 
         /// <summary>

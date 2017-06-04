@@ -26,13 +26,13 @@ namespace C4rm4x.WebApi.Persistance.EF
         where T : class
         where C : DbContext
     {
-        private readonly DbContext _entities;
         private readonly DbSet<T> _set;
+        private readonly DbContext _entities;
 
         /// <summary>
         /// Gets the dbQuery object linked to this repository
         /// </summary>
-        protected DbQuery<T> Query => _set;
+        protected DbQuery<T> Query => _set.AsNoTracking();
 
         /// <summary>
         /// Constructors
@@ -53,7 +53,7 @@ namespace C4rm4x.WebApi.Persistance.EF
         /// <returns>The first ocurrence if at least one entity fulfills a given predicate. Null otherwise</returns>
         public async Task<T> GetAsync(Expression<Func<T, bool>> predicate)
         {            
-            return await _set.FirstOrDefaultAsync(predicate);
+            return await Query.FirstOrDefaultAsync(predicate);
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace C4rm4x.WebApi.Persistance.EF
         /// <returns>All the entities of type T</returns>
         public Task<IQueryable<T>> GetAllAsync()
         {
-            return Task.FromResult(_set.AsQueryable<T>());
+            return Task.FromResult(Query.AsQueryable());
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace C4rm4x.WebApi.Persistance.EF
         /// <returns>The list of all entities that fulfill a given predicate. Empty list if none of them does</returns>
         public Task<IQueryable<T>> GetAllAsync(Expression<Func<T, bool>> predicate)
         {
-            return Task.FromResult(_set.Where(predicate).AsQueryable());
+            return Task.FromResult(Query.Where(predicate).AsQueryable());
         }
 
         /// <summary>
