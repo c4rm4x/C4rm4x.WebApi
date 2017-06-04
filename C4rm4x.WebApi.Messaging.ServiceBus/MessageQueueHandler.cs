@@ -34,10 +34,10 @@ namespace C4rm4x.WebApi.Messaging.ServiceBus
         /// </summary>
         /// <typeparam name="TItem">Type of the item</typeparam>
         /// <param name="item">The new item</param>
-        public async Task SendAsync<TItem>(TItem item) 
+        public Task SendAsync<TItem>(TItem item) 
             where TItem : class
         {
-            await _sender.SendAsync(item.BuildBrokeredMessage());
+            return _sender.SendAsync(item.BuildBrokeredMessage());
         }
     }
 }

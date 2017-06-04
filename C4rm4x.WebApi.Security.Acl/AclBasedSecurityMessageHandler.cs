@@ -117,10 +117,10 @@ namespace C4rm4x.WebApi.Security.Acl
             return await RetrieveFromRepositoryAsync(request);
         }
 
-        private async Task<IEnumerable<Subscriber>> RetrieveFromCacheAsync(
+        private Task<IEnumerable<Subscriber>> RetrieveFromCacheAsync(
             HttpRequestMessage request)
         {
-            return await GetCache(request)
+            return GetCache(request)
                 .RetrieveAsync<IEnumerable<Subscriber>>(AclConfiguration.SubscribersCacheKey);
         }
 
@@ -143,11 +143,11 @@ namespace C4rm4x.WebApi.Security.Acl
                 request);
         }
 
-        private async Task StoreInCacheAsync(
+        private Task StoreInCacheAsync(
             HttpRequestMessage request, 
             IEnumerable<Subscriber> subscribers)
         {
-            await GetCache(request)
+            return GetCache(request)
                 .StoreAsync(AclConfiguration.SubscribersCacheKey, subscribers, OneHour);
         }
 

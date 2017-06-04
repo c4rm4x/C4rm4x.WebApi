@@ -54,11 +54,11 @@ namespace C4rm4x.WebApi.Monitoring.EF
         /// Counts the number of all entities of type T (that fulfill the predicate if any)
         /// </summary>
         /// <returns>The total number of entities of type T (that fulfill the predicate if any)</returns>
-        public override async Task<long> MonitorAsync()
+        public override Task<long> MonitorAsync()
         {
             return _predicate.IsNull()
-                ? await _repository.CountAsync()
-                : await _repository.CountAsync(_predicate);
+                ? _repository.CountAsync()
+                : _repository.CountAsync(_predicate);
         }
     }
 

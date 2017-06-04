@@ -84,10 +84,10 @@ namespace C4rm4x.WebApi.Cache.OutputCache
             ApplyCacheHeaders(actionContext.Response);
         }
 
-        private async Task<byte[]> GetCachedContentAsync(
+        private Task<byte[]> GetCachedContentAsync(
             HttpActionContext actionContext)
         {
-            return await GetCache(actionContext)
+            return GetCache(actionContext)
                 .RetrieveAsync<byte[]>(GetCacheKey(actionContext));
         }
 
@@ -131,11 +131,11 @@ namespace C4rm4x.WebApi.Cache.OutputCache
             ApplyCacheHeaders(actionExecutedContext.Response);
         }
 
-        private async Task<bool> ExistsItemInCacheAsync(
+        private Task<bool> ExistsItemInCacheAsync(
             HttpActionExecutedContext actionExecutedContext, 
             string cacheKey)
         {
-            return await GetCache(actionExecutedContext.ActionContext)
+            return GetCache(actionExecutedContext.ActionContext)
                 .ExistsAsync(cacheKey);
         }
 
@@ -144,8 +144,8 @@ namespace C4rm4x.WebApi.Cache.OutputCache
             string cacheKey)
         {
             var actionContext = actionExecutedContext.ActionContext;
-            var content = actionExecutedContext
-                .Response.Content.ReadAsByteArrayAsync().Result;
+            var content = await actionExecutedContext
+                .Response.Content.ReadAsByteArrayAsync();
 
             await GetCache(actionContext).StoreAsync(cacheKey, content, ServerTimeSpan);
         }

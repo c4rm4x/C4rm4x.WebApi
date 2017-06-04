@@ -32,11 +32,11 @@ namespace C4rm4x.WebApi.Framework.RequestHandling
         /// <typeparam name="TRequest">The type of the request</typeparam>
         /// <param name="request">The request to be handled</param>
         /// <returns>Returns an instance of IHttpActionResult</returns>
-        protected async Task<IHttpActionResult> HandleAsync<TRequest>(
+        protected Task<IHttpActionResult> HandleAsync<TRequest>(
             TRequest request)
             where TRequest : ApiRequest
         {
-            return await _shell.HandleAsync(request);            
+            return _shell.HandleAsync(request);            
         }        
     }
 }

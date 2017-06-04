@@ -139,12 +139,12 @@ namespace C4rm4x.WebApi.Validation.Core
         /// <summary>
         /// Invokes a property validator using the specified validation context
         /// </summary>
-        protected virtual async Task<IEnumerable<ValidationError>> InvokePropertyValidatorAsync(
+        protected virtual Task<IEnumerable<ValidationError>> InvokePropertyValidatorAsync(
             ValidationContext context,
             IPropertyValidator validator,
             string propertyName)
         {
-            return await validator.ValidateAsync(
+            return validator.ValidateAsync(
                 new PropertyValidatorContext(context, this, propertyName));
         }
 

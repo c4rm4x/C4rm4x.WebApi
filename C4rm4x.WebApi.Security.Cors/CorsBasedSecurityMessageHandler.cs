@@ -82,27 +82,27 @@ namespace C4rm4x.WebApi.Security.Cors
         /// <param name="request">The HTTP request message to send to the server</param>
         /// <param name="cancellationToken">A cancellation token to cancel operation</param>
         /// <returns>Returns a task to produce the HTTP response</returns>
-        protected override async Task<HttpResponseMessage> HandleAsync(
+        protected override Task<HttpResponseMessage> HandleAsync(
             HttpRequestMessage request,
             CancellationToken cancellationToken)
         {
             var corsRequestContext = GetCorsRequestContext(request);
 
             if (corsRequestContext.IsNull()) // No CORS request -> Send to inner handler
-                return await base.HandleAsync(request, cancellationToken);
+                return base.HandleAsync(request, cancellationToken);
 
-            return await HandleCorsRequestAsync(request, cancellationToken, corsRequestContext);
+            return HandleCorsRequestAsync(request, cancellationToken, corsRequestContext);
         }
 
-        private async Task<HttpResponseMessage> HandleCorsRequestAsync(
+        private Task<HttpResponseMessage> HandleCorsRequestAsync(
             HttpRequestMessage request,
             CancellationToken cancellationToken,
             CorsRequestContext corsRequestContext)
         {
             if (corsRequestContext.IsPreflight)
-                return await HandleCorsPreflightRequestAsync(corsRequestContext);
+                return HandleCorsPreflightRequestAsync(corsRequestContext);
 
-            return await base.HandleAsync(request, cancellationToken)
+            return base.HandleAsync(request, cancellationToken)
                 .ContinueWith(responseTask =>
                 {
                     var response = responseTask.Result;

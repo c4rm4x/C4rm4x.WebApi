@@ -20,13 +20,13 @@ namespace C4rm4x.WebApi.Framework.Events
         /// <typeparam name="TEvent">Type of event</typeparam>
         /// <param name="eventData">The event payload</param>
         /// <returns></returns>
-        public async Task PublishAsync<TEvent>(TEvent eventData) 
+        public Task PublishAsync<TEvent>(TEvent eventData) 
             where TEvent : ApiEventData
         {
             var handlers = GetHandlers(
                 typeof(IEventHandler<>).MakeGenericType(eventData.GetType()));
 
-            await Task.WhenAll(handlers.Select(
+            return Task.WhenAll(handlers.Select(
                 handler => handler.OnEventHandlerAsync(eventData)));
         }
 

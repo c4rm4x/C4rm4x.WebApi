@@ -60,13 +60,13 @@ namespace C4rm4x.WebApi.Validation.Validators
         /// </summary>
         /// <param name="context">The context to validate</param>
         /// <returns>List of all validation errors</returns>
-        public async Task<IEnumerable<ValidationError>> ValidateAsync(
+        public Task<IEnumerable<ValidationError>> ValidateAsync(
             PropertyValidatorContext context)
         {
             if (context.PropertyValue is IEnumerable<T>)
-                return await GetValidationErrorsAsync(context.PropertyValue as IEnumerable<T>);
+                return GetValidationErrorsAsync(context.PropertyValue as IEnumerable<T>);
 
-            return Enumerable.Empty<ValidationError>();
+            return Task.FromResult(Enumerable.Empty<ValidationError>());
         }
 
         private async Task<IEnumerable<ValidationError>> GetValidationErrorsAsync(

@@ -49,9 +49,9 @@ namespace C4rm4x.WebApi.Monitoring.ServiceBus
         /// Counts the number of messages pending to be processed in the topic
         /// </summary>
         /// <returns>The total number of messages pending to be processed in the topic</returns>
-        public override async Task<long> MonitorAsync()
+        public override Task<long> MonitorAsync()
         {
-            return await Task.FromResult(DoMonitor());
+            return Task.FromResult(DoMonitor());
         }
 
         private long DoMonitor()

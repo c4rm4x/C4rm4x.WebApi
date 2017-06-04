@@ -48,9 +48,9 @@ namespace C4rm4x.WebApi.Monitoring.ServiceBus
         /// <summary>
         /// Checks whether or not the service bus topic is up and running
         /// </summary>
-        protected override async Task CheckComponentResponsivenessAsync()
+        protected override Task CheckComponentResponsivenessAsync()
         {
-            await Task.Run(() =>
+            return Task.Run(() =>
             {
                 if (_topicDescriptionRetriever
                 .Get(TopicPath)

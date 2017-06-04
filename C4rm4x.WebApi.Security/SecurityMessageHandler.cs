@@ -40,11 +40,11 @@ namespace C4rm4x.WebApi.Security
         /// <param name="cancellationToken">A cancellation token to cancel operation</param>
         /// <returns>Returns a task to produce the HTTP response</returns>
         /// <remarks>ALWAYS return base implementation to invoke inner handlers</remarks>
-        protected virtual async Task<HttpResponseMessage> HandleAsync(
+        protected virtual Task<HttpResponseMessage> HandleAsync(
             HttpRequestMessage request,
             CancellationToken cancellationToken)
         {
-            return await base.SendAsync(request, cancellationToken);
+            return base.SendAsync(request, cancellationToken);
         }
 
         private Task<HttpResponseMessage> ForbiddenResponseAsync()

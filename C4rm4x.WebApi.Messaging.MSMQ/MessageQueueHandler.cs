@@ -34,10 +34,10 @@ namespace C4rm4x.WebApi.Messaging.MSMQ
         /// Sends a new item into the message queue
         /// </summary>
         /// <param name="item">The new item</param>
-        public async Task SendAsync<TItem>(TItem item)
+        public Task SendAsync<TItem>(TItem item)
             where TItem : class
         {
-            await Task.Run(() =>
+            return Task.Run(() =>
             {
                 using (var transaction = _transactionFactory.Create() as MessageQueueTransaction)
                 {

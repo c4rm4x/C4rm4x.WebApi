@@ -76,9 +76,9 @@ namespace C4rm4x.WebApi.Security.Jwt.Controllers
         /// Validates the request
         /// </summary>
         /// <param name="request">The request to validate</param>
-        protected virtual async Task<List<ValidationError>> ValidateAsync(GenerateTokenRequest request)
+        protected virtual Task<List<ValidationError>> ValidateAsync(GenerateTokenRequest request)
         {
-            return await GetValidator().ValidateAsync(request);
+            return GetValidator().ValidateAsync(request);
         }
 
         private GenerateTokenRequestValidator GetValidator()

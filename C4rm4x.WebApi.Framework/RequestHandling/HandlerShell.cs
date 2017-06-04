@@ -119,16 +119,16 @@ namespace C4rm4x.WebApi.Framework.RequestHandling
             }
         }
 
-        private async Task InitialiseContextAsync<TRequest>(TRequest request)
+        private Task InitialiseContextAsync<TRequest>(TRequest request)
             where TRequest : ApiRequest
         {
-            await _executionContextInitialiser.PerRequestAsync(request);
+            return _executionContextInitialiser.PerRequestAsync(request);
         }
 
-        private async Task<List<ValidationError>> ValidateAsync<TRequest>(TRequest request)
+        private Task<List<ValidationError>> ValidateAsync<TRequest>(TRequest request)
             where TRequest : ApiRequest
         {
-            return await _validators
+            return _validators
                 .GetValidator(request.GetType())
                 .ValidateAsync(request);
         }

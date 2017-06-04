@@ -84,7 +84,7 @@ namespace C4rm4x.WebApi.Cache.Redis
         /// If a previous object exists with the specified key
         /// it will be overwritten
         /// </remarks>
-        public async Task StoreAsync(
+        public Task StoreAsync(
             string key, 
             object objectToStore, 
             int expirationTime = 60)
@@ -92,7 +92,7 @@ namespace C4rm4x.WebApi.Cache.Redis
             key.NotNullOrEmpty(nameof(key));
             objectToStore.NotNull(nameof(objectToStore));
 
-            await Cache.StringSetAsync(key, objectToStore.SerializeAsString(), GetExpirationTime(expirationTime));
+            return Cache.StringSetAsync(key, objectToStore.SerializeAsString(), GetExpirationTime(expirationTime));
         }
 
         private static TimeSpan? GetExpirationTime(int expirationTime)
@@ -107,18 +107,18 @@ namespace C4rm4x.WebApi.Cache.Redis
         /// </summary>
         /// <param name="key">The key</param>
         /// <returns>True when there is an entry stored with the given key; false, otherwise</returns>
-        public async Task<bool> ExistsAsync(string key)
+        public Task<bool> ExistsAsync(string key)
         {
-            return await Cache.KeyExistsAsync(key);
+            return Cache.KeyExistsAsync(key);
         }
 
         /// <summary>
         /// Removes the entry cached associated with the given key (if any)
         /// </summary>
         /// <param name="key">They key</param>
-        public async Task RemoveAsync(string key)
+        public Task RemoveAsync(string key)
         {
-            await Cache.KeyDeleteAsync(key);
+            return Cache.KeyDeleteAsync(key);
         }
     }
 }

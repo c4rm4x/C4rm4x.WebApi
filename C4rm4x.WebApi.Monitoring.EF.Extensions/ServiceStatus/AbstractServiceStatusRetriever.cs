@@ -40,9 +40,9 @@ namespace C4rm4x.WebApi.Monitoring.EF
         /// <summary>
         /// Checks whether or not the db is up and running
         /// </summary>
-        protected override async Task CheckComponentResponsivenessAsync()
+        protected override Task CheckComponentResponsivenessAsync()
         {
-            await Task.Run(() =>
+            return Task.Run(() =>
             {
                 _entities.Database.Connection.Open();
                 _entities.Database.Connection.Close();

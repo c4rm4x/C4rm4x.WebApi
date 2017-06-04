@@ -46,8 +46,8 @@ namespace C4rm4x.WebApi.Monitoring.Redis
             var Key = GenerateKey();
             var Value = "Test";
 
-            await StoreAsync(Key, Value);
-            await RetrieveAsync(Key, Value);
+            await StoreAsync(Key, Value)
+                .ContinueWith((t) => RetrieveAsync(Key, Value));
         }
 
         private static string GenerateKey()
@@ -55,11 +55,11 @@ namespace C4rm4x.WebApi.Monitoring.Redis
             return DateTime.UtcNow.ToString();
         }
 
-        private async Task StoreAsync(
+        private Task StoreAsync(
             string key,
             string value)
         {
-            await _cache.StoreAsync(key, value, 5);
+            return _cache.StoreAsync(key, value, 5);
         }
 
         private async Task RetrieveAsync(

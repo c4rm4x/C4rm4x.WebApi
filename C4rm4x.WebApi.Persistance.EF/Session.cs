@@ -77,10 +77,10 @@ namespace C4rm4x.WebApi.Persistance.EF
         /// <typeparam name="TEntity">Type of the entity</typeparam>
         /// <param name="id">The id</param>
         /// <returns>The entity for the given id</returns>
-        public async Task<TEntity> GetAsync<TEntity>(int id) 
+        public Task<TEntity> GetAsync<TEntity>(int id) 
             where TEntity : AggregateRoot
         {
-            return await GetAsync<TEntity, int>(id);
+            return GetAsync<TEntity, int>(id);
         }
 
         /// <summary>
@@ -90,10 +90,10 @@ namespace C4rm4x.WebApi.Persistance.EF
         /// <typeparam name="K">Type of the primary key</typeparam>
         /// <param name="id">The id</param>
         /// <returns>The entity for the given id</returns>
-        public async Task<TEntity> GetAsync<TEntity, K>(K id) 
+        public Task<TEntity> GetAsync<TEntity, K>(K id) 
             where TEntity : AggregateRoot
         {
-            return await _entities.Set<TEntity>().FindAsync(id);
+            return _entities.Set<TEntity>().FindAsync(id);
         }
 
         /// <summary>

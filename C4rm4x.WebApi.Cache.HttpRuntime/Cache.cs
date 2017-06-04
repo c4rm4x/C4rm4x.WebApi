@@ -32,11 +32,11 @@ namespace C4rm4x.WebApi.Cache.HttpRuntime
         /// </summary>
         /// <param name="key">The key</param>
         /// <returns>The object based on specified key if exists. Otherwise null</returns>
-        public async Task<object> RetrieveAsync(string key)
+        public Task<object> RetrieveAsync(string key)
         {
             key.NotNullOrEmpty(nameof(key));
 
-            return await Task.FromResult(HttpCache.Get(key));
+            return Task.FromResult(HttpCache.Get(key));
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace C4rm4x.WebApi.Cache.HttpRuntime
         /// If a previous object exists with the specified key
         /// it will be overwritten
         /// </remarks>
-        public async Task StoreAsync(
+        public Task StoreAsync(
             string key,
             object objectToStore,
             int expirationTime = 60)
@@ -57,7 +57,7 @@ namespace C4rm4x.WebApi.Cache.HttpRuntime
             key.NotNullOrEmpty(nameof(key));
             objectToStore.NotNull(nameof(objectToStore));
 
-            await Task.FromResult(HttpCache.Add(
+            return Task.FromResult(HttpCache.Add(
                 key,
                 objectToStore,
                 null,
@@ -102,9 +102,9 @@ namespace C4rm4x.WebApi.Cache.HttpRuntime
         /// Removes the entry cached associated with the given key (if any)
         /// </summary>
         /// <param name="key">The key</param>
-        public async Task RemoveAsync(string key)
+        public Task RemoveAsync(string key)
         {
-            await Task.FromResult(HttpCache.Remove(key));
+            return Task.FromResult(HttpCache.Remove(key));
         }
     }
 }

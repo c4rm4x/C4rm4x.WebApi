@@ -51,9 +51,9 @@ namespace C4rm4x.WebApi.Persistance.EF
         /// </summary>
         /// <param name="predicate">Predicate</param>
         /// <returns>The first ocurrence if at least one entity fulfills a given predicate. Null otherwise</returns>
-        public async Task<T> GetAsync(Expression<Func<T, bool>> predicate)
+        public Task<T> GetAsync(Expression<Func<T, bool>> predicate)
         {            
-            return await Query.FirstOrDefaultAsync(predicate);
+            return Query.FirstOrDefaultAsync(predicate);
         }
 
         /// <summary>
@@ -79,9 +79,9 @@ namespace C4rm4x.WebApi.Persistance.EF
         /// Returns the number of all entities of type T
         /// </summary>
         /// <returns>The number of entities</returns>
-        public async Task<long> CountAsync()
+        public Task<long> CountAsync()
         {
-            return await _set.LongCountAsync();
+            return _set.LongCountAsync();
         }
 
         /// <summary>
@@ -89,9 +89,9 @@ namespace C4rm4x.WebApi.Persistance.EF
         /// </summary>
         /// <param name="predicate">The predicate</param>
         /// <returns>The number of all entities that fulfill a given predicate</returns>
-        public async Task<long> CountAsync(Expression<Func<T, bool>> predicate)
+        public Task<long> CountAsync(Expression<Func<T, bool>> predicate)
         {
-            return await _set.LongCountAsync(predicate);
+            return _set.LongCountAsync(predicate);
         }
 
         /// <summary>
@@ -100,11 +100,11 @@ namespace C4rm4x.WebApi.Persistance.EF
         /// <param name="queryName">SQL command or stored procedure</param>
         /// <param name="parameters">Stored procedure parameters</param>
         /// <returns>A collection of T returned by SQL statement</returns>
-        public async Task<List<T>> ExecuteQueryAsync(
+        public Task<List<T>> ExecuteQueryAsync(
             string queryName,
             params SqlParameter[] parameters)
         {
-            return await _set
+            return _set
                 .SqlQuery(BuildQuery(queryName, parameters), parameters)
                 .AsNoTracking()
                 .ToListAsync();
@@ -116,11 +116,11 @@ namespace C4rm4x.WebApi.Persistance.EF
         /// <param name="queryName">SQL command or stored procedure</param>
         /// <param name="parameters">Stored procedure paramenters</param>
         /// <returns>The number of records affected by the statement</returns>        
-        public async Task<int> ExecuteNonQueryAsync(
+        public Task<int> ExecuteNonQueryAsync(
             string queryName,
             params SqlParameter[] parameters)
         {
-            return await _entities
+            return _entities
                 .Database
                 .ExecuteSqlCommandAsync(BuildQuery(queryName, parameters), parameters);
         }

@@ -41,10 +41,10 @@ namespace C4rm4x.WebApi.Cache.OutputCache
         /// for the given action name (if exists)
         /// </summary>
         /// <param name="actionExecutedContext">The context</param>
-        protected override async Task InvalidateOutputCacheAsync(
+        protected override Task InvalidateOutputCacheAsync(
             HttpActionExecutedContext actionExecutedContext)
         {
-            await RemoveIfExistsAsync(actionExecutedContext, ActionName);
+            return RemoveIfExistsAsync(actionExecutedContext, ActionName);
         }
     }
 }
