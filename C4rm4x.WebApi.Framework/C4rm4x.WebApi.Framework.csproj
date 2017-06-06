@@ -72,7 +72,6 @@
     <Compile Include="Attributes\TransformerAttribute.cs" />
     <Compile Include="Attributes\ValidatorAttribute.cs" />
     <Compile Include="Cache\ICache.cs" />
-    <Compile Include="Events\AbstractEventHandler.cs" />
     <Compile Include="Events\AbstractEventPublisher.cs" />
     <Compile Include="Events\ApiEventData.cs" />
     <Compile Include="Events\IEventHandler.cs" />

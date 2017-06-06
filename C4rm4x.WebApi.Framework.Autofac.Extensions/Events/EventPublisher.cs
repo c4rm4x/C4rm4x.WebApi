@@ -4,6 +4,7 @@ using Autofac;
 using C4rm4x.Tools.Utilities;
 using C4rm4x.WebApi.Framework.Events;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,10 +38,9 @@ namespace C4rm4x.WebApi.Framework.Autofac.Events
         /// </summary>
         /// <param name="type">The type of the event to be processed</param>
         /// <returns>The collection of registered handlers for the given type</returns>
-        protected override IEnumerable<IEventHandler> GetHandlers(Type type)
+        protected override IEnumerable GetHandlers(Type type)
         {
-            return _context.ResolveAll(type) as IEnumerable<IEventHandler>
-               ?? new IEventHandler[] { };
+            return _context.ResolveAll(typeof(IEventHandler<>).MakeGenericType(type)) ?? new object[] { };
         }
     }
 }

@@ -27,7 +27,7 @@ namespace C4rm4x.WebApi.Framework.Autofac
         {
             context.NotNull(nameof(context));
 
-            return context.Resolve<IEnumerable<TService>>();
+            return context.ResolveOptional<IEnumerable<TService>>();
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace C4rm4x.WebApi.Framework.Autofac
             context.NotNull("container");
             type.NotNull("type");
 
-            return (IEnumerable)context.Resolve(typeof(IEnumerable<>).MakeGenericType(type));
+            return (IEnumerable)context.ResolveOptional(typeof(IEnumerable<>).MakeGenericType(type));
         }
     }
 }

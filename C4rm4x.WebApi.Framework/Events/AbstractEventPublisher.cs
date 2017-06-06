@@ -1,7 +1,7 @@
 ﻿#region Using
 
 using System;
-using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -23,17 +23,17 @@ namespace C4rm4x.WebApi.Framework.Events
         public Task PublishAsync<TEvent>(TEvent eventData) 
             where TEvent : ApiEventData
         {
-            var handlers = GetHandlers(
-                typeof(IEventHandler<>).MakeGenericType(eventData.GetType()));
+            var handlers = GetHandlers(eventData.GetType()).Cast<IEventHandler<TEvent>>();
 
             return Task.WhenAll(handlers.Select(
                 handler => handler.OnEventHandlerAsync(eventData)));
         }
 
         /// <summary>
-        /// Get all the registered handlers for the given type
+        /// Get all the registered handlers interested in events of the given type
         /// </summary>
-        /// <param name="type">The type of events</param>
-        protected abstract IEnumerable<IEventHandler> GetHandlers(Type type);
+        /// <param name="eventDataType">The actual type of the event</param>
+        /// <returns></returns>
+        protected abstract IEnumerable GetHandlers(Type eventDataType);
     }
 }

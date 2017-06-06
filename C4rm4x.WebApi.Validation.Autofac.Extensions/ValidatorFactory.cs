@@ -31,11 +31,11 @@ namespace C4rm4x.WebApi.Validation.Autofac
         /// <summary>
         /// Returns the instance of a validator for the specified type
         /// </summary>
-        /// <param name="type">Type of validator</param>
+        /// <param name="type">Type to validate</param>
         /// <returns>The instance of validator of specified type (if any)</returns>
         protected override IValidator CreateInstance(Type type)
         {
-            return _context.ResolveOptional(type) as IValidator;
+            return _context.ResolveOptional(typeof(IValidator<>).MakeGenericType(type)) as IValidator;
         }
     }
 }

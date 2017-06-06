@@ -34,7 +34,7 @@ namespace C4rm4x.WebApi.Validation
 
             do
             {
-                validator = CreateInstance(typeof(IValidator<>).MakeGenericType(type));
+                validator = CreateInstance(type);
             }
             while (validator.IsNull() && (type = type.BaseType).IsNotNull() && type != typeof(object));
 
@@ -44,7 +44,7 @@ namespace C4rm4x.WebApi.Validation
         /// <summary>
         /// Retrieves the instance of IValidator for the specified type
         /// </summary>
-        /// <param name="type">The type</param>
+        /// <param name="type">The type to validate</param>
         /// <returns>The instance of IValidator for the specifid type (if any)</returns>
         protected abstract IValidator CreateInstance(Type type);
     }
