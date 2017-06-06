@@ -62,7 +62,7 @@ namespace C4rm4x.WebApi.Persistance.EF
         /// <returns>All the entities of type T</returns>
         public Task<IQueryable<T>> GetAllAsync()
         {
-            return Task.FromResult(_set.AsQueryable());
+            return Task.FromResult(_set.AsNoTracking().AsQueryable());
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace C4rm4x.WebApi.Persistance.EF
         /// <returns>The list of all entities that fulfill a given predicate. Empty list if none of them does</returns>
         public Task<IQueryable<T>> GetAllAsync(Expression<Func<T, bool>> predicate)
         {
-            return Task.FromResult(_set.Where(predicate).AsQueryable());
+            return Task.FromResult(_set.AsNoTracking().Where(predicate).AsQueryable());
         }
 
         /// <summary>

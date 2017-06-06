@@ -8,6 +8,7 @@ using C4rm4x.WebApi.Framework.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -92,11 +93,7 @@ namespace C4rm4x.WebApi.Security.Jwt.Controllers
                 .RetrieveAsync(request.UserIdentifier, request.Secret);
 
             if (claimsIdentity.IsNull())
-                return BadRequest(new[]
-                {
-                    new ValidationError("AUTH_001", null, "Unrecognized userIdentifier or secret.")
-                }
-                .ToList());
+                return Unauthorized(new AuthenticationHeaderValue("Basic"));
 
             var response = new GenerateTokenResponse(
                 _jwtSecurityTokenGenerator.Generate(claimsIdentity, GetOptions()));

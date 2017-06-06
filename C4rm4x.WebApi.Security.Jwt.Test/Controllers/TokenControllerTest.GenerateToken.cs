@@ -26,6 +26,8 @@ namespace C4rm4x.WebApi.Security.Jwt.Test.Controllers
             {
                 base.Setup();
 
+                SetupHttpContext();
+
                 Returns<IClaimsIdentityRetriever, Task<ClaimsIdentity>>(
                     r => r.RetrieveAsync(It.IsAny<string>(), It.IsAny<string>()), 
                     Task.FromResult(new ClaimsIdentity()));
@@ -64,7 +66,7 @@ namespace C4rm4x.WebApi.Security.Jwt.Test.Controllers
             }
 
             [TestMethod, UnitTest]
-            public void GenerateToken_Returns_BadRequest_Response_When_ClaimsIdentity_For_Specified_User_Cannot_Be_Found()
+            public void GenerateToken_Returns_Unauthorized_Response_When_ClaimsIdentity_For_Specified_User_Cannot_Be_Found()
             {
                 var request = new GenerateTokenRequestBuilder().Build();
 
@@ -73,7 +75,7 @@ namespace C4rm4x.WebApi.Security.Jwt.Test.Controllers
                     Task.FromResult(null as ClaimsIdentity));
 
                 Assert.AreEqual(
-                    HttpStatusCode.BadRequest,
+                    HttpStatusCode.Unauthorized,
                     GenerateToken(request).Result.StatusCode);
             }
 
@@ -137,6 +139,11 @@ namespace C4rm4x.WebApi.Security.Jwt.Test.Controllers
                 return _sut.GenerateToken(generateTokenRequest)
                     .Result
                     .ExecuteAsync(It.IsAny<CancellationToken>());
+            }
+
+            private void SetupHttpContext()
+            {
+                _sut.Request = new HttpRequestMessage();
             }
         }
     }
