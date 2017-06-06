@@ -30,7 +30,7 @@ namespace C4rm4x.WebApi.Persistance.EF
         private readonly DbContext _entities;
 
         /// <summary>
-        /// Gets the dbQuery object linked to this repository
+        /// Gets the dbQuery object linked to this repository with tracking disabled
         /// </summary>
         protected DbQuery<T> Query => _set.AsNoTracking();
 
@@ -53,7 +53,7 @@ namespace C4rm4x.WebApi.Persistance.EF
         /// <returns>The first ocurrence if at least one entity fulfills a given predicate. Null otherwise</returns>
         public Task<T> GetAsync(Expression<Func<T, bool>> predicate)
         {            
-            return Query.FirstOrDefaultAsync(predicate);
+            return _set.FirstOrDefaultAsync(predicate);
         }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace C4rm4x.WebApi.Persistance.EF
         /// <returns>All the entities of type T</returns>
         public Task<IQueryable<T>> GetAllAsync()
         {
-            return Task.FromResult(Query.AsQueryable());
+            return Task.FromResult(_set.AsQueryable());
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace C4rm4x.WebApi.Persistance.EF
         /// <returns>The list of all entities that fulfill a given predicate. Empty list if none of them does</returns>
         public Task<IQueryable<T>> GetAllAsync(Expression<Func<T, bool>> predicate)
         {
-            return Task.FromResult(Query.Where(predicate).AsQueryable());
+            return Task.FromResult(_set.Where(predicate).AsQueryable());
         }
 
         /// <summary>
