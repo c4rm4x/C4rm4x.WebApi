@@ -89,9 +89,6 @@
     <Compile Include="RequestHandling\Results\AcceptedResultTest.ExecuteAsync.cs" />
     <Compile Include="RequestHandling\Results\OkResultTest.ExecuteAsync.cs" />
     <Compile Include="RequestHandling\Results\RedirectResultTest.ExecuteAsync.cs" />
-    <Compile Include="Runtime\AbstractExecutionContextInitialiserTest.PerRequestAsync.cs" />
-    <Compile Include="Runtime\ExecutionContextTest.Add.cs" />
-    <Compile Include="Runtime\ExecutionContextTest.cs" />
     <Compile Include="Settings\AbstractSettingsManagerTest.cs" />
     <Compile Include="Settings\AbstractSettingsManagerTest.GetSettingAs.cs" />
     <Compile Include="Settings\SettingsManagerExtensionsTest.cs" />
@@ -112,7 +109,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
-    <Compile Include="Runtime\ExecutionContextTest.Get.cs" />
     <Compile Include="Settings\AbstractSettingsManagerTest.GetSetting.cs" />
   </ItemGroup>
   <Choose>

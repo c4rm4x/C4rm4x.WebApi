@@ -92,11 +92,7 @@ namespace C4rm4x.WebApi.Framework.RequestHandling
             where TRequest : ApiRequest
         {
             try
-            {
-                // Initialise context first so every piece of information required to 
-                // proces the request is fetched beforehand
-                await InitialiseContextAsync(request);
-
+            {                
                 // Validate the request (sintax and domain validation)
                 // Wikipedia: Bad request when this cannot be fulfilled due to bad syntax
                 // and / or would cause an invalid state
@@ -104,6 +100,10 @@ namespace C4rm4x.WebApi.Framework.RequestHandling
 
                 if (errors.Any())
                     return ResultFactory.BadRequest(errors);
+
+                // Initialise context first so every piece of information required to 
+                // proces the request is fetched beforehand
+                await InitialiseContextAsync(request);
 
                 // Handles the request with all needed data already fetched
                 // and ensuring it won't cause any invalid state
