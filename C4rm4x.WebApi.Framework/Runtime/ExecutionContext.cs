@@ -2,8 +2,7 @@
 
 using C4rm4x.Tools.Utilities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Collections.Concurrent;
 
 #endregion
 
@@ -17,21 +16,20 @@ namespace C4rm4x.WebApi.Framework.Runtime
     public interface IExecutionContext
     {
         /// <summary>
-        /// Adds a new (or replaces if previous one exists) execution context 
+        /// Adds a new (or replaces if previous one exists) execution context
         /// extension within the context
         /// </summary>
-        /// <typeparam name="TExtension">Type of extension</typeparam>
-        /// <param name="extension">The execution context extension to add</param>
-        /// <exception cref="ArgumentException">Throws when a previous execution context extension of type TExtension already exists</exception>
-        void Add<TExtension>(TExtension extension);
+        /// <param name="key">The identifier</param>
+        /// <param name="extension">The execution context to add</param>
+        void Add(string key, object extension);
 
         /// <summary>
-        /// Retrieves the execution context extension based on type
+        /// Retrieves the execution context extension based on key
         /// </summary>
-        /// <typeparam name="TExtension">Type of extension to retrieve</typeparam>
-        /// <returns>The execution context extension whose type is TExtension</returns>
-        /// <exception cref="ArgumentException">Throws when no execution context extension of type TExtension exists within</exception>
-        TExtension Get<TExtension>();            
+        /// <param name="key">The execution context extension whose identifier is key</param>
+        /// <returns>The execution context extension whose identifier is key</returns>
+        /// <exception cref="ArgumentException">Throws when no execution context extension of given key exists within</exception>
+        object Get(string key);
     }
 
     #endregion
@@ -41,50 +39,45 @@ namespace C4rm4x.WebApi.Framework.Runtime
     /// </summary>   
     public class ExecutionContext : IExecutionContext
     {
-        private readonly IDictionary<Type, object> _extensions;
+        private readonly ConcurrentDictionary<string, object> _extensions;
 
         /// <summary>
         /// Constructor
         /// </summary>
         public ExecutionContext()
         {
-            _extensions = new Dictionary<Type, object>();
+            _extensions = new ConcurrentDictionary<string, object>();
         }
 
         /// <summary>
-        /// Gets the collection of all extensions
-        /// </summary>
-        public IReadOnlyCollection<object> Extensions
-        {
-            get { return _extensions.Values.ToList().AsReadOnly(); }
-        }
-
-        /// <summary>
-        /// Adds a new (or replaces if previous one exists) execution context 
+        /// Adds a new (or replaces if previous one exists) execution context
         /// extension within the context
         /// </summary>
-        /// <typeparam name="TExtension">Type of extension to add</typeparam>
-        /// <param name="extension">The execution context extension to add</param>
-        /// <exception cref="ArgumentException">Throws when a previous execution context extension of type TExtension already exists</exception>
-        public void Add<TExtension>(TExtension extension)            
+        /// <param name="key">The identifier</param>
+        /// <param name="extension">The execution context to add</param>
+        public void Add(string key, object extension)            
         {
-            _extensions.Add(extension.GetType(), extension);
+            key.NotNullOrEmpty(nameof(key));
+
+            _extensions.AddOrUpdate(key, extension, (id, oldValue) => extension);
         }
 
         /// <summary>
-        /// Retrieves the execution context extension based on type
+        /// Retrieves the execution context extension based on key
         /// </summary>
-        /// <typeparam name="TExtension">Type of extension to retrieve</typeparam>
-        /// <returns>The execution context extension whose type is TExtension</returns>
-        /// <exception cref="ArgumentException">Throws when no execution context extension of type TExtension exists within</exception>
-        public TExtension Get<TExtension>()            
+        /// <param name="key">The execution context extension whose identifier is key</param>
+        /// <returns>The execution context extension whose identifier is key</returns>
+        /// <exception cref="ArgumentException">Throws when no execution context extension of given key exists within</exception>
+        public object Get(string key)            
         {
-            if (!_extensions.ContainsKey(typeof(TExtension)))
-                throw new ArgumentException(
-                    "There is not extension of type {0}"
-                        .AsFormat(typeof(TExtension).Name));
+            key.NotNullOrEmpty(nameof(key));
 
-            return (TExtension)_extensions[typeof(TExtension)];
+            if (!_extensions.ContainsKey(key))
+                throw new ArgumentException(
+                    "There is not extension of type {0}".AsFormat(key));
+
+            object value;
+            return _extensions.TryGetValue(key, out value) ? value : null;
         }
     }
 }

@@ -37,11 +37,9 @@ namespace C4rm4x.WebApi.Framework.Runtime
         public async Task PerRequestAsync<TRequest>(TRequest request)
             where TRequest : ApiRequest
         {
-            var tasks = GetInitialisersPerRequest<TRequest>()
-                .Select(initialiser => initialiser.AppendAsync(request));
-
-            foreach (var result in await Task.WhenAll(tasks))
-                _executionContext.Add(result);
+            await Task.WhenAll(
+                GetInitialisersPerRequest<TRequest>().Select(
+                    initialiser => initialiser.AddAsync(_executionContext, request)));
         }
 
         /// <summary>

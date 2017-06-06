@@ -106,6 +106,7 @@
     <Compile Include="RequestHandling\Results\ResultFactory.cs" />
     <Compile Include="Runtime\AbstractExecutionContextInitialiser.cs" />
     <Compile Include="Runtime\ExecutionContext.cs" />
+    <Compile Include="Runtime\IExecutionContextExtensions.cs" />
     <Compile Include="Runtime\IExecutionContextExtensionInitialiser.cs" />
     <Compile Include="Runtime\IExecutionContextInitialiser.cs" />
     <Compile Include="Scheduler\IProcessor.cs" />

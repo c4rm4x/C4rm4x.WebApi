@@ -14,10 +14,11 @@ namespace C4rm4x.WebApi.Framework.Runtime
         where TRequest : ApiRequest
     {
         /// <summary>
-        /// Appends a new execution context extension in the current execution context
+        /// Adds a new execution context extension in the given execution context
         /// </summary>
+        /// <param name="context">The execution context</param>
         /// <param name="request">The request</param>
         /// <returns>A new instance of execution context extension for this specific type of request</returns>
-        Task<object> AppendAsync(TRequest request);
+        Task AddAsync(IExecutionContext context, TRequest request);
     }
 }
