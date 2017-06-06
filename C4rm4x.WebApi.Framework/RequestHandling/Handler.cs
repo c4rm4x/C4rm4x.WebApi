@@ -101,14 +101,13 @@ namespace C4rm4x.WebApi.Framework.RequestHandling
         }
 
         /// <summary>
-        /// Returns an instance of IHttpActionResult with Code 400
+        /// Returns an instance of IHttpActionResult with Code 402
         /// </summary>
-        /// <param name="errors">The errors</param>
-        /// <returns>An IHttpActionResult with status code 400</returns>
-        protected IHttpActionResult BadRequest(
-            params ValidationError[] errors)
+        /// <param name="reason">How to prevent this error</param>
+        /// <returns>An IHttpActionResult with status code 402</returns>
+        protected IHttpActionResult PaymentRequired(string reason)
         {
-            return ResultFactory.BadRequest(errors.ToList());
+            return ResultFactory.PaymentRequired(reason);
         }
 
         /// <summary>
@@ -118,6 +117,16 @@ namespace C4rm4x.WebApi.Framework.RequestHandling
         protected IHttpActionResult NotFound()
         {
             return ResultFactory.NotFound();
+        }
+
+        /// <summary>
+        /// Returns an instance of IHttpActionResult with Code 409
+        /// </summary>
+        /// <param name="reason">The conflict description</param>
+        /// <returns>An IHttpActionResult with status code 409</returns>
+        protected IHttpActionResult Conflict(string reason)
+        {
+            return ResultFactory.Conflict(reason);
         }
     }
 }

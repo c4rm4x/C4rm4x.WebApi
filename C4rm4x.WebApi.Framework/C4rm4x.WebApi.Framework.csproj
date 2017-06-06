@@ -93,6 +93,7 @@
     <Compile Include="RequestHandling\HandlerShell.cs" />
     <Compile Include="RequestHandling\IHandlerFactory.cs" />
     <Compile Include="RequestHandling\PolicyNameFactory.cs" />
+    <Compile Include="RequestHandling\Results\ConflictResult.cs" />
     <Compile Include="RequestHandling\Results\NoContentResult.cs" />
     <Compile Include="RequestHandling\Results\BadRequestResult.cs" />
     <Compile Include="RequestHandling\Results\ContentResult.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="RequestHandling\Results\InternalServerErrorResult.cs" />
     <Compile Include="RequestHandling\Results\NotFoundResult.cs" />
     <Compile Include="RequestHandling\Results\OkResult.cs" />
+    <Compile Include="RequestHandling\Results\PaymentRequiredResult.cs" />
     <Compile Include="RequestHandling\Results\RedirectResult.cs" />
     <Compile Include="RequestHandling\Results\ResultFactory.cs" />
     <Compile Include="Runtime\AbstractExecutionContextInitialiser.cs" />

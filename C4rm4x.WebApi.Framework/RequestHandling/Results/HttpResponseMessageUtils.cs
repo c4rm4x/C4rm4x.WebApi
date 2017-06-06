@@ -18,6 +18,18 @@ namespace C4rm4x.WebApi.Framework.RequestHandling.Results
             return new HttpResponseMessage(statusCode);
         }
 
+        internal static HttpResponseMessage Create(
+            HttpStatusCode statusCode,
+            string message)
+        {
+            message.NotNullOrEmpty(nameof(message));
+
+            return new HttpResponseMessage(statusCode)
+            {
+                Content = new StringContent(message)
+            };
+        }
+
         internal static HttpResponseMessage Create<TContent>(
             HttpStatusCode statusCode,
             TContent content,

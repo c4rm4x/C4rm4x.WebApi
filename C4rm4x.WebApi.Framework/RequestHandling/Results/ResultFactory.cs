@@ -45,9 +45,19 @@ namespace C4rm4x.WebApi.Framework.RequestHandling.Results
             return new BadRequestResult(errors);
         }
 
+        public static IHttpActionResult PaymentRequired(string reason)
+        {
+            return new PaymentRequiredResult(reason);
+        }
+
         public static IHttpActionResult NotFound()
         {
             return new NotFoundResult();
+        }
+
+        public static IHttpActionResult Conflict(string reason)
+        {
+            return new ConflictResult(reason);
         }
 
         public static IHttpActionResult InternalServerError()
