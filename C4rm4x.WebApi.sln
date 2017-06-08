@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.Framework", "C4rm4x.WebApi.Framework\C4rm4x.WebApi.Framework.csproj", "{CA86A5F5-7EBC-46A2-87AA-112128FD894C}"
 EndProject
@@ -114,6 +114,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.Messaging.ServiceBus", "C4rm4x.WebApi.Messaging.ServiceBus\C4rm4x.WebApi.Messaging.ServiceBus.csproj", "{0DF71D01-6A0A-4BA4-AF59-08E76893846B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.Messaging.ServiceBus.Test", "C4rm4x.WebApi.Messaging.ServiceBus.Test\C4rm4x.WebApi.Messaging.ServiceBus.Test.csproj", "{1D2FBA90-4045-4867-8218-E22ABFD123E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Storage", "Storage", "{AB00219B-355D-4C24-8E72-F4FBEB2E914F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.Storage.Cloudinary", "C4rm4x.WebApi.Storage.Cloudinary\C4rm4x.WebApi.Storage.Cloudinary.csproj", "{E69DE854-4CC5-484A-83FE-E80B25CC90FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.Storage.Cloudinary.Test", "C4rm4x.WebApi.Storage.Cloudinary.Test\C4rm4x.WebApi.Storage.Cloudinary.Test.csproj", "{7A816BBB-DC8F-44C2-904B-3F6228DA02F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -305,6 +311,14 @@ Global
 		{1D2FBA90-4045-4867-8218-E22ABFD123E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D2FBA90-4045-4867-8218-E22ABFD123E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D2FBA90-4045-4867-8218-E22ABFD123E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E69DE854-4CC5-484A-83FE-E80B25CC90FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E69DE854-4CC5-484A-83FE-E80B25CC90FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E69DE854-4CC5-484A-83FE-E80B25CC90FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E69DE854-4CC5-484A-83FE-E80B25CC90FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A816BBB-DC8F-44C2-904B-3F6228DA02F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A816BBB-DC8F-44C2-904B-3F6228DA02F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A816BBB-DC8F-44C2-904B-3F6228DA02F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A816BBB-DC8F-44C2-904B-3F6228DA02F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -356,5 +370,7 @@ Global
 		{9F6DFE00-A88D-445C-8A1F-3056D64073AE} = {513E6653-F9D8-47E6-873A-05787BC49385}
 		{0DF71D01-6A0A-4BA4-AF59-08E76893846B} = {EC1479EC-6A9E-4472-93B3-3692373EE33E}
 		{1D2FBA90-4045-4867-8218-E22ABFD123E8} = {EC1479EC-6A9E-4472-93B3-3692373EE33E}
+		{E69DE854-4CC5-484A-83FE-E80B25CC90FC} = {AB00219B-355D-4C24-8E72-F4FBEB2E914F}
+		{7A816BBB-DC8F-44C2-904B-3F6228DA02F8} = {AB00219B-355D-4C24-8E72-F4FBEB2E914F}
 	EndGlobalSection
 EndGlobal
