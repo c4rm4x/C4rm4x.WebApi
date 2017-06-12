@@ -93,7 +93,7 @@ namespace C4rm4x.WebApi.Security.Acl.Subscriptions
                     AuthenticationTypes.Basic));
         }
 
-        private IEnumerable<Claim> GetClaims(
+        protected virtual IEnumerable<Claim> GetClaims(
             AclClientCredentials credentials)
         {
             yield return new Claim(ClaimTypes.Name, credentials.Identifier);
