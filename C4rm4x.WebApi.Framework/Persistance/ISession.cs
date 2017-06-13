@@ -44,13 +44,5 @@ namespace C4rm4x.WebApi.Framework.Persistance
         /// <param name="entity">The entity to be added</param>
         void Add<TEntity>(TEntity entity)
             where TEntity : AggregateRoot;
-
-        /// <summary>
-        /// Takes the entity out of the session
-        /// </summary>
-        /// <typeparam name="TEntity">Type of the entity</typeparam>
-        /// <param name="entity">The entity</param>
-        void Delete<TEntity>(TEntity entity)
-            where TEntity : AggregateRoot; 
     }   
 }

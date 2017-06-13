@@ -61,17 +61,6 @@ namespace C4rm4x.WebApi.Persistance.EF
         }
 
         /// <summary>
-        /// Takes the entity out of the session
-        /// </summary>
-        /// <typeparam name="TEntity">Type of the entity</typeparam>
-        /// <param name="entity">The entity to remove</param>
-        public void Delete<TEntity>(TEntity entity) 
-            where TEntity : AggregateRoot
-        {
-            _entities.Set<TEntity>().Remove(entity);
-        }
-
-        /// <summary>
         /// Retrieves the entity based on the given id
         /// </summary>
         /// <typeparam name="TEntity">Type of the entity</typeparam>
