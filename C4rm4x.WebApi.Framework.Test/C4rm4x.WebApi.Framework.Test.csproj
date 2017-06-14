@@ -81,6 +81,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestHandling\AbstractApiControllerTest.HandleAsync.cs" />
+    <Compile Include="RequestHandling\Results\ConflictResultTest.ExecuteAsync.cs" />
     <Compile Include="RequestHandling\Results\NotFoundResultTest.ExecuteAsync.cs" />
     <Compile Include="RequestHandling\Results\NoContentResultTest.ExecuteAsync.cs" />
     <Compile Include="RequestHandling\Results\BadRequestResultTest.ExecuteAsync.cs" />
@@ -88,7 +89,9 @@
     <Compile Include="RequestHandling\Results\InternalServerErrorResultTest.ExecuteAsync.cs" />
     <Compile Include="RequestHandling\Results\AcceptedResultTest.ExecuteAsync.cs" />
     <Compile Include="RequestHandling\Results\OkResultTest.ExecuteAsync.cs" />
+    <Compile Include="RequestHandling\Results\PaymentRequiredResultTest.ExecuteAsync.cs" />
     <Compile Include="RequestHandling\Results\RedirectResultTest.ExecuteAsync.cs" />
+    <Compile Include="RequestHandling\Results\UnprocessableEntityResultTest.HandleAsync.cs" />
     <Compile Include="Settings\AbstractSettingsManagerTest.cs" />
     <Compile Include="Settings\AbstractSettingsManagerTest.GetSettingAs.cs" />
     <Compile Include="Settings\SettingsManagerExtensionsTest.cs" />

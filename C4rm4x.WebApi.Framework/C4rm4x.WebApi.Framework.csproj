@@ -106,6 +106,7 @@
     <Compile Include="RequestHandling\Results\PaymentRequiredResult.cs" />
     <Compile Include="RequestHandling\Results\RedirectResult.cs" />
     <Compile Include="RequestHandling\Results\ResultFactory.cs" />
+    <Compile Include="RequestHandling\Results\UnprocessableEntityResult.cs" />
     <Compile Include="Runtime\AbstractExecutionContextInitialiser.cs" />
     <Compile Include="Runtime\ExecutionContext.cs" />
     <Compile Include="Runtime\IExecutionContextExtensions.cs" />
