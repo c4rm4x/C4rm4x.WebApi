@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Web.Http;
 
 #endregion
 
@@ -13,7 +14,7 @@ namespace C4rm4x.WebApi.Framework.RequestHandling.Results
     /// <summary>
     /// Returns the HTTP code 422 to indicate that server is unable to process the contained instructions
     /// </summary>
-    public class UnprocessableEntityResult
+    public class UnprocessableEntityResult : IHttpActionResult
     {
         /// <summary>
         /// Gets the reason why the request failed to be processed

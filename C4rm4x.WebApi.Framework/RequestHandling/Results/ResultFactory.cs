@@ -71,5 +71,10 @@ namespace C4rm4x.WebApi.Framework.RequestHandling.Results
         {
             return new InternalServerErrorResult<TException>(exception);
         }
+
+        public static IHttpActionResult UnprocessableEntity(string reason)
+        {
+            return new UnprocessableEntityResult(reason);
+        }
     }
 }

@@ -128,5 +128,15 @@ namespace C4rm4x.WebApi.Framework.RequestHandling
         {
             return ResultFactory.Conflict(reason);
         }
+
+        /// <summary>
+        /// Returns an instance of IHttpActionResult with Code 422
+        /// </summary>
+        /// <param name="reason">The conflict description</param>
+        /// <returns>An IHttpActionResult with status code 422</returns>
+        protected IHttpActionResult UnprocessableEntity(string reason)
+        {
+            return ResultFactory.UnprocessableEntity(reason);
+        }
     }
 }
