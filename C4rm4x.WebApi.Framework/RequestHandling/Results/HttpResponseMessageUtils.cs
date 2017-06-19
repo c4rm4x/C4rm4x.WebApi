@@ -36,7 +36,6 @@ namespace C4rm4x.WebApi.Framework.RequestHandling.Results
             MediaTypeFormatter formatter = null,
             string mediaType = "application/json",
             bool goingCamelCase = true)
-            where TContent : class
         {
             content.NotNull(nameof(content));
 

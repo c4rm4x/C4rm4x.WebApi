@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Web.Http;
 using C4rm4x.WebApi.Framework.Validation;
+using System.Net;
 
 #endregion
 
@@ -75,6 +76,12 @@ namespace C4rm4x.WebApi.Framework.RequestHandling.Results
         public static IHttpActionResult UnprocessableEntity(string reason)
         {
             return new UnprocessableEntityResult(reason);
+        }
+
+        public static IHttpActionResult Result<TContent>(
+            HttpStatusCode statusCode, TContent content)
+        {
+            return new Result<TContent>(statusCode, content);
         }
     }
 }

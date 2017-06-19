@@ -4,6 +4,7 @@ using C4rm4x.WebApi.Framework.RequestHandling.Results;
 using C4rm4x.WebApi.Framework.Validation;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web.Http;
 
@@ -137,6 +138,20 @@ namespace C4rm4x.WebApi.Framework.RequestHandling
         protected IHttpActionResult UnprocessableEntity(string reason)
         {
             return ResultFactory.UnprocessableEntity(reason);
+        }
+
+        /// <summary>
+        /// Returns an instance of IHttpActionResult with given StatusCode
+        /// </summary>
+        /// <typeparam name="TContent">Type of the content</typeparam>
+        /// <param name="statusCode">The status code</param>
+        /// <param name="content">The content</param>
+        /// <returns>An IHttpActionResult with given status code</returns>
+        /// <remarks>USE WITH CAUTION</remarks>
+        protected IHttpActionResult Result<TContent>(
+            HttpStatusCode statusCode, TContent content)
+        {
+            return ResultFactory.Result<TContent>(statusCode, content);
         }
     }
 }
