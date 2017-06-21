@@ -93,6 +93,11 @@ namespace C4rm4x.WebApi.Security.Acl.Subscriptions
                     AuthenticationTypes.Basic));
         }
 
+        /// <summary>
+        /// Retrieves all the claims for the given subscriber
+        /// </summary>
+        /// <param name="credentials">The credentias</param>
+        /// <returns>The claims for the given subscriber</returns>
         protected virtual IEnumerable<Claim> GetClaims(
             AclClientCredentials credentials)
         {

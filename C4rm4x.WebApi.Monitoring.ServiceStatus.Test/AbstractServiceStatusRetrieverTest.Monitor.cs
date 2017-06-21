@@ -26,9 +26,9 @@ namespace C4rm4x.WebApi.Monitoring.ServiceStatus.Test
                     IsWorking = isWorking;
                 }
 
-                protected override async Task CheckComponentResponsivenessAsync()
+                protected override Task CheckComponentResponsivenessAsync()
                 {
-                    await Task.Run(() =>
+                    return Task.Run(() =>
                     {
                         if (!IsWorking)
                             throw new Exception();

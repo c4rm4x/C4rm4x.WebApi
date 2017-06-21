@@ -148,7 +148,7 @@ namespace C4rm4x.WebApi.Security.Acl
             IEnumerable<Subscriber> subscribers)
         {
             return GetCache(request)
-                .StoreAsync(AclConfiguration.SubscribersCacheKey, subscribers, OneHour);
+                .StoreAsync(AclConfiguration.SubscribersCacheKey, subscribers.ToList(), OneHour);
         }
 
         private ICache GetCache(HttpRequestMessage request)

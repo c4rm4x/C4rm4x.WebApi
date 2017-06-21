@@ -30,20 +30,20 @@ namespace C4rm4x.WebApi.Monitoring.ServiceStatus
         /// Is component working as expected?
         /// </summary>
         /// <returns>True if component is working as expected; false, otherwise</returns>
-        public override Task<bool> MonitorAsync()
+        public override async Task<bool> MonitorAsync()
         {
             var result = true;
                      
             try
             {
-                CheckComponentResponsivenessAsync();
+                await CheckComponentResponsivenessAsync();
             }
             catch (Exception)
             {
                 result = false;
             }
 
-            return Task.FromResult(result);
+            return result;
         }
 
         /// <summary>

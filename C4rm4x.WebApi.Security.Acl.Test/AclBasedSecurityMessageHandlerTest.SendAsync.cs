@@ -132,7 +132,7 @@ namespace C4rm4x.WebApi.Security.Acl.Test
                     .Result;
 
                 Mock.Get(cache)
-                    .Verify(c => c.StoreAsync(AclConfiguration.SubscribersCacheKey, subscribers, 3600), 
+                    .Verify(c => c.StoreAsync(AclConfiguration.SubscribersCacheKey, It.IsAny<List<Subscriber>>(), 3600), 
                     Times.Once());
             }
 

@@ -41,7 +41,7 @@ namespace C4rm4x.WebApi.Validation.Test
             {
                 protected override IValidator CreateInstance(Type type)
                 {
-                    if (type == typeof(IValidator<TestClass>))
+                    if (type == typeof(TestClass))
                         return new TestClassValidator();
 
                     return null;
