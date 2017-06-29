@@ -18,6 +18,11 @@ namespace C4rm4x.WebApi.Framework.RequestHandling.Results
             return new OkResult<TContent>(content);
         }
 
+        public static IHttpActionResult Content(byte[] content, string mime)
+        {
+            return new ContentResult(content, mime);
+        }
+
         public static IHttpActionResult Created<TContent>(TContent content)
             where TContent : class
         {

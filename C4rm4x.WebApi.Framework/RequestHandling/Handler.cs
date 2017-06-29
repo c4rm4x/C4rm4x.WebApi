@@ -58,6 +58,17 @@ namespace C4rm4x.WebApi.Framework.RequestHandling
         }
 
         /// <summary>
+        /// Returns an instance of IHttpActionResult with Code 200
+        /// </summary>
+        /// <param name="content">Content</param>
+        /// <param name="mime">Mime-type</param>
+        /// <returns>An IHttpActionResult with status code 200</returns>
+        protected IHttpActionResult Content(byte[] content, string mime)
+        {
+            return ResultFactory.Content(content, mime);
+        }
+
+        /// <summary>
         /// Returns an instance of IHttpActionResult with Code 201
         /// </summary>
         /// <typeparam name="TContent">Type of the content</typeparam>
