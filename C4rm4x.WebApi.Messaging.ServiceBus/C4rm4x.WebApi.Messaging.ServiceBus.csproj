@@ -80,11 +80,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Infrastructure\TopicClientFactory.cs" />
     <Compile Include="Internals\MessageTransaction.cs" />
+    <Compile Include="ITopicClientFactory.cs" />
     <Compile Include="MessageQueueHandler.cs" />
     <Compile Include="MessageTransactionFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SimpleTopicClientFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

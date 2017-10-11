@@ -1,8 +1,8 @@
 ﻿#region Using
 
 using C4rm4x.Tools.TestUtilities;
-using C4rm4x.WebApi.Messaging.ServiceBus.Infrastructure;
 using C4rm4x.WebApi.Messaging.ServiceBus.Test.Infrastructure;
+using Microsoft.ServiceBus.Messaging;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SimpleInjector;
 using System.Configuration;
@@ -22,8 +22,9 @@ namespace C4rm4x.WebApi.Messaging.ServiceBus.Test
             {
                 base.RegisterDependencies(container, lifeStyle);
 
-                container.Register(() =>
-                    new TopicClientFactory(ConnectionString).Get(Path),
+                container.Register<ITopicClientFactory>(
+                    () => new SimpleTopicClientFactory(
+                        TopicClient.CreateFromConnectionString(ConnectionString, Path)),
                     lifeStyle);
             }
 

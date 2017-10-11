@@ -3,7 +3,6 @@
 using C4rm4x.Tools.ServiceBus;
 using C4rm4x.Tools.Utilities;
 using C4rm4x.WebApi.Framework.Messaging;
-using Microsoft.ServiceBus.Messaging;
 using System.Threading.Tasks;
 
 #endregion
@@ -15,18 +14,17 @@ namespace C4rm4x.WebApi.Messaging.ServiceBus
     /// </summary>
     public class MessageQueueHandler : IMessageQueueHandler
     {
-        private readonly TopicClient _sender;
+        private readonly ITopicClientFactory _factory;
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="sender">The instance of IMessageSender used to send messages through</param>
-        public MessageQueueHandler(
-            TopicClient sender)
+        /// <param name="factory">The topic client factory</param>
+        public MessageQueueHandler(ITopicClientFactory factory)
         {
-            sender.NotNull(nameof(sender));
+            factory.NotNull(nameof(factory));
 
-            _sender = sender;
+            _factory = factory;
         }
 
         /// <summary>
@@ -37,7 +35,7 @@ namespace C4rm4x.WebApi.Messaging.ServiceBus
         public Task SendAsync<TItem>(TItem item) 
             where TItem : class
         {
-            return _sender.SendAsync(item.BuildBrokeredMessage());
+            return _factory.Get(item).SendAsync(item.BuildBrokeredMessage());
         }
     }
 }
