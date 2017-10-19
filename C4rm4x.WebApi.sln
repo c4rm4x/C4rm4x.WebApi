@@ -127,7 +127,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.Configuration
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.Configuration.Test", "C4rm4x.WebApi.Configuration.Test\C4rm4x.WebApi.Configuration.Test.csproj", "{9AD107F7-5CA9-4E11-B305-3E940C451C5E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0977B5A8-9D88-4BE1-A167-70E626E57F16}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{0977B5A8-9D88-4BE1-A167-70E626E57F16}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.TestUtilities.Acceptance.Extensions", "C4rm4x.WebApi.TestUtilities.Acceptance.Extensions\C4rm4x.WebApi.TestUtilities.Acceptance.Extensions.csproj", "{143A6FB4-0795-4BC7-B700-B7AF2B149FE1}"
 EndProject
