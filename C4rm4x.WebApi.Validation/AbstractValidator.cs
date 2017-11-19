@@ -23,6 +23,12 @@ namespace C4rm4x.WebApi.Validation
             new TrackingCollection<IValidationRule>();
 
         /// <summary>
+        /// Gets the valiation context for the given type
+        /// </summary>
+        /// <remarks>The context gets initialised once the validation starts</remarks>
+        protected ValidationContext<T> Context { get; private set; }
+
+        /// <summary>
         /// Validates an instance of type T using default ruleSet
         /// </summary>
         /// <param name="objectToValidate">Object to validate</param>
@@ -53,8 +59,9 @@ namespace C4rm4x.WebApi.Validation
         {
             objectToValidate.NotNull(nameof(objectToValidate));
 
-            var context = new ValidationContext<T>(objectToValidate, validatorSelector);
-            var tasks = _nestedValidators.Select(validator => validator.ValidateAsync(context));
+            Context = new ValidationContext<T>(objectToValidate, validatorSelector);
+
+            var tasks = _nestedValidators.Select(validator => validator.ValidateAsync(Context));
             var results = await Task.WhenAll(tasks);
 
             return results.SelectMany(r => r).ToList();
