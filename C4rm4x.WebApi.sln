@@ -131,6 +131,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{0977
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.TestUtilities.Acceptance.Extensions", "C4rm4x.WebApi.TestUtilities.Acceptance.Extensions\C4rm4x.WebApi.TestUtilities.Acceptance.Extensions.csproj", "{143A6FB4-0795-4BC7-B700-B7AF2B149FE1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.Storage.AzureBlob", "C4rm4x.WebApi.Storage.AzureBlob\C4rm4x.WebApi.Storage.AzureBlob.csproj", "{7FB9BA8A-ADB1-4744-A101-87FB61BDF061}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.Storage.AzureBlob.Test", "C4rm4x.WebApi.Storage.AzureBlob.Test\C4rm4x.WebApi.Storage.AzureBlob.Test.csproj", "{4F6B176C-4DF1-429A-991B-E31D785C08DD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -341,6 +345,14 @@ Global
 		{143A6FB4-0795-4BC7-B700-B7AF2B149FE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{143A6FB4-0795-4BC7-B700-B7AF2B149FE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{143A6FB4-0795-4BC7-B700-B7AF2B149FE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FB9BA8A-ADB1-4744-A101-87FB61BDF061}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FB9BA8A-ADB1-4744-A101-87FB61BDF061}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FB9BA8A-ADB1-4744-A101-87FB61BDF061}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FB9BA8A-ADB1-4744-A101-87FB61BDF061}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F6B176C-4DF1-429A-991B-E31D785C08DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F6B176C-4DF1-429A-991B-E31D785C08DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F6B176C-4DF1-429A-991B-E31D785C08DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F6B176C-4DF1-429A-991B-E31D785C08DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -397,5 +409,7 @@ Global
 		{B3EA9DCC-4DA3-4057-8957-5DCEAA530FFB} = {B37A49D0-68B8-46A9-878F-37EE5FC7391E}
 		{9AD107F7-5CA9-4E11-B305-3E940C451C5E} = {B37A49D0-68B8-46A9-878F-37EE5FC7391E}
 		{143A6FB4-0795-4BC7-B700-B7AF2B149FE1} = {0977B5A8-9D88-4BE1-A167-70E626E57F16}
+		{7FB9BA8A-ADB1-4744-A101-87FB61BDF061} = {AB00219B-355D-4C24-8E72-F4FBEB2E914F}
+		{4F6B176C-4DF1-429A-991B-E31D785C08DD} = {AB00219B-355D-4C24-8E72-F4FBEB2E914F}
 	EndGlobalSection
 EndGlobal
