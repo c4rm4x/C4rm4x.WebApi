@@ -22,11 +22,15 @@ namespace C4rm4x.WebApi.Validation
         private readonly TrackingCollection<IValidationRule> _nestedValidators =
             new TrackingCollection<IValidationRule>();
 
+        internal T Context { get; private set; }
+
         /// <summary>
-        /// Gets the valiation context for the given type
+        /// Gets the property of the object being validated
         /// </summary>
-        /// <remarks>The context gets initialised once the validation starts</remarks>
-        protected ValidationContext<T> Context { get; private set; }
+        /// <typeparam name="TProperty">Type of the property to retrieved</typeparam>
+        /// <param name="getter">The getter</param>
+        /// <returns>The property value</returns>
+        protected Func<TProperty> Get<TProperty>(Func<T, TProperty> getter) => () => getter(Context);
 
         /// <summary>
         /// Validates an instance of type T using default ruleSet
@@ -59,9 +63,8 @@ namespace C4rm4x.WebApi.Validation
         {
             objectToValidate.NotNull(nameof(objectToValidate));
 
-            Context = new ValidationContext<T>(objectToValidate, validatorSelector);
-
-            var tasks = _nestedValidators.Select(validator => validator.ValidateAsync(Context));
+            var tasks = _nestedValidators.Select(validator => validator.ValidateAsync(
+                new ValidationContext<T>(Context = objectToValidate, validatorSelector)));
             var results = await Task.WhenAll(tasks);
 
             return results.SelectMany(r => r).ToList();
