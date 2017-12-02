@@ -13,7 +13,7 @@ namespace C4rm4x.WebApi.Monitoring.ServiceBus.Test
     public partial class AbstractCounterTest
     {
         [TestClass]
-        public class AbstractCounterMonitorTest :
+        public class AbstractCounterMonitorAsyncTest :
             AbstractCounterFixture
         {
             [TestMethod, IntegrationTest]

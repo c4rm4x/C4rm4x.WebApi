@@ -6,6 +6,8 @@ using C4rm4x.Tools.Utilities;
 
 namespace C4rm4x.WebApi.Storage.AzureBlob
 {
+    #region Interface
+
     /// <summary>
     /// Interface to return the container reference
     /// </summary>
@@ -16,6 +18,8 @@ namespace C4rm4x.WebApi.Storage.AzureBlob
         /// </summary>
         string Get();
     }
+
+    #endregion
 
     /// <summary>
     /// Base implementation of IContainerReferenceFactory
