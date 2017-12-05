@@ -213,6 +213,23 @@ namespace C4rm4x.WebApi.TestUtilities.Acceptance
         }
 
         /// <summary>
+        /// Uploads a file
+        /// </summary>
+        /// <param name="file">File content</param>
+        /// <param name="method">Method to execute to send information</param>
+        /// <param name="customHeaders">Custom headers to be added as part of request headers</param>
+        /// <param name="parameters">Parameters to include as part of query string</param>
+        /// <returns>Returns the HttpResponseMessage</returns>
+        protected Task<HttpResponseMessage> UploadAsync(
+            byte[] file,
+            string method,
+            Action<HttpRequestHeaders> customHeaders = null,
+            params KeyValuePair<string, object>[] parameters)
+        {
+            return HttpServer.UploadAsync(file, method, customHeaders, parameters);
+        }
+
+        /// <summary>
         /// Starts a new test plan with the initial given step
         /// </summary>
         /// <param name="step">The initial given step</param>

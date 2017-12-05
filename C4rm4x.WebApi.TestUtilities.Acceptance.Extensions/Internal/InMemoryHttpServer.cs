@@ -168,6 +168,23 @@ namespace C4rm4x.WebApi.TestUtilities.Acceptance.Internal
             return RESTfulConsumer.DeleteAsync(BaseUrl, method, IncludeAllHeaders(customHeaders), parameters);
         }
 
+        /// <summary>
+        /// Uploads a file
+        /// </summary>
+        /// <param name="file">File content</param>       
+        /// <param name="method">Method to execute to send information</param>
+        /// <param name="customHeaders">Custom headers to be added as part of request headers</param>
+        /// <param name="parameters">Parameters to include as part of query string</param>
+        /// <returns>Returns the HttpResponseMessage</returns>
+        public Task<HttpResponseMessage> UploadAsync(
+            byte[] file,
+            string method,
+            Action<HttpRequestHeaders> customHeaders = null,
+            params KeyValuePair<string, object>[] parameters)
+        {
+            return RESTfulConsumer.UploadAsync(file, BaseUrl, method, IncludeAllHeaders(customHeaders), parameters);
+        }
+
         private Action<HttpRequestHeaders> IncludeAllHeaders(Action<HttpRequestHeaders> customHeader = null)
         {
             var allHeaders = new List<Action<HttpRequestHeaders>>();
