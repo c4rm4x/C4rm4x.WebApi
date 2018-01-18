@@ -51,12 +51,14 @@ namespace C4rm4x.WebApi.Framework
         /// <returns>The collection of events pending to be processed</returns>
         public IEnumerable<ApiEventData> FlushEvents()
         {
+            Version++;
+
             var events = _events.ToArray();
 
             foreach (var @event in events)
             {
                 @event.Id = Id;
-                @event.Version = ++Version;
+                @event.Version = Version;
             }
 
             _events.Clear();
