@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.Framework", "C4rm4x.WebApi.Framework\C4rm4x.WebApi.Framework.csproj", "{CA86A5F5-7EBC-46A2-87AA-112128FD894C}"
 EndProject
@@ -142,6 +142,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.Monitoring.AzureQueue.Extensions", "C4rm4x.WebApi.Monitoring.AzureQueue.Extensions\C4rm4x.WebApi.Monitoring.AzureQueue.Extensions.csproj", "{B268E427-FE2A-499B-B0B4-096142754EDC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.Monitoring.AzureQueue.Extensions.Test", "C4rm4x.WebApi.Monitoring.AzureQueue.Extensions.Test\C4rm4x.WebApi.Monitoring.AzureQueue.Extensions.Test.csproj", "{645903DE-C1E0-460E-AC1B-5FFBF0BD82A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4rm4x.WebApi.Framework.Extensions", "C4rm4x.WebApi.Framework.Extensions\C4rm4x.WebApi.Framework.Extensions.csproj", "{1088F263-7D27-4281-9B8F-BC8A7BDB3804}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -377,6 +379,10 @@ Global
 		{645903DE-C1E0-460E-AC1B-5FFBF0BD82A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{645903DE-C1E0-460E-AC1B-5FFBF0BD82A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{645903DE-C1E0-460E-AC1B-5FFBF0BD82A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1088F263-7D27-4281-9B8F-BC8A7BDB3804}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1088F263-7D27-4281-9B8F-BC8A7BDB3804}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1088F263-7D27-4281-9B8F-BC8A7BDB3804}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1088F263-7D27-4281-9B8F-BC8A7BDB3804}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -439,5 +445,6 @@ Global
 		{7ED96FBB-1476-4057-A913-F40E345847E1} = {EC1479EC-6A9E-4472-93B3-3692373EE33E}
 		{B268E427-FE2A-499B-B0B4-096142754EDC} = {513E6653-F9D8-47E6-873A-05787BC49385}
 		{645903DE-C1E0-460E-AC1B-5FFBF0BD82A7} = {513E6653-F9D8-47E6-873A-05787BC49385}
+		{1088F263-7D27-4281-9B8F-BC8A7BDB3804} = {C94F7C55-8121-46CF-AA4C-591CD3FC38BB}
 	EndGlobalSection
 EndGlobal
