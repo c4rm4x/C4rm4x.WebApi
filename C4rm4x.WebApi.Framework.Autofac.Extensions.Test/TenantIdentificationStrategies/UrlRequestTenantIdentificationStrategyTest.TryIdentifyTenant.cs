@@ -29,7 +29,7 @@ namespace C4rm4x.WebApi.Framework.Autofac.Test.TenantIdentificationStrategies
                 UrlRequestTenantIdentificationStrategy
             {
                 public TestUrlRequestTenantIdentificationStrategy()
-                    : base(new Uri(Url).AbsolutePath)
+                    : base(new Uri(Url).AbsoluteUri)
                 {
                 }
 

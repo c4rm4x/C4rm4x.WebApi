@@ -56,11 +56,11 @@ namespace C4rm4x.WebApi.Framework.Autofac.TenantIdentificationStrategies
                 context.NotNull("HttpContext.Current");
                 context.Request.NotNull("HttpContext.Current.Request");
                 context.Request.Url.NotNull("HttpContext.Current.Request.Url");
-                context.Request.Url.AbsolutePath
-                    .NotNullOrEmpty("HttpContext.Current.Request.Url.AbsolutePaht");
+                context.Request.Url.AbsoluteUri
+                    .NotNullOrEmpty("HttpContext.Current.Request.Url.AbsoluteUri");
 
                 tenantId = GetTenantId(
-                    Regex.Match(context.Request.Url.AbsolutePath, UrlPattern, RegexOptions));
+                    Regex.Match(context.Request.Url.AbsoluteUri, UrlPattern, RegexOptions));
             }
             catch (Exception)
             {
