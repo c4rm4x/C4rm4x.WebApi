@@ -63,8 +63,8 @@ namespace C4rm4x.WebApi.Validation
         {
             objectToValidate.NotNull(nameof(objectToValidate));
 
-            var tasks = _nestedValidators.Select(validator => validator.ValidateAsync(
-                new ValidationContext<T>(Context = objectToValidate, validatorSelector)));
+            var validationContext = new ValidationContext<T>(Context = objectToValidate, validatorSelector);
+            var tasks = _nestedValidators.Select(validator => validator.ValidateAsync(validationContext));
             var results = await Task.WhenAll(tasks);
 
             return results.SelectMany(r => r).ToList();
