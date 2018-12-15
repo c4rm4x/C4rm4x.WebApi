@@ -75,7 +75,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EventStorePolicyTest.cs" />
+    <Compile Include="EventStorePolicyTest.IsSensitive.cs" />
     <Compile Include="EventStoreTest.cs" />
     <Compile Include="EventStoreTest.SaveAllAsync.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

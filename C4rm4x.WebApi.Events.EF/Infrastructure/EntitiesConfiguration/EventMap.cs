@@ -12,7 +12,7 @@ namespace C4rm4x.WebApi.Events.EF.Infrastructure.EntitiesConfiguration
 
             Property(e => e.EventID)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity)
-                .HasColumnName("EventID");          
+                .HasColumnName("EventID");
         }
     }
 }
