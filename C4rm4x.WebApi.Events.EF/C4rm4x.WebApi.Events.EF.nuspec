@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>]C4rM4X[</authors>
+    <owners>]C4rM4X[</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Implementation of EventStore using EF</description>
+    <copyright>Copyright 2018</copyright>
+  </metadata>
+</package>
