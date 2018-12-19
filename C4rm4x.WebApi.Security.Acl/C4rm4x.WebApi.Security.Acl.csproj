@@ -31,9 +31,8 @@
     <DocumentationFile>bin\Release\C4rm4x.WebApi.Security.Acl.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="C4rm4x.Tools.Security.Acl, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\C4rm4x.Tools.Security.Acl.1.0.0.0\lib\net452\C4rm4x.Tools.Security.Acl.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="C4rm4x.Tools.Security.Acl, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\C4rm4x.Tools.Security.Acl.1.1.0\lib\net452\C4rm4x.Tools.Security.Acl.dll</HintPath>
     </Reference>
     <Reference Include="C4rm4x.Tools.Utilities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\C4rm4x.Tools.Utilities.1.0.0.0\lib\net452\C4rm4x.Tools.Utilities.dll</HintPath>
@@ -58,6 +57,7 @@
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
       <Private>True</Private>
@@ -74,8 +74,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DigitalSignedAttribute.cs" />
+    <Compile Include="Internals\HttpActionContextExtensions.cs" />
     <Compile Include="Extensions\HttpConfigurationExtensions.cs" />
     <Compile Include="Extensions\MessageHandlerExtensions.cs" />
+    <Compile Include="Internals\HttpRequestHeadersExtensions.cs" />
+    <Compile Include="Internals\PrincipalExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Subscriptions\ISubscriberRepository.cs" />
     <Compile Include="Subscriptions\Subscriber.cs" />
