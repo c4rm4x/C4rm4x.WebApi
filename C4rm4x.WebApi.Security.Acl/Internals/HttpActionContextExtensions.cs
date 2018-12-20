@@ -13,9 +13,10 @@ namespace C4rm4x.WebApi.Security.Acl
 
             using (var stream = new MemoryStream())
             {
-                var context = actionContext.Request.Properties["MS_HttpContext"] as HttpContextBase;
+                if (!actionContext.Request.Properties.ContainsKey("MS_HttpContext"))
+                    return new byte[0];
 
-                if (context.IsNull()) return new byte[0];
+                var context = actionContext.Request.Properties["MS_HttpContext"] as HttpContextBase;
 
                 context.Request.InputStream.Seek(0, SeekOrigin.Begin);
                 context.Request.InputStream.CopyTo(stream);
