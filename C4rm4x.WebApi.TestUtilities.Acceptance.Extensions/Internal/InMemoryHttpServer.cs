@@ -49,20 +49,24 @@ namespace C4rm4x.WebApi.TestUtilities.Acceptance.Internal
         /// <summary>
         /// Configure the host with the given middleware
         /// </summary>
+        /// <param name="configurator">The configuration</param>
         /// <param name="withMiddleware">The middleware</param>
-        public void Configure(params Action<HttpConfiguration>[] withMiddleware)
+        public void Configure(Action<HttpConfiguration> configurator, params Type[] withMiddleware)
         {
-            withMiddleware.NotNull(nameof(withMiddleware));
+            configurator.NotNull(nameof(configurator));
 
             _selfthostedWebApi = WebApp.Start(BaseUrl, appBuilder =>
             {
                 var config = new HttpConfiguration();
 
-                foreach (var middleware in withMiddleware) middleware(config);
+                configurator(config);
 
                 config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
 
                 appBuilder.UseWebApi(config);
+
+                foreach (var middleware in withMiddleware)
+                    appBuilder.Use(middleware);
             });
         }
 

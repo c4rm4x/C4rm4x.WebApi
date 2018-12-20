@@ -31,8 +31,7 @@ namespace C4rm4x.WebApi.TestUtilities.Acceptance
         private Scope _scope;
         private GivenWhenThen _givenWhenThen;
 
-        private readonly ICollection<Action<HttpConfiguration>> _middleware =
-            new HashSet<Action<HttpConfiguration>>();
+        private readonly Action<HttpConfiguration> _configurator;
 
         /// <summary>
         /// The test context
@@ -48,17 +47,18 @@ namespace C4rm4x.WebApi.TestUtilities.Acceptance
         {
             configurator.NotNull(nameof(configurator));
 
-            _middleware.Add(configurator);
+            _configurator = configurator;
         }
 
         /// <summary>
         /// Initialises the test class
         /// </summary>
+        /// <param name="withMiddleware">Owin middleware</param>
         [TestInitialize]
-        public virtual void Setup()
+        public virtual void Setup(params Type[] withMiddleware)
         {
             SetupContainer();
-            SetupHttpServer();
+            SetupHttpServer(withMiddleware);
         }
 
         private void SetupContainer()
@@ -72,9 +72,9 @@ namespace C4rm4x.WebApi.TestUtilities.Acceptance
             _scope = _container.BeginLifetimeScope(); // Starts container life time scope
         }
 
-        private void SetupHttpServer()
+        private void SetupHttpServer(params Type[] withMiddleware)
         {
-            HttpServer.Configure(_middleware.ToArray());
+            HttpServer.Configure(_configurator, withMiddleware);
         }
 
         /// <summary>
@@ -88,17 +88,6 @@ namespace C4rm4x.WebApi.TestUtilities.Acceptance
             _scope.Dispose(); // Enforce to dispose all the components
 
             Context.Cleanup();
-        }
-
-        /// <summary>
-        /// Use the given middleware
-        /// </summary>
-        /// <param name="middleware">The middleware</param>
-        protected void WithMiddleware(Action<HttpConfiguration> middleware)
-        {
-            middleware.NotNull(nameof(middleware));
-
-            _middleware.Add(middleware);
         }
 
         /// <summary>
