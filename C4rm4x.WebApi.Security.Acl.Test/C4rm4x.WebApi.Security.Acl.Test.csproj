@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="C4rm4x.Tools.HttpUtilities, Version=4.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\C4rm4x.Tools.HttpUtilities.4.1.0\lib\net452\C4rm4x.Tools.HttpUtilities.dll</HintPath>
+    </Reference>
     <Reference Include="C4rm4x.Tools.Security.Acl, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\C4rm4x.Tools.Security.Acl.1.0.0.0\lib\net452\C4rm4x.Tools.Security.Acl.dll</HintPath>
       <Private>True</Private>

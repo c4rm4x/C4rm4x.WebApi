@@ -1,4 +1,5 @@
-﻿using C4rm4x.Tools.Security.Acl;
+﻿using C4rm4x.Tools.HttpUtilities;
+using C4rm4x.Tools.Security.Acl;
 using C4rm4x.Tools.Utilities;
 using System;
 using System.Net;
@@ -86,12 +87,12 @@ namespace C4rm4x.WebApi.Security.Acl
 
             if (sharedSecret.IsNullOrEmpty()) return false;
 
-            return SignRequest(actionContext, sharedSecret).Equals(signature);
+            return SignRequest(sharedSecret).Equals(signature);
         }
 
-        private string SignRequest(HttpActionContext actionContext, string sharedSecret)
+        private string SignRequest(string sharedSecret)
         {
-            return _signer(actionContext.GetBodyAsByteArray(), sharedSecret);
+            return _signer(HttpContextFactory.Current.GetBodyAsByteArray(), sharedSecret);
         }
 
         /// <summary>

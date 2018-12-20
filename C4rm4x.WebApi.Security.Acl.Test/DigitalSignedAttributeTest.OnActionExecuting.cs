@@ -1,4 +1,5 @@
-﻿using C4rm4x.Tools.TestUtilities;
+﻿using C4rm4x.Tools.HttpUtilities;
+using C4rm4x.Tools.TestUtilities;
 using C4rm4x.Tools.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
@@ -19,8 +20,12 @@ namespace C4rm4x.WebApi.Security.Acl.Test
         public class DigitalSignedAttributeOnActionExecutingTest
         {
             private const string SharedSecretClaimType = "Claim.Shared.Secret";
-
-            public static object ObjetMother { get; private set; }
+            
+            [TestInitialize]
+            public void Setup()
+            {
+                HttpContextFactory.SetCurrentContext(GetHttpContext());
+            }
 
             [TestMethod, UnitTest]
             public void OnActionExecuting_Sets_Response_As_BadRequest_When_Signature_Header_Is_Not_Present()
@@ -134,15 +139,13 @@ namespace C4rm4x.WebApi.Security.Acl.Test
             {
                 var requestMessage = new HttpRequestMessage();
 
-                requestMessage.Properties["MS_HttpContext"] = GetContext();
-
                 if (!header.IsNullOrEmpty())
                     requestMessage.Headers.Add("X-BodyDigitalSignature", header);
 
                 return requestMessage;
             }
 
-            private static HttpContextBase GetContext()
+            private static HttpContextBase GetHttpContext()
             {
                 var context = Mock.Of<HttpContextBase>();
 

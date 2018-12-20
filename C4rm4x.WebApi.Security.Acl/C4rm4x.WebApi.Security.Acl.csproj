@@ -31,6 +31,9 @@
     <DocumentationFile>bin\Release\C4rm4x.WebApi.Security.Acl.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="C4rm4x.Tools.HttpUtilities, Version=4.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\C4rm4x.Tools.HttpUtilities.4.1.0\lib\net452\C4rm4x.Tools.HttpUtilities.dll</HintPath>
+    </Reference>
     <Reference Include="C4rm4x.Tools.Security.Acl, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\C4rm4x.Tools.Security.Acl.1.1.0\lib\net452\C4rm4x.Tools.Security.Acl.dll</HintPath>
     </Reference>
@@ -75,9 +78,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DigitalSignedAttribute.cs" />
-    <Compile Include="Internals\HttpActionContextExtensions.cs" />
     <Compile Include="Extensions\HttpConfigurationExtensions.cs" />
     <Compile Include="Extensions\MessageHandlerExtensions.cs" />
+    <Compile Include="Internals\HttpContextExtensions.cs" />
     <Compile Include="Internals\HttpRequestHeadersExtensions.cs" />
     <Compile Include="Internals\PrincipalExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
