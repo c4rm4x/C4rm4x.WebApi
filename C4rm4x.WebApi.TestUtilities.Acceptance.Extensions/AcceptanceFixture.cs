@@ -33,6 +33,8 @@ namespace C4rm4x.WebApi.TestUtilities.Acceptance
 
         private readonly Action<HttpConfiguration> _configurator;
 
+        private readonly MiddlewareContainer _withMiddleware;
+
         /// <summary>
         /// The test context
         /// </summary>
@@ -43,22 +45,26 @@ namespace C4rm4x.WebApi.TestUtilities.Acceptance
         /// Constructor
         /// </summary>
         /// <param name="configurator">Http configurator</param>
-        public AcceptanceFixture(Action<HttpConfiguration> configurator)
+        /// <param name="withMiddleware">Middleware to use</param>
+        public AcceptanceFixture(
+            Action<HttpConfiguration> configurator,
+            params Type[] withMiddleware)
         {
             configurator.NotNull(nameof(configurator));
 
             _configurator = configurator;
+
+            _withMiddleware = new MiddlewareContainer(withMiddleware);
         }
 
         /// <summary>
         /// Initialises the test class
-        /// </summary>
-        /// <param name="withMiddleware">Owin middleware</param>
+        /// </summary>        
         [TestInitialize]
-        public virtual void Setup(params Type[] withMiddleware)
+        public virtual void Setup()
         {
             SetupContainer();
-            SetupHttpServer(withMiddleware);
+            SetupHttpServer();
         }
 
         private void SetupContainer()
@@ -72,9 +78,9 @@ namespace C4rm4x.WebApi.TestUtilities.Acceptance
             _scope = _container.BeginLifetimeScope(); // Starts container life time scope
         }
 
-        private void SetupHttpServer(params Type[] withMiddleware)
+        private void SetupHttpServer()
         {
-            HttpServer.Configure(_configurator, withMiddleware);
+            HttpServer.Configure(_configurator, _withMiddleware.ToArray());
         }
 
         /// <summary>
@@ -310,8 +316,11 @@ namespace C4rm4x.WebApi.TestUtilities.Acceptance
         /// Constructor
         /// </summary>
         /// <param name="configurator">Http configurator</param>
-        public AcceptanceFixture(Action<HttpConfiguration> configurator)
-            : base(configurator)
+        /// <param name="withMiddleware">Middleware to use</param>
+        public AcceptanceFixture(
+            Action<HttpConfiguration> configurator,
+            params Type[] withMiddleware)
+            : base(configurator, withMiddleware)
         { }
 
         /// <summary>

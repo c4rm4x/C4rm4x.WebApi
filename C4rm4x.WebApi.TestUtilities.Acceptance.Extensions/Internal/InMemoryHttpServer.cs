@@ -65,8 +65,7 @@ namespace C4rm4x.WebApi.TestUtilities.Acceptance.Internal
 
                 appBuilder.UseWebApi(config);
 
-                foreach (var middleware in withMiddleware)
-                    appBuilder.Use(middleware);
+                foreach (var middleware in withMiddleware) appBuilder.Use(middleware);
             });
         }
 

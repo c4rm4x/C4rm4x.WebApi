@@ -144,6 +144,7 @@
     <Compile Include="AcceptanceFixture.cs" />
     <Compile Include="Internal\ClientIsIdentifiedWithStep.cs" />
     <Compile Include="Internal\InMemoryHttpServer.cs" />
+    <Compile Include="Internal\MiddlewareContainer.cs" />
     <Compile Include="Internal\UserIsLoggedInAsStep.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
