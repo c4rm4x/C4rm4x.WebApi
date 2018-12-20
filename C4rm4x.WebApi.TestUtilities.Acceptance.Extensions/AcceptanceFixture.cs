@@ -1,21 +1,19 @@
 ﻿#region Using
 
-using C4rm4x.Tools.HttpUtilities;
 using C4rm4x.Tools.TestUtilities.Bdd;
 using C4rm4x.Tools.TestUtilities.EF;
 using C4rm4x.Tools.Utilities;
 using C4rm4x.WebApi.TestUtilities.Acceptance.Internal;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 using SimpleInjector;
 using SimpleInjector.Extensions.LifetimeScoping;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
 using TestContext = C4rm4x.Tools.TestUtilities.TestContext;
 
@@ -33,7 +31,8 @@ namespace C4rm4x.WebApi.TestUtilities.Acceptance
         private Scope _scope;
         private GivenWhenThen _givenWhenThen;
 
-        private readonly Action<HttpConfiguration> _configurator;
+        private readonly ICollection<Action<HttpConfiguration>> _middleware =
+            new HashSet<Action<HttpConfiguration>>();
 
         /// <summary>
         /// The test context
@@ -49,7 +48,7 @@ namespace C4rm4x.WebApi.TestUtilities.Acceptance
         {
             configurator.NotNull(nameof(configurator));
 
-            _configurator = configurator;
+            _middleware.Add(configurator);
         }
 
         /// <summary>
@@ -60,7 +59,6 @@ namespace C4rm4x.WebApi.TestUtilities.Acceptance
         {
             SetupContainer();
             SetupHttpServer();
-            SetupHttpContext();
         }
 
         private void SetupContainer()
@@ -76,13 +74,7 @@ namespace C4rm4x.WebApi.TestUtilities.Acceptance
 
         private void SetupHttpServer()
         {
-            HttpServer.Configure(_configurator);
-        }
-
-        private void SetupHttpContext()
-        {
-            HttpContextFactory.SetCurrentContext(
-                Mock.Of<HttpContextBase>());
+            HttpServer.Configure(_middleware.ToArray());
         }
 
         /// <summary>
@@ -96,6 +88,17 @@ namespace C4rm4x.WebApi.TestUtilities.Acceptance
             _scope.Dispose(); // Enforce to dispose all the components
 
             Context.Cleanup();
+        }
+
+        /// <summary>
+        /// Use the given middleware
+        /// </summary>
+        /// <param name="middleware">The middleware</param>
+        protected void WithMiddleware(Action<HttpConfiguration> middleware)
+        {
+            middleware.NotNull(nameof(middleware));
+
+            _middleware.Add(middleware);
         }
 
         /// <summary>
