@@ -63,9 +63,9 @@ namespace C4rm4x.WebApi.TestUtilities.Acceptance.Internal
 
                 config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
 
-                appBuilder.UseWebApi(config);
-
                 foreach (var middleware in withMiddleware) appBuilder.Use(middleware);
+
+                appBuilder.UseWebApi(config); // must be the last one
             });
         }
 
