@@ -10,6 +10,16 @@ namespace C4rm4x.WebApi.Events.EF.Infrastructure
     public abstract class EventStoreContext : DbContext
     {
         /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="nameOrConnectionString">Either the database name or a connection string.</param>
+        public EventStoreContext(string nameOrConnectionString) 
+            : base(nameOrConnectionString)
+        {
+
+        }
+
+        /// <summary>
         /// This method is called when the model for a derived context has been initialized,
         /// but before the model has been locked down and used to initialize the context 
         /// </summary>
