@@ -25,8 +25,8 @@ namespace C4rm4x.WebApi.Events.EF
         public static JsonSerializerSettings SerializerSettings { get; private set; } =
             new JsonSerializerSettings
             {
-                ContractResolver = new ApiEventDataSerializerContractResolver(),
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                ContractResolver = new ApiEventDataSerializerContractResolver(EventStorePolicy.TypesToIgnore),
             };
 
         /// <summary>

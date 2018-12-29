@@ -12,6 +12,14 @@ namespace C4rm4x.WebApi.Events.EF.Infrastructure
         /// <summary>
         /// Constructor
         /// </summary>
+        protected EventStoreContext() : base()
+        {
+
+        }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
         /// <param name="nameOrConnectionString">Either the database name or a connection string.</param>
         public EventStoreContext(string nameOrConnectionString) 
             : base(nameOrConnectionString)

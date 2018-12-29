@@ -1,6 +1,7 @@
 ﻿using C4rm4x.Tools.Utilities;
 using C4rm4x.WebApi.Framework;
 using System;
+using System.Collections.Generic;
 
 namespace C4rm4x.WebApi.Events.EF
 {
@@ -44,5 +45,11 @@ namespace C4rm4x.WebApi.Events.EF
         /// <returns>True when the given type has been flagged as sensitive; false, otherwise</returns>
         public static bool IsSensitive(Type eventDataType) =>
             Configuration?.IsSensitive(eventDataType) ?? default(bool);
+
+        /// <summary>
+        /// Returns the list of types to be ignored during serialization (if any)
+        /// </summary>
+        public static IEnumerable<Type> TypesToIgnore =>
+            Configuration?.TypesToIgnore ?? new Type[] { };
     }
 }
