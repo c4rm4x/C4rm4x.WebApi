@@ -19,6 +19,10 @@ namespace C4rm4x.WebApi.Events.EF.Configuration.Test
                 }
             }
 
+            public class TestClass
+            {
+            }
+
             #endregion
         }
     }

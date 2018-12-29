@@ -36,6 +36,18 @@ namespace C4rm4x.WebApi.Events.EF.Configuration
         }
 
         /// <summary>
+        /// Flags given type should be ignored every time an event contains any property of this type
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public EventStoreConfigurationBuilder ShouldIgnore<T>()
+        {
+            _configuration.ShouldIgnore<T>();
+
+            return this;
+        }
+
+        /// <summary>
         /// Creates a new instance of EventStoreConfiguration with the configuration specified at this moment
         /// </summary>
         /// <returns>A new instance of EventStoreConfiguration configured with the specified rules</returns>

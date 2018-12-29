@@ -80,10 +80,12 @@
   <ItemGroup>
     <Compile Include="EventStoreConfigurationBuilderTest.Build.cs" />
     <Compile Include="EventStoreConfigurationBuilderTest.cs" />
+    <Compile Include="EventStoreConfigurationBuilderTest.ShouldIgnore.cs" />
     <Compile Include="EventStoreConfigurationBuilderTest.SensitivePayload.cs" />
     <Compile Include="Internal\EventStoreConfigurationTest.cs" />
     <Compile Include="Internal\EventStoreConfigurationTest.IsSensitive.cs" />
     <Compile Include="Internal\EventStoreConfigurationTest.SensitivePayload.cs" />
+    <Compile Include="Internal\EventStoreConfigurationTest.ShouldIgnore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -22,6 +22,15 @@ namespace C4rm4x.WebApi.Events.EF.Configuration.Test
                 return configuration.SensitiveEvents;
             }
 
+            protected IEnumerable<Type> TryShouldIgnore<T>()
+            {
+                var configuration = _sut as EventStoreConfiguration;
+
+                configuration.ShouldIgnore<T>();
+
+                return configuration.TypesToIgnore;
+            }
+
             #region Helper classes
 
             public class TestApiEventData : ApiEventData
@@ -29,6 +38,11 @@ namespace C4rm4x.WebApi.Events.EF.Configuration.Test
                 public TestApiEventData() : base()
                 {
                 }
+            }
+
+            public class TestClass
+            {
+
             }
 
             #endregion
