@@ -97,9 +97,9 @@ namespace C4rm4x.WebApi.Persistance.EF
                 {
                     var events = entry.Entity.FlushEvents();
 
-                    await _store.SaveAllAsync(events);
-
                     await Task.WhenAll(events.Select(@event => _publisher.PublishAsync(@event)));
+
+                    await _store.SaveAllAsync(events);
                 }
 
                 var result = await _entities.SaveChangesAsync();
